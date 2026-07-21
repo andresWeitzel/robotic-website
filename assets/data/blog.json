@@ -1,0 +1,56 @@
+[
+  {
+    "id": "spot",
+    "title": "Perro Robótico (Spot Can)",
+    "summary": "A lo largo de los últimos años el perro robot de Boston Dynamics ha evolucionado en capacidades y funcionalidades. Pero no significa que no vayamos a ver más mejoras, la compañía ha anunciado la futura llegada de un brazo robótico y una base de carga para Spot.",
+    "image": "/assets/img/blog/boston-dynamics-2.jpg",
+    "imageAlt": "Perro robótico Spot de Boston Dynamics",
+    "articleUrl": "https://techcrunch.com/2020/10/21/boston-dynamics-spot-is-getting-an-arm-and-self-charging-dock-next-year/",
+    "videoId": "tf7IEVTDjng"
+  },
+  {
+    "id": "bionic-wheelbot",
+    "title": "Araña Robot (BionicWheelBot)",
+    "summary": "El modelo biológico del BionicWheelBot es la araña Cebrennus rechenbergi. Vive en el erg Chebbi, en el margen del desierto del Sahara. Esta araña gimnasta puede caminar como el resto de arañas. Sin embargo, también puede avanzar hacia adelante con una secuencia combinada en la que rueda en el aire y en el suelo.",
+    "image": "/assets/img/blog/festo-arana.webp",
+    "imageAlt": "Robot araña de Festo",
+    "articleUrl": "https://www.festo.com/group/en/cms/13129.htm",
+    "videoId": "jGP5NxcCyjE"
+  },
+  {
+    "id": "atlas",
+    "title": "Robot Humanoide (Atlas)",
+    "summary": "Atlas, el robot humanoide más dinámico del mundo, es una plataforma de investigación diseñada para superar los límites de la movilidad de todo el cuerpo. El sistema de control avanzado de Atlas y el hardware de última generación le dan al robot el poder y el equilibrio para demostrar una agilidad a nivel humano.",
+    "image": "/assets/img/blog/boston-dynamics-1.jpg",
+    "imageAlt": "Robot de Boston Dynamics",
+    "articleUrl": "https://www.bostondynamics.com/atlas",
+    "videoId": "_sBBaNYex3E"
+  },
+  {
+    "id": "bionic-bird",
+    "title": "Pájaro Biónico (Bionic Bird)",
+    "summary": "En Bionic Learning Network de Festo, volar de acuerdo con el mundo natural también tiene una larga tradición. Con la construcción de los BionicSwifts, Festo continúa desarrollando constantemente sus objetos voladores biónicos.",
+    "image": "/assets/img/blog/festo.jpeg",
+    "imageAlt": "Robot de Festo",
+    "articleUrl": "https://www.festo.com/group/en/cms/10238.htm",
+    "videoId": "nnR8fDW3Ilo"
+  },
+  {
+    "id": "handle",
+    "title": "Brazo Robótico (Handle)",
+    "summary": "El robot móvil para mover cajas en el almacén. El tamaño reducido, el largo alcance y el sistema de visión de Handle le permiten descargar camiones, construir tarimas y mover cajas por sus instalaciones.",
+    "image": "/assets/img/blog/handle-robot.jpg",
+    "imageAlt": "Robot Handle",
+    "articleUrl": "https://www.bostondynamics.com/handle",
+    "videoId": "-7xvqQeoA8c"
+  },
+  {
+    "id": "bionic-soft-hand",
+    "title": "Mano Biónica (BionicSoftHand)",
+    "summary": "BionicSoftHand utiliza el método de aprendizaje reforzado: aprender fortaleciendo. Intenta lograr esto a través de prueba y error. En función de la retroalimentación positiva y negativa recibida, la mano optimiza gradualmente sus acciones hasta que finalmente resuelve la tarea con éxito.",
+    "image": "/assets/img/blog/robot-hand.jpg",
+    "imageAlt": "Mano robótica",
+    "articleUrl": "https://www.festo.com/group/en/cms/13508.htm",
+    "videoId": "5e0F14IRxVc"
+  }
+]

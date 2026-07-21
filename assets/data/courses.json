@@ -1,0 +1,42 @@
+[
+  {
+    "id": "intro-robotica",
+    "title": "Introducción a la Robótica",
+    "summary": "Comenzaremos desde los temas mas generales de la robótica hasta análisis detallados sobre las diversas áreas que existen.",
+    "requirements": "Ninguno",
+    "image": "/assets/img/courses/intro-robotica.jpg",
+    "imageAlt": "Robot humanoides introduciendo el curso de robótica",
+    "courseUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDYL0ab8mt9i4z4BLF2CIqw",
+    "details": "La robótica es la ciencia que se ocupa del estudio de la programación y la mecánica de los robots y está relacionada con campos tan variados como la informática, la electrónica, la nanotecnología y la ingeniería. Los profesionales de la robótica trabajan como técnicos de pruebas, programadores, investigadores y desarrolladores, entre otras posiciones.\n\nAntes de plantearse si estudiar robótica o no, puede ser conveniente obtener experiencia en la interacción con robots, electrónica, programación y mecánica. Esta práctica resulta esencial para entender realmente la teoría que la sustenta y, al mismo tiempo, facilita el descubrimiento de las áreas de interés dentro de una disciplina con tantas posibilidades."
+  },
+  {
+    "id": "arduino",
+    "title": "Programación desde Cero con Arduino",
+    "summary": "Aprendé a programar en Arduino desde el encendido de un Led hasta proyectos más complejos",
+    "requirements": "Ninguno",
+    "image": "/assets/img/courses/arduino.webp",
+    "imageAlt": "Placa Arduino Uno",
+    "courseUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurD7gio85rXzD8PvT5zPuV06",
+    "details": "Arduino es una plataforma de creación de electrónica de código abierto, la cual está basada en hardware y software libre, flexible y fácil de utilizar para los creadores y desarrolladores. Esta plataforma permite crear diferentes tipos de microordenadores de una sola placa a los que la comunidad de creadores puede darles diferentes tipos de uso. Para poder entender este concepto, primero vas a tener que entender los conceptos de hardware libre y el software libre.\n\nEl hardware libre son los dispositivos cuyas especificaciones y diagramas son de acceso público, de manera que cualquiera puede replicarlos. Esto quiere decir que Arduino ofrece las bases para que cualquier otra persona o empresa pueda crear sus propias placas, pudiendo ser diferentes entre ellas pero igualmente funcionales al partir de la misma base."
+  },
+  {
+    "id": "wemos",
+    "title": "Internet de las Cosas (IOT) con Wemos D1",
+    "summary": "Aprendé sobre el internet de las cosas con una placa electrónica y su programación",
+    "requirements": "Electrónica Básica",
+    "image": "/assets/img/courses/wemos.webp",
+    "imageAlt": "Placa Wemos D1 para IoT",
+    "courseUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDoK2yvHGnH33OW4ihjnsZ3",
+    "details": "Aunque ya tiene algunos años en el mercado, la placa Wemos D1 tiene características sumamente interesantes para aquellos que quieren comenzar a experimentar en el campo del Internet de las cosas (IoT), ya que tiene el mismo formato que un Arduino UNO, lo que permite hacer conexiones con facilidad y utilizar algunas placas shield compatibles. Predecesora de la D1 mini, esta placa puede encontrarse en dos versiones, la revisión 1 (D1 R1) y la revisión 2 (D1 R2).\n\nHay varias diferencias entre ambos modelos. Una es el módulo ESP8266 utilizado. Mientras que la R1 (original) incluye un módulo ESP-12B o ESP-12E, la R2 viene con el mas moderno ESP-12F. Aclaro que esta diferencia se aplica a los modelos originales de Wemos, ya que hay algunos clones de la R1 con el módulo ESP-12F (Wemos ha discontinuado la producción de los dos modelos, así que en la actualidad solo pueden encontrarse placas de otros fabricantes)."
+  },
+  {
+    "id": "ros",
+    "title": "Sistema Operativo Robótico (ROS)",
+    "summary": "Adentrate al control y programación de Robots usando ROS",
+    "requirements": "Manejo básico de la línea de comandos en Linux, Robótica Básica",
+    "image": "/assets/img/courses/ros-turtlebot.jpg",
+    "imageAlt": "Robot TurtleBot usado con ROS",
+    "courseUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDjDv-eSKnV6lMlffQJwSuw",
+    "details": "Es un framework para el desarrollo de software para robots que provee la funcionalidad de un sistema operativo en un clúster heterogéneo. ROS se desarrolló originalmente en 2007 bajo el nombre de switchyard por el Laboratorio de Inteligencia Artificial de Stanford para dar soporte al proyecto del Robot con Inteligencia Artificial de Stanford (STAIR).\n\nROS provee los servicios estándar de un sistema operativo tales como abstracción del hardware, control de dispositivos de bajo nivel, implementación de funcionalidad de uso común, paso de mensajes entre procesos y mantenimiento de paquetes. Está basado en una arquitectura de grafos donde el procesamiento toma lugar en los nodos que pueden recibir, mandar y multiplexar mensajes de sensores, control, estados, planificaciones y actuadores, entre otros."
+  }
+]

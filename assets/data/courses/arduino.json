@@ -1,0 +1,187 @@
+{
+  "id": "arduino",
+  "title": "Programación desde Cero con Arduino",
+  "level": "Inicial",
+  "summary": "Lógica de programación con Arduino usando solo el LED interno: IDE, variables, if/else, bucles y funciones. Sin protoboard.",
+  "requirements": "Ninguno (placa + cable USB)",
+  "image": "/assets/img/courses/arduino.webp",
+  "imageAlt": "Placa Arduino Uno",
+  "playlistUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurD7gio85rXzD8PvT5zPuV06",
+  "outcomes": [
+    "Instalar el IDE y subir un sketch",
+    "Usar LED_BUILTIN sin cablear nada",
+    "Entender setup() y loop()",
+    "Usar variables, if/else y bucles",
+    "Crear funciones simples",
+    "Armar patrones de LED solo con código"
+  ],
+  "sources": [
+    {
+      "title": "Arduino Docs — Getting Started",
+      "url": "https://docs.arduino.cc/learn/starting-guide/getting-started-arduino/"
+    },
+    {
+      "title": "Arduino Language Reference",
+      "url": "https://www.arduino.cc/reference/en/"
+    },
+    {
+      "title": "Playlist del curso (complemento en video)",
+      "url": "https://www.youtube.com/playlist?list=PLCl11UFjHurD7gio85rXzD8PvT5zPuV06"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "01-que-es-arduino",
+      "number": 1,
+      "title": "¿Qué es Arduino?",
+      "goal": "Entender la placa y por qué este curso usa solo el LED interno.",
+      "sections": [
+        {
+          "heading": "Un cerebro chico para aprender código",
+          "body": "Arduino es una placa con un microcontrolador y un entorno simple para cargar programas (sketches).\n\nEn este curso inicial nos enfocamos en la lógica de programación. No hace falta protoboard ni sensores: usamos el LED interno (pin 13 / LED_BUILTIN) que ya viene en la placa.",
+          "image": "/assets/img/lessons/arduino/arduino-uno.jpg",
+          "imageAlt": "Placa Arduino Uno R3",
+          "imageCaption": "Arduino Uno: con USB alcanza para todas las lecciones de este curso."
+        },
+        {
+          "heading": "Qué sí y qué no",
+          "body": "Sí:\n• IDE, upload, Serial\n• variables, if, for, funciones\n• patrones con el LED interno\n\nNo (va en Prácticas con Arduino):\n• potenciómetro / PWM\n• botones en protoboard\n• ultrasonido, servos y sensores"
+        },
+        {
+          "heading": "Materiales",
+          "body": "☐ Placa Uno / Nano (o compatible)\n☐ Cable USB\n☐ PC con Arduino IDE\n\nNada más para este curso."
+        }
+      ]
+    },
+    {
+      "id": "02-ide-blink",
+      "number": 2,
+      "title": "IDE y tu primer Blink",
+      "goal": "Instalar el entorno y hacer parpadear el LED interno.",
+      "sections": [
+        {
+          "heading": "Pasos rápidos",
+          "body": "1. Instalá Arduino IDE.\n2. Conectá la placa por USB.\n3. Tools → Board y Tools → Port.\n4. Pegá el sketch y Upload.\n\nSi el LED junto al pin 13 parpadea, ya tenés el flujo completo."
+        },
+        {
+          "heading": "setup() y loop()",
+          "body": "• setup() corre una vez al iniciar.\n• loop() se repite siempre.\n\nAhí vive casi toda la lógica de un sketch."
+        },
+        {
+          "heading": "Sketch: Blink con LED interno",
+          "body": "No conectes nada. LED_BUILTIN apunta al LED de la placa.",
+          "image": "/assets/img/lessons/arduino/arduino-uno.jpg",
+          "imageAlt": "Arduino Uno con LED interno",
+          "imageCaption": "El LED interno suele estar cerca del pin 13.",
+          "code": {
+            "title": "Sketch: Blink interno",
+            "filename": "blink_interno.ino",
+            "language": "Arduino C++",
+            "tip": "Elegí placa y puerto COM, luego Upload. Sin protoboard.",
+            "content": "void setup() {\n  pinMode(LED_BUILTIN, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(LED_BUILTIN, HIGH); // encendido\n  delay(500);\n  digitalWrite(LED_BUILTIN, LOW);  // apagado\n  delay(500);\n}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "03-variables-serial",
+      "number": 3,
+      "title": "Variables y Serial Monitor",
+      "goal": "Guardar valores y verlos en pantalla.",
+      "sections": [
+        {
+          "heading": "Variables",
+          "body": "Una variable guarda un dato con nombre.\n\nEjemplos útiles:\n• int contador = 0;\n• const int PAUSA = 200;\n\nconst evita que cambies por error un valor fijo."
+        },
+        {
+          "heading": "Serial Monitor",
+          "body": "Serial.begin(9600) en setup y Serial.println(...) en loop.\nAbrí Tools → Serial Monitor a 9600 baud.\n\nSirve para depurar sin sensores."
+        },
+        {
+          "heading": "Sketch: contador + LED",
+          "body": "El LED parpadea y el monitor muestra cuántas veces encendió.",
+          "code": {
+            "title": "Sketch: contador",
+            "filename": "contador_led.ino",
+            "language": "Arduino C++",
+            "tip": "Abrí Serial Monitor después de subir.",
+            "content": "int veces = 0;\nconst int PAUSA = 300;\n\nvoid setup() {\n  pinMode(LED_BUILTIN, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  veces = veces + 1;\n  Serial.print(\"Encendido nro: \");\n  Serial.println(veces);\n\n  digitalWrite(LED_BUILTIN, HIGH);\n  delay(PAUSA);\n  digitalWrite(LED_BUILTIN, LOW);\n  delay(PAUSA);\n}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "04-condicionales",
+      "number": 4,
+      "title": "Condicionales if / else",
+      "goal": "Tomar decisiones en código según un valor.",
+      "sections": [
+        {
+          "heading": "if decide el camino",
+          "body": "if (condicion) { ... } else { ... }\n\nSin botones todavía: usamos un contador o un modo para cambiar el patrón del LED."
+        },
+        {
+          "heading": "Sketch: dos ritmos según el contador",
+          "body": "Los primeros 10 ciclos parpadean rápido; después, lento.",
+          "code": {
+            "title": "Sketch: if / else con LED",
+            "filename": "if_led.ino",
+            "language": "Arduino C++",
+            "tip": "Mirá el Serial para ver cuándo cambia el modo.",
+            "content": "int ciclo = 0;\n\nvoid setup() {\n  pinMode(LED_BUILTIN, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  ciclo++;\n  int pausa;\n\n  if (ciclo <= 10) {\n    pausa = 120; // rápido\n    Serial.println(\"Modo RAPIDO\");\n  } else {\n    pausa = 500; // lento\n    Serial.println(\"Modo LENTO\");\n  }\n\n  digitalWrite(LED_BUILTIN, HIGH);\n  delay(pausa);\n  digitalWrite(LED_BUILTIN, LOW);\n  delay(pausa);\n\n  if (ciclo >= 20) {\n    ciclo = 0; // reinicia el patrón\n  }\n}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "05-bucles",
+      "number": 5,
+      "title": "Bucles for",
+      "goal": "Repetir acciones de forma controlada.",
+      "sections": [
+        {
+          "heading": "for: repetir N veces",
+          "body": "for (int i = 0; i < 3; i++) { ... }\n\nIdeal para patrones: 3 destellos, pausa larga, otra vez."
+        },
+        {
+          "heading": "Sketch: tres destellos y pausa",
+          "body": "Un patrón claro solo con LED_BUILTIN.",
+          "code": {
+            "title": "Sketch: patrón con for",
+            "filename": "patron_for.ino",
+            "language": "Arduino C++",
+            "tip": "Cambiá el 3 del for para más o menos destellos.",
+            "content": "void destello() {\n  digitalWrite(LED_BUILTIN, HIGH);\n  delay(150);\n  digitalWrite(LED_BUILTIN, LOW);\n  delay(150);\n}\n\nvoid setup() {\n  pinMode(LED_BUILTIN, OUTPUT);\n}\n\nvoid loop() {\n  for (int i = 0; i < 3; i++) {\n    destello();\n  }\n  delay(1000); // pausa larga entre grupos\n}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "06-funciones-proyecto",
+      "number": 6,
+      "title": "Funciones y mini proyecto",
+      "goal": "Organizar código en funciones y armar un SOS con el LED interno.",
+      "sections": [
+        {
+          "heading": "Por qué funciones",
+          "body": "Evitan copiar/pegar. Un nombre claro (punto, raya) hace el sketch legible."
+        },
+        {
+          "heading": "Proyecto: SOS en Morse",
+          "body": "S = tres cortos, O = tres largos, S = tres cortos.\nSolo LED interno + delays.",
+          "code": {
+            "title": "Sketch: SOS",
+            "filename": "sos_led.ino",
+            "language": "Arduino C++",
+            "tip": "Subilo y observá el LED. Después pasá a Prácticas con Arduino para sensores y PWM.",
+            "content": "void punto() {\n  digitalWrite(LED_BUILTIN, HIGH);\n  delay(180);\n  digitalWrite(LED_BUILTIN, LOW);\n  delay(180);\n}\n\nvoid raya() {\n  digitalWrite(LED_BUILTIN, HIGH);\n  delay(500);\n  digitalWrite(LED_BUILTIN, LOW);\n  delay(180);\n}\n\nvoid letraS() {\n  punto(); punto(); punto();\n  delay(400);\n}\n\nvoid letraO() {\n  raya(); raya(); raya();\n  delay(400);\n}\n\nvoid setup() {\n  pinMode(LED_BUILTIN, OUTPUT);\n}\n\nvoid loop() {\n  letraS();\n  letraO();\n  letraS();\n  delay(1500);\n}"
+          }
+        },
+        {
+          "heading": "Checklist final",
+          "body": "☐ Blink interno OK\n☐ Sé qué hacen setup y loop\n☐ Usé variables y Serial\n☐ Escribí un if/else\n☐ Usé un for y una función\n☐ Siguiente: Prácticas con Arduino (intermedio)"
+        }
+      ]
+    }
+  ]
+}

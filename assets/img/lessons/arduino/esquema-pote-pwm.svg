@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Circuito potenciometro y LED PWM">
+  <rect width="960" height="540" fill="#0f1418"/>
+  <rect x="40" y="40" width="880" height="460" rx="18" fill="#182128" stroke="#31404c"/>
+  <text x="70" y="85" fill="#3dd6c3" font-family="Segoe UI, Arial" font-size="28" font-weight="700">Circuito: potenciómetro ’ PWM</text>
+  <text x="70" y="120" fill="#a9b6c0" font-family="Segoe UI, Arial" font-size="16">Pote: 5V / A0 / GND · LED en D9 (PWM)</text>
+
+  <rect x="70" y="160" width="200" height="290" rx="12" fill="#1b6b5a" stroke="#3dd6c3" stroke-width="2"/>
+  <text x="110" y="200" fill="#f3f6f8" font-family="Segoe UI, Arial" font-size="20" font-weight="700">Arduino</text>
+  <text x="100" y="250" fill="#ffd27a" font-family="Segoe UI, Arial" font-size="13">5V</text>
+  <rect x="230" y="238" width="26" height="16" rx="3" fill="#0b1014" stroke="#ffd27a"/>
+  <text x="100" y="295" fill="#9ed8ff" font-family="Segoe UI, Arial" font-size="13">A0</text>
+  <rect x="230" y="283" width="26" height="16" rx="3" fill="#0b1014" stroke="#9ed8ff"/>
+  <text x="100" y="340" fill="#f0b429" font-family="Segoe UI, Arial" font-size="13">GND</text>
+  <rect x="230" y="328" width="26" height="16" rx="3" fill="#0b1014" stroke="#f0b429"/>
+  <text x="100" y="390" fill="#7af0df" font-family="Segoe UI, Arial" font-size="13">D9</text>
+  <rect x="230" y="378" width="26" height="16" rx="3" fill="#0b1014" stroke="#7af0df"/>
+
+  <!-- pot -->
+  <path d="M256 246 H360" stroke="#ffd27a" stroke-width="3"/>
+  <path d="M256 291 H400" stroke="#9ed8ff" stroke-width="3"/>
+  <path d="M256 336 H360" stroke="#f0b429" stroke-width="3"/>
+  <circle cx="430" cy="290" r="55" fill="#212b34" stroke="#9ed8ff" stroke-width="2"/>
+  <circle cx="430" cy="290" r="10" fill="#9ed8ff"/>
+  <text x="392" y="370" fill="#f3f6f8" font-family="Segoe UI, Arial" font-size="16" font-weight="700">POTE</text>
+
+  <!-- led pwm -->
+  <path d="M256 386 H560" stroke="#7af0df" stroke-width="4"/>
+  <rect x="560" y="364" width="100" height="44" rx="8" fill="#212b34" stroke="#9ed8ff" stroke-width="2"/>
+  <text x="580" y="392" fill="#9ed8ff" font-family="Segoe UI, Arial" font-size="15" font-weight="700">220 ©</text>
+  <path d="M660 386 H720" stroke="#7af0df" stroke-width="4"/>
+  <circle cx="750" cy="386" r="18" fill="#3dd6c3"/>
+  <path d="M768 386 H820 V336 H256" stroke="#f0b429" stroke-width="3" fill="none"/>
+  <text x="730" y="430" fill="#f3f6f8" font-family="Segoe UI, Arial" font-size="15">LED</text>
+
+  <text x="70" y="470" fill="#a9b6c0" font-family="Segoe UI, Arial" font-size="14">Girás el pote ’ cambia analogRead(A0) ’ analogWrite(D9).</text>
+</svg>

@@ -3,7 +3,6 @@
   "title": "Introducción a la Robótica",
   "level": "Inicial",
   "summary": "Curso completo para entender qué es un robot, cómo se construye conceptualmente y por dónde seguir aprendiendo.",
-  "duration": "6 lecciones · ~2–3 h de lectura total",
   "requirements": "Ninguno",
   "image": "/assets/img/courses/intro-robotica.jpg",
   "imageAlt": "Robot humanoide introduciendo el curso de robótica",
@@ -43,7 +42,6 @@
       "id": "01-que-es-un-robot",
       "number": 1,
       "title": "¿Qué es un robot?",
-      "duration": "20–25 min",
       "goal": "Definir un robot con criterios claros, entender por qué la definición importa y distinguir robot de automatismo simple o de un personaje de ficción.",
       "sections": [
         {
@@ -79,7 +77,6 @@
       "id": "02-cinco-componentes",
       "number": 2,
       "title": "Los 5 componentes esenciales",
-      "duration": "25–30 min",
       "goal": "Reconocer las piezas mínimas de un robot, entender cómo se relacionan y detectar cuellos de botella en ejemplos reales.",
       "sections": [
         {
@@ -135,7 +132,6 @@
       "id": "03-tipos-de-robots",
       "number": 3,
       "title": "Tipos de robots",
-      "duration": "20–25 min",
       "goal": "Clasificar robots por locomoción y manipulación, reconocer categorías comunes y hacer preguntas útiles ante cualquier ejemplo nuevo.",
       "sections": [
         {
@@ -177,7 +173,6 @@
       "id": "04-sensores-actuadores",
       "number": 4,
       "title": "Sensores y actuadores",
-      "duration": "25–30 min",
       "goal": "Dominar el vocabulario de percepción y actuación, entender el lazo cerrado y relacionar sensores con decisiones de control.",
       "sections": [
         {
@@ -223,7 +218,6 @@
       "id": "05-grados-de-libertad",
       "number": 5,
       "title": "Grados de libertad (DOF)",
-      "duration": "20–25 min",
       "goal": "Explicar qué es un DOF, relacionarlo con joints y tareas, y entender por qué “más ejes” no siempre es mejor.",
       "sections": [
         {
@@ -259,7 +253,6 @@
       "id": "06-control-y-siguientes-pasos",
       "number": 6,
       "title": "Control, autonomía y siguientes pasos",
-      "duration": "20–25 min",
       "goal": "Entender niveles de autonomía, cerrar el mapa mental del curso y armar un plan concreto de estudio en este sitio.",
       "sections": [
         {

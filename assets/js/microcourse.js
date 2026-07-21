@@ -212,6 +212,68 @@
     );
   }
 
+  function renderCodeBlock(code) {
+    if (!code || !code.content) return "";
+    var title = code.title || "Sketch para Arduino IDE";
+    var language = code.language || "cpp";
+    var filename = code.filename || "sketch.ino";
+    var tip =
+      code.tip ||
+      "Copiá el código, pegalo en Arduino IDE, elegí placa/puerto y subilo.";
+
+    return (
+      '<div class="lesson-code">' +
+      '<div class="lesson-code-bar">' +
+      "<div>" +
+      '<p class="lesson-code-title">' +
+      escapeHtml(title) +
+      "</p>" +
+      '<p class="lesson-code-file">' +
+      escapeHtml(filename) +
+      " · " +
+      escapeHtml(language) +
+      "</p>" +
+      "</div>" +
+      '<button type="button" class="lesson-code-copy" data-code-copy>Copiar</button>' +
+      "</div>" +
+      '<pre class="lesson-code-pre"><code>' +
+      escapeHtml(code.content) +
+      "</code></pre>" +
+      '<p class="lesson-code-tip">' +
+      escapeHtml(tip) +
+      "</p>" +
+      "</div>"
+    );
+  }
+
+  function bindCodeCopy(root) {
+    if (!root) return;
+    root.querySelectorAll("[data-code-copy]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var block = btn.closest(".lesson-code");
+        var codeEl = block ? block.querySelector("code") : null;
+        if (!codeEl) return;
+        var text = codeEl.textContent || "";
+        var done = function () {
+          var prev = btn.textContent;
+          btn.textContent = "Copiado";
+          btn.classList.add("is-copied");
+          setTimeout(function () {
+            btn.textContent = prev;
+            btn.classList.remove("is-copied");
+          }, 1400);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(function () {
+            window.prompt("Copiá el código:", text);
+          });
+        } else {
+          window.prompt("Copiá el código:", text);
+        }
+      });
+    });
+  }
+
   function lessonUrl(lessonId) {
     return Site.url(
       courseBase + "/leccion.html?id=" + encodeURIComponent(lessonId)
@@ -272,9 +334,6 @@
           "<h3>" +
           escapeHtml(lesson.title) +
           "</h3>" +
-          '<p class="lesson-meta">' +
-          escapeHtml(lesson.duration) +
-          "</p>" +
           "<p>" +
           escapeHtml(lesson.goal) +
           "</p>" +
@@ -335,9 +394,6 @@
       escapeHtml(course.summary) +
       "</p>" +
       '<div class="course-hero-meta">' +
-      '<span class="course-pill">' +
-      escapeHtml(course.duration) +
-      "</span>" +
       '<span class="course-pill">' +
       course.lessons.length +
       " lecciones</span>" +
@@ -413,6 +469,7 @@
             lesson.id,
             sectionIndex
           ) +
+          renderCodeBlock(section.code) +
           "</div>" +
           "</section>"
         );
@@ -447,9 +504,6 @@
       "<h1>" +
       escapeHtml(lesson.title) +
       "</h1>" +
-      '<p class="lesson-meta">' +
-      escapeHtml(lesson.duration) +
-      "</p>" +
       '<p class="lesson-goal"><strong>Objetivo:</strong> ' +
       escapeHtml(lesson.goal) +
       "</p>" +
@@ -480,6 +534,7 @@
       "</nav>";
 
     bindChecklists(lessonView);
+    bindCodeCopy(lessonView);
   }
 
   fetch(Site.url(dataUrl))

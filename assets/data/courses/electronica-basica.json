@@ -1,0 +1,441 @@
+{
+  "id": "electronica-basica",
+  "title": "Electrónica básica para robótica",
+  "level": "Inicial",
+  "summary": "Fundamentos eléctricos para robots: componentes, multímetro, Ohm, circuitos, alimentación, señales y banco — sin depender de Arduino.",
+  "requirements": "Ninguno",
+  "image": "/assets/img/courses/electronica.jpg",
+  "imageAlt": "Componentes electrónicos sobre un banco de trabajo",
+  "playlistUrl": "",
+  "outcomes": [
+    "Reconocer LED, resistencia y piezas del banco",
+    "Medir voltaje y continuidad con el multímetro",
+    "Explicar voltaje, corriente y resistencia con criterio",
+    "Armar y calcular circuitos en serie, paralelo y divisor",
+    "Entender GND, referencia y capacitores básicos",
+    "Elegir alimentación y separar lógica de potencia",
+    "Distinguir señales digitales, analógicas y PWM",
+    "Trabajar con hábitos seguros en el banco"
+  ],
+  "sources": [
+    {
+      "title": "SparkFun — Voltage, Current, Resistance and Ohm's Law",
+      "url": "https://learn.sparkfun.com/tutorials/voltage-current-resistance-and-ohms-law"
+    },
+    {
+      "title": "All About Circuits — Direct Current",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/"
+    },
+    {
+      "title": "Adafruit — Electronics tips and basics",
+      "url": "https://learn.adafruit.com/"
+    },
+    {
+      "title": "The Robotics Primer — Matarić (contexto de sistemas)",
+      "url": "https://pages.ucsd.edu/~ehutchins/cogs8/mataric-primer.pdf"
+    },
+    {
+      "title": "SparkFun — How to Use a Multimeter",
+      "url": "https://learn.sparkfun.com/tutorials/how-to-use-a-multimeter"
+    },
+    {
+      "title": "All About Circuits — Series and Parallel Circuits",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-5/"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "01-por-que-electronica",
+      "number": 1,
+      "title": "Por qué la electrónica importa en un robot",
+      "goal": "Entender el robot como sistema eléctrico antes de hablar de código.",
+      "sections": [
+        {
+          "heading": "El robot no “piensa” solo: mueve carga eléctrica",
+          "body": "Un robot combina mecánica, control y energía. Aunque el software decida, lo que ocurre en la placa es eléctrico:\n\n• los sensores entregan voltajes o pulsos,\n• el controlador interpreta esos valores,\n• los motores y servos consumen corriente.\n\nSi esa cadena falla (mala alimentación, corto, polaridad invertida), el mejor algoritmo del mundo no salva el prototipo.",
+          "image": "/assets/img/lessons/electronica/kit-componentes.jpg",
+          "imageAlt": "Kit básico de electrónica",
+          "imageCaption": "El laboratorio empieza en el banco, no en el IDE."
+        },
+        {
+          "heading": "Qué vas a aprender en este curso",
+          "body": "1. Componentes del banco.\n2. Multímetro y medición (temprano: lo vas a usar siempre).\n3. Voltaje, corriente, Ohm.\n4. Serie, paralelo y divisor de tensión.\n5. GND, circuito cerrado y referencia.\n6. Capacitores (idea básica).\n7. Alimentación y baterías.\n8. Señales digitales, analógicas y PWM.\n9. Seguridad y cierre.\n\nLas prácticas se arman con pila, LED, resistencias y cables. Arduino es opcional al final de algunas lecciones."
+        },
+        {
+          "heading": "Materiales recomendados",
+          "body": "☐ Protoboard y jumpers\n☐ LEDs y resistencias (220 Ω, 1 kΩ, 10 kΩ)\n☐ Pila / pack AA\n☐ Multímetro (imprescindible)\n☐ Potenciómetro (muy útil)\n☐ (Opcional) Arduino para puentes al final de algunas lecciones"
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "Electrónica básica = entender, armar y medir. Programar viene después."
+        }
+      ]
+    },
+    {
+      "id": "02-componentes",
+      "number": 2,
+      "title": "Componentes del banco: LED, resistencia y más",
+      "goal": "Reconocer y nombrar las piezas que vas a usar antes de hablar de Ohm o armar circuitos.",
+      "sections": [
+        {
+          "heading": "Primero: qué hay sobre la mesa",
+          "body": "Antes de voltaje y fórmulas, necesitás saber qué es cada pieza y para qué sirve. Si no reconocés un LED o una resistencia, el resto del curso se siente “mágico”.\n\nEn esta lección miramos los componentes uno por uno, con lenguaje simple.",
+          "image": "/assets/img/lessons/electronica/kit-componentes.jpg",
+          "imageAlt": "Kit básico: LEDs, resistencias, protoboard, cables y pilas",
+          "imageCaption": "Estas son las piezas típicas del banco educativo."
+        },
+        {
+          "heading": "LED (diodo emisor de luz)",
+          "body": "Un LED es un componente que convierte corriente en luz. En robótica educativa sirve como indicador (encendido, estado, error) y como primer circuito de prueba.\n\nCosas clave:\n• Tiene polaridad: solo conduce (y prende) en un sentido.\n• Ánodo (+): suele ser la pata más larga.\n• Cátodo (−): pata más corta; a veces el cuerpo tiene un lado plano.\n• No se conecta solo a una pila o a un pin: necesita una resistencia que limite la corriente. Sin ella se quema o daña la fuente.\n\nEl color (rojo, verde, azul…) cambia un poco la “caída” de voltaje típica del LED, pero la idea es siempre la misma: polaridad + resistencia limitadora.",
+          "image": "/assets/img/lessons/electronica/led.jpg",
+          "imageAlt": "LEDs de distintos colores con sus patas",
+          "imageCaption": "LED: mirá la pata larga (ánodo) y la corta (cátodo)."
+        },
+        {
+          "heading": "Resistencia (resistor)",
+          "body": "Una resistencia limita cuánta corriente pasa. Su unidad es el ohm (Ω).\n\nPara qué la usás:\n• proteger un LED,\n• formar divisores de tensión (más adelante),\n• adaptar niveles en circuitos simples.\n\nValores típicos en el kit educativo: 220 Ω, 330 Ω, 1 kΩ, 10 kΩ.\nLas franjas de color indican el valor; al principio podés leerlas con una tabla o un app, o comprar un kit ya identificado.\n\nImportante: la resistencia no tiene polaridad. La podés poner en cualquier sentido.",
+          "image": "/assets/img/lessons/electronica/resistencia.jpg",
+          "imageAlt": "Resistencias con franjas de color",
+          "imageCaption": "Resistencia: las franjas indican el valor en ohms."
+        },
+        {
+          "heading": "Protoboard y cables jumper",
+          "body": "El protoboard permite armar circuitos sin soldar.\n\nIdea básica:\n• en el centro, las filas cortas conectan orificios entre sí,\n• a los costados suelen estar los rieles de alimentación (+ y −) a lo largo de la placa.\n\nLos jumpers son cables macho-macho (o similares) para unir puntos. Si un LED “no prende”, muchas veces el fallo es un jumper mal clavado o un riel que no conecta donde creías.",
+          "image": "/assets/img/lessons/electronica/jumpers-protoboard.jpg",
+          "imageAlt": "Protoboard con cables jumper",
+          "imageCaption": "Protoboard + jumpers: acá se arma sin soldar."
+        },
+        {
+          "heading": "Pila / batería y polaridad",
+          "body": "La pila (o pack de pilas) es la fuente de energía del circuito sin placa.\n\n• Tiene positivo (+) y negativo (−).\n• Invertir polaridad en un LED suele hacer que no prenda; en otros componentes puede dañarlos.\n• Para estas prácticas alcanza 3 V o 4.5 V (por ejemplo AA en serie), siempre con resistencia en el LED.\n\nMás adelante veremos baterías de robot con más detalle; acá solo necesitás respetar + y −.",
+          "image": "/assets/img/lessons/electronica/pila-aa.jpg",
+          "imageAlt": "Portapilas con baterías AA y cables rojo y negro",
+          "imageCaption": "Pack de pilas AA: respetá positivo (rojo) y negativo (negro)."
+        },
+        {
+          "heading": "Otros que vas a ver pronto",
+          "body": "• Potenciómetro: resistencia variable con un eje. Sirve para cambiar un voltaje a mano (base de muchas entradas “analógicas”).\n• Pulsador / interruptor: abre o cierra el circuito.\n• Multímetro: instrumento para medir voltaje, continuidad y más (lo usamos fuerte al final del curso).\n\nNo hace falta memorizar catálogos: sí poder señalar en la mesa “esto es un LED, esto una resistencia, acá va la pila”.",
+          "image": "/assets/img/lessons/electronica/potenciometro.jpg",
+          "imageAlt": "Potenciómetro con tres patas",
+          "imageCaption": "Potenciómetro: resistencia variable con eje (luego sumás pulsador y multímetro)."
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Sé qué es un LED y cómo se distingue ánodo/cátodo.\n☐ Sé qué hace una resistencia y que no tiene polaridad.\n☐ Entiendo para qué sirve el protoboard y los jumpers.\n☐ Identifico + y − en una pila.\n☐ Reconozco potenciómetro y multímetro aunque aún no los use a fondo."
+        }
+      ]
+    },
+    {
+      "id": "03-multimetro",
+      "number": 3,
+      "title": "Multímetro: medir antes de adivinar",
+      "goal": "Usar el multímetro para voltaje y continuidad desde el inicio del curso.",
+      "sections": [
+        {
+          "heading": "Por qué el multímetro va temprano",
+          "body": "Sin medir, la electrónica se vuelve superstición: “no prende y no sé por qué”.\n\nEl multímetro te permite comprobar:\n• si la pila tiene voltaje,\n• si un cable conecta (continuidad),\n• si un nodo del circuito tiene el valor que esperás.\n\nA partir de acá, casi todas las prácticas incluyen una medición.",
+          "image": "/assets/img/lessons/electronica/multimetro-claro.jpg",
+          "imageAlt": "Multímetro digital con puntas",
+          "imageCaption": "Tu instrumento principal en electrónica básica."
+        },
+        {
+          "heading": "Partes del instrumento",
+          "body": "• Pantalla: muestra el valor.\n• Selector / dial: modo de medición (V, Ω, continuidad, A…).\n• Punta roja: suele ir al borne positivo / VΩ.\n• Punta negra: va a COM (común).\n\nRegla: leé el dial antes de tocar el circuito."
+        },
+        {
+          "heading": "Medir voltaje DC (lo más usado)",
+          "body": "1. Poné el dial en V DC (a veces V— o un símbolo de línea continua).\n2. Punta negra a COM, roja a V.\n3. Tocá en paralelo: roja en el punto “+” que querés medir, negra en la referencia (− / GND).\n4. Leé el valor.\n\nEjemplo: puntas en los bornes de la pila → deberías ver ~1.5 V por AA, o el total del pack.",
+          "image": "/assets/img/lessons/electronica/esquema-multimetro.png",
+          "imageAlt": "Esquema de medición de voltaje con multímetro",
+          "imageCaption": "Voltaje se mide en paralelo al elemento o nodo."
+        },
+        {
+          "heading": "Continuidad (¿este cable conecta?)",
+          "body": "Modo continuidad (suele pitar):\n1. Circuito apagado / desconectado de la fuente.\n2. Puntas en los extremos del cable o del riel del protoboard.\n3. Si pita (o muestra casi 0 Ω), hay conexión.\n\nSirve para encontrar jumpers flojos y rieles mal entendidos."
+        },
+        {
+          "heading": "Qué NO hacer todavía",
+          "body": "• No midas corriente (A) hasta saber poner el instrumento en serie y cambiar bornes.\n• No midas continuidad con el circuito energizado.\n• No uses rango de corriente por error al medir una pila: podés fundir el fusible interno."
+        },
+        {
+          "heading": "Práctica guiada",
+          "body": "Ejercicio 1 — Pila:\nMedí el voltaje del pack. Anotá el valor.\n\nEjercicio 2 — Continuidad:\nCon un jumper solo, verificá que pita de punta a punta.\n\nEjercicio 3 — Protoboard:\nClavá un jumper entre dos orificios que creés conectados. Confirmá con continuidad. Después probá dos orificios que NO deberían conectar.\n\nSi no tenés pitido, usá modo Ω: cerca de 0 = conectado; infinito/OL = abierto."
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Sé poner el dial en V DC.\n☐ Medí el voltaje de una pila.\n☐ Probé continuidad en un jumper.\n☐ Sé que corriente (A) se deja para más adelante."
+        }
+      ]
+    },
+    {
+      "id": "04-v-i-r",
+      "number": 4,
+      "title": "Voltaje, corriente, resistencia y Ohm",
+      "goal": "Manejar V, I y R con intuición y calcular una resistencia para un LED.",
+      "sections": [
+        {
+          "heading": "Tres magnitudes, un mismo circuito",
+          "body": "• Voltaje (V): diferencia de potencial. Es la “presión” que empuja a las cargas.\n• Corriente (I): carga que circula por unidad de tiempo (amperes). Es lo que calienta cables y quema LEDs si es excesiva.\n• Resistencia (R): oposición al flujo (ohms). Limita corriente y reparte voltajes.\n\nEn un robot: el motor puede pedir mucha I; el LED necesita poca I; el pin de un microcontrolador entrega muy poca I. Mezclar esos mundos sin criterio es el origen de la mayoría de fallos educativos.",
+          "image": "/assets/img/lessons/electronica/resistencia.jpg",
+          "imageAlt": "Resistencias con franjas de color",
+          "imageCaption": "La resistencia limita corriente: pieza clave de Ohm."
+        },
+        {
+          "heading": "Ley de Ohm (y por qué alcanza)",
+          "body": "V = I × R\n\nSi conocés dos, estimás la tercera.\n\nEjemplo típico de LED:\n• fuente 5 V (o 3 V de pila, según el caso),\n• LED con caída aproximada 2 V (depende del color),\n• corriente deseada ~10 mA (0,01 A).\n\nLa resistencia aproximada:\nR ≈ (Vfuente − Vled) / I\nR ≈ (5 − 2) / 0,01 = 300 Ω → en la práctica usás 220 Ω o 330 Ω.\n\nNo hace falta memorizar catálogos: hace falta el hábito de estimar antes de conectar."
+        },
+        {
+          "heading": "Práctica (sin Arduino): LED + resistencia + pila",
+          "body": "Acá la fuente es la pila, no una placa. Armá en protoboard:\n\n1. Polo positivo de la pila → resistencia (220 Ω o 330 Ω).\n2. Resistencia → ánodo del LED (+ / pata larga).\n3. Cátodo del LED (− / pata corta) → negativo de la pila.\n\nSi no prende:\n• polaridad del LED,\n• pila descargada,\n• contacto flojo en el protoboard.\n\nMedí con el multímetro el voltaje de la pila y, si podés, la caída en el LED.",
+          "image": "/assets/img/lessons/electronica/esquema-led-pila.png",
+          "imageAlt": "Esquema con pila, resistencia y LED",
+          "imageCaption": "Misma ley de Ohm, alimentado solo con pila: sin Arduino."
+        },
+        {
+          "heading": "Práctica (con Arduino): el pin como fuente de 5 V",
+          "body": "Si ya tenés una placa, el pin digital en HIGH actúa como la “pila” de ~5 V (poca corriente). El circuito eléctrico es el mismo: resistencia + LED + GND.\n\nCableado:\n1. D9 → 220 Ω → ánodo del LED.\n2. Cátodo del LED → GND.\n\nSubí el sketch: el LED debería parpadear. Si entendiste la práctica con pila, acá solo cambia quién entrega el voltaje.",
+          "image": "/assets/img/lessons/electronica/esquema-led-resistencia.png",
+          "imageAlt": "Esquema LED con resistencia alimentado desde Arduino",
+          "imageCaption": "Mismo LED + resistencia; la fuente ahora es el pin D9 del Arduino.",
+          "code": {
+            "title": "Sketch: LED externo con Ohm",
+            "filename": "led_ohm.ino",
+            "language": "Arduino C++",
+            "tip": "Usá siempre la resistencia. Sin ella el pin y el LED sufren.",
+            "content": "const int LED_PIN = 9;\n\nvoid setup() {\n  pinMode(LED_PIN, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(LED_PIN, HIGH);\n  delay(500);\n  digitalWrite(LED_PIN, LOW);\n  delay(500);\n}"
+          }
+        },
+        {
+          "heading": "Corto circuito (idea crítica)",
+          "body": "Si conectás positivo y negativo casi sin resistencia, R ≈ 0 y la corriente se dispara. Por eso huelen los cables y mueren fuentes/pilas.\n\nRegla: nunca energices un circuito que no hayas revisado 10 segundos en silencio."
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Sé explicar V, I y R en una frase cada una.\n☐ Calculé una R aproximada para un LED.\n☐ Armé LED + resistencia con pila (sin placa).\n☐ (Opcional) Probé el mismo circuito desde un pin de Arduino.\n☐ Sé qué es un corto a nivel conceptual."
+        }
+      ]
+    },
+    {
+      "id": "05-serie-paralelo",
+      "number": 5,
+      "title": "Serie, paralelo y divisor de tensión",
+      "goal": "Entender cómo se reparte V e I, calcular un divisor y medirlo.",
+      "sections": [
+        {
+          "heading": "Serie: una sola corriente",
+          "body": "En serie, los elementos están uno después del otro:\n• hay una sola corriente I para todos,\n• los voltajes se suman: Vtotal = V1 + V2 + …\n• la resistencia total: Rtotal = R1 + R2 + …\n\nLED + resistencia limitadora = serie. Por eso “comparte” la corriente.",
+          "image": "/assets/img/lessons/electronica/esquema-serie.png",
+          "imageAlt": "Esquema de dos resistencias en serie con pila",
+          "imageCaption": "Serie: misma I, voltajes que se suman."
+        },
+        {
+          "heading": "Paralelo: un mismo voltaje",
+          "body": "En paralelo, las ramas comparten los mismos extremos:\n• todas ven el mismo voltaje V,\n• las corrientes se suman: Itotal = I1 + I2 + …\n• más ramas en paralelo → menos resistencia equivalente (más caminos para la corriente).\n\nDos LEDs en paralelo: cada uno debería tener su propia resistencia.",
+          "image": "/assets/img/lessons/electronica/esquema-paralelo.png",
+          "imageAlt": "Esquema de dos ramas en paralelo",
+          "imageCaption": "Paralelo: mismo V, corrientes que se repartirán."
+        },
+        {
+          "heading": "Divisor de tensión",
+          "body": "Dos resistencias en serie entre + y − crean un punto medio con voltaje menor:\n\nVout ≈ VCC × (R2 / (R1 + R2))\n\nSi R1 = R2, Vout ≈ VCC / 2.\nSi R2 es mucho mayor que R1, Vout se acerca a VCC.\n\nEs la base eléctrica de muchos sensores resistivos (LDR, potenciómetro, NTC): el mundo cambia una R y el circuito entrega un voltaje.",
+          "image": "/assets/img/lessons/electronica/esquema-divisor.png",
+          "imageAlt": "Esquema de divisor de tensión R1 R2",
+          "imageCaption": "El punto medio es Vout: medilo con el multímetro."
+        },
+        {
+          "heading": "Ejercicios de cálculo (sin armar todavía)",
+          "body": "Ejercicio A — Serie:\nPila 4.5 V, R1 = 1 kΩ, R2 = 2 kΩ en serie.\n¿Rtotal? ¿I? ¿Voltaje en R2?\n(Ayuda: I = V / Rtotal; VR2 = I × R2)\n\nEjercicio B — Divisor:\nVCC = 5 V, R1 = 10 kΩ, R2 = 10 kΩ.\n¿Vout?\n\nEjercicio C — Divisor desigual:\nVCC = 5 V, R1 = 1 kΩ, R2 = 3 kΩ.\n¿Vout?\n\nRespuestas guía: A) 3 kΩ; 1.5 mA; 3 V.  B) 2.5 V.  C) 3.75 V."
+        },
+        {
+          "heading": "Práctica detallada (sin Arduino)",
+          "body": "Materiales: pila, protoboard, R1 y R2 (ideal 10 kΩ y 10 kΩ), multímetro.\n\n1. Medí Vpila y anotá.\n2. Armá R1 arriba (desde +) y R2 abajo (hacia −), punto medio entre ambas.\n3. Calculá Vout con la fórmula usando tu Vpila real.\n4. Medí Vout (roja en el punto medio, negra en −).\n5. Compará cálculo vs medición (un poco de diferencia es normal).\n\nVariante: cambiá R2 por 1 kΩ (si tenés) y repetí. ¿Subió o bajó Vout?\n\nVariante potenciómetro: extremos a +/−, cursor = Vout. Girá y anotá 3 valores (mínimo, medio, máximo).",
+          "image": "/assets/img/lessons/electronica/esquema-divisor.png",
+          "imageAlt": "Divisor para medir en el banco",
+          "imageCaption": "Práctica: calcular, armar, medir, comparar."
+        },
+        {
+          "heading": "Opcional — con Arduino",
+          "body": "Si ya tenés placa: el mismo divisor puede ir de 5 V a GND, y el punto medio a A0. En Prácticas con Arduino vas a leer ese valor con analogRead. Acá alcanza con haberlo medido a mano."
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Distingo serie de paralelo.\n☐ Resolví al menos un ejercicio de cálculo.\n☐ Armé un divisor y medí Vout.\n☐ Comparé fórmula vs multímetro."
+        }
+      ]
+    },
+    {
+      "id": "06-gnd-referencia",
+      "number": 6,
+      "title": "Circuito cerrado, GND y referencia",
+      "goal": "Entender por qué sin retorno (GND) no hay corriente y por qué la referencia importa.",
+      "sections": [
+        {
+          "heading": "Sin circuito cerrado no hay corriente",
+          "body": "La corriente necesita un camino de ida y vuelta. Si solo conectás el positivo al LED y dejás el cátodo “en el aire”, no prende: falta el retorno a la fuente.\n\nEsa idea simple evita el 50% de los “no funciona” del primer mes."
+        },
+        {
+          "heading": "Qué es GND (masa / común)",
+          "body": "GND es el nodo de referencia del circuito: el “cero” desde el que medís los demás voltajes.\n\nEn un robot con varios módulos (placa, sensor, driver), suele hacer falta GND común: todos comparten la misma referencia. Si no, las señales “5 V” de un módulo no significan lo mismo para el otro.",
+          "image": "/assets/img/lessons/electronica/esquema-alimentacion.png",
+          "imageAlt": "Esquema con GND común entre lógica y potencia",
+          "imageCaption": "Lógica y motores pueden tener + distintos; GND suele ser común."
+        },
+        {
+          "heading": "Medir es siempre “respecto de”",
+          "body": "Cuando el multímetro marca 4.8 V, está diciendo: “entre estas dos puntas hay 4.8 V”.\n\nPor eso la punta negra importa tanto como la roja: define la referencia."
+        },
+        {
+          "heading": "Ejercicio rápido",
+          "body": "Con LED + resistencia + pila funcionando:\n1. Medí voltaje de la pila.\n2. Medí voltaje en el LED (puntas en ánodo y cátodo).\n3. Medí voltaje en la resistencia.\n4. Sumá los dos últimos: debería acercarse al de la pila (serie)."
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Sé por qué hace falta circuito cerrado.\n☐ Entiendo GND como referencia.\n☐ Medí dos caídas en serie y las relacioné con Vpila."
+        }
+      ]
+    },
+    {
+      "id": "07-capacitores",
+      "number": 7,
+      "title": "Capacitores: idea básica para robots",
+      "goal": "Saber qué hace un capacitor a nivel conceptual y por qué aparece cerca de chips y motores.",
+      "sections": [
+        {
+          "heading": "Qué es (sin fórmulas pesadas)",
+          "body": "Un capacitor almacena un poco de energía eléctrica y puede entregarla rápido. Se opone a cambios bruscos de voltaje.\n\nEn robots educativos lo ves como:\n• condensadores de desacople cerca de un chip (estabilizan la alimentación),\n• ayuda frente a picos cuando un motor arranca."
+        },
+        {
+          "heading": "Polarizados vs no polarizados",
+          "body": "• Cerámicos / no polarizados: se pueden poner en cualquier sentido (valores chicos).\n• Electrolíticos: tienen + y −; invertirlos es mala idea.\n\nEn el kit, si ves un cilindrito con una franja, respetá la polaridad.",
+          "image": "/assets/img/lessons/electronica/kit-componentes.jpg",
+          "imageAlt": "Componentes de kit electrónico",
+          "imageCaption": "En kits suele haber capacitores junto a resistencias y LEDs."
+        },
+        {
+          "heading": "Relación con lo que ya viste",
+          "body": "No reemplaza a la batería. No “crea” voltaje eterno. Ayuda a suavizar y a responder picos cortos.\n\nPara este curso alcanza con reconocerlo: más adelante vas a ver muchos en paralelo a VCC–GND en placas reales."
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Sé que un capacitor almacena energía y suaviza cambios.\n☐ Distingo la idea de polarizado vs no polarizado.\n☐ Relaciono capacitores con alimentación estable en robots."
+        }
+      ]
+    },
+    {
+      "id": "08-alimentacion",
+      "number": 8,
+      "title": "Alimentación, baterías y potencia",
+      "goal": "Elegir energía para un robot chico y separar lógica de potencia.",
+      "sections": [
+        {
+          "heading": "Energía = autonomía + estabilidad",
+          "body": "La fuente define cuánto tiempo funciona el robot y si el “cerebro” se reinicia cuando arranca un motor.\n\nPreguntas útiles:\n• ¿Qué voltaje necesita la lógica (3.3 V / 5 V)?\n• ¿Qué corriente pico piden motores/servos?\n• ¿La fuente aguanta ese pico?\n\nMedí la batería con el multímetro antes de culpar al código.",
+          "image": "/assets/img/lessons/electronica/pila-aa.jpg",
+          "imageAlt": "Portapilas AA",
+          "imageCaption": "Voltaje nominal ≠ voltaje real bajo carga: medí."
+        },
+        {
+          "heading": "Separar lógica y potencia",
+          "body": "Regla de oro en móviles educativos:\n\n• camino limpio para la lógica,\n• camino grueso para motores,\n• GND común.\n\nSi el motor toma del mismo camino estrecho que el controlador, el voltaje cae (brownout) y parece un bug de software.",
+          "image": "/assets/img/lessons/electronica/esquema-alimentacion.png",
+          "imageAlt": "Esquema lógica vs potencia con GND común",
+          "imageCaption": "Dos caminos de +, una referencia común."
+        },
+        {
+          "heading": "Pilas, Li-ion y fuentes de banco",
+          "body": "• AA / NiMH: simples para prototipos livianos.\n• Li-ion / LiPo: livianas; carga y manejo cuidadoso.\n• Fuente de laboratorio / powerbank: útiles en el banco; mirá corriente disponible.\n\nCapacidad (mAh) ≈ “cuánta energía guardás”. Corriente disponible ≈ “cuánto podés entregar de golpe”."
+        },
+        {
+          "heading": "Potencia disipada",
+          "body": "P ≈ V × I\n\nUna resistencia que limita mucha corriente se calienta. Si está muy caliente al tacto, el diseño está al límite."
+        },
+        {
+          "heading": "Ejercicios",
+          "body": "Ejercicio 1: Medí tu pack en vacío. Anotá V.\n\nEjercicio 2: Con LED + R encendido, volvé a medir el pack. ¿Bajó un poco?\n\nEjercicio 3 (papel): Un servo pide picos de 500 mA y tu powerbank declara 1 A. ¿Alcanza en teoría? ¿Qué pasa con 4 servos a la vez?"
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Sé por qué separar lógica y motores.\n☐ Entiendo brownout.\n☐ Medí una batería con el multímetro.\n☐ Relaciono corriente pico con reinicios misteriosos."
+        }
+      ]
+    },
+    {
+      "id": "09-senales",
+      "number": 9,
+      "title": "Señales: digital, analógica y PWM",
+      "goal": "Ver señales como voltajes en el tiempo, con esquemas sin Arduino y puente opcional.",
+      "sections": [
+        {
+          "heading": "Digital: dos niveles útiles",
+          "body": "Una señal digital ideal vive en dos estados: bajo / alto (cerca de 0 V y cerca de VCC).\n\nSin Arduino: un pulsador en serie con LED + resistencia es un “digital” mecánico: circuito abierto o cerrado.",
+          "image": "/assets/img/lessons/electronica/esquema-digital-pila.png",
+          "imageAlt": "Esquema pulsador LED con pila",
+          "imageCaption": "Digital sin placa: abierto/cerrado → LED off/on."
+        },
+        {
+          "heading": "Analógica: un continuo de voltaje",
+          "body": "Una señal analógica toma muchos valores entre dos extremos.\n\nEl potenciómetro como divisor entrega un Vout que cambia al girar. Medilo con el multímetro.",
+          "image": "/assets/img/lessons/electronica/esquema-analog-pote.png",
+          "imageAlt": "Esquema potenciómetro y Vout",
+          "imageCaption": "Analógica sin placa: girás y medís un voltaje continuo."
+        },
+        {
+          "heading": "PWM: promedio de pulsos",
+          "body": "PWM enciende y apaga muy rápido. El ojo o el motor promedian.\n\n• Duty cycle alto → más brillo/potencia aparente.\n• Duty cycle bajo → menos.\n\nNo es un voltaje mágico: es conmutación + promedio.",
+          "image": "/assets/img/lessons/electronica/esquema-pwm.png",
+          "imageAlt": "Diagrama de pulsos PWM",
+          "imageCaption": "PWM: el ancho del pulso define el promedio."
+        },
+        {
+          "heading": "Práctica (sin Arduino)",
+          "body": "1. Pulsador + LED + R + pila: comprobá on/off (digital).\n2. Potenciómetro como divisor: medí Vout en 5 posiciones del eje.\n3. Anotá la tabla."
+        },
+        {
+          "heading": "Opcional — con Arduino",
+          "body": "Si tenés placa, el LED en D9 puede parpadear (digitalWrite) o variar brillo (analogWrite / PWM). El pote en A0 se lee con analogRead.\n\nEso se profundiza en los cursos de Arduino. Acá ya entendés la electrónica debajo.",
+          "image": "/assets/img/lessons/electronica/esquema-led-resistencia.png",
+          "imageAlt": "LED con Arduino",
+          "imageCaption": "Con Arduino: el pin entrega los niveles; el circuito es el mismo.",
+          "code": {
+            "title": "Sketch opcional: PWM en LED",
+            "filename": "pwm_led.ino",
+            "language": "Arduino C++",
+            "tip": "Solo si ya terminaste la práctica con pila y multímetro.",
+            "content": "const int LED_PIN = 9;\n\nvoid setup() {\n  pinMode(LED_PIN, OUTPUT);\n}\n\nvoid loop() {\n  for (int v = 0; v <= 255; v++) {\n    analogWrite(LED_PIN, v);\n    delay(5);\n  }\n  for (int v = 255; v >= 0; v--) {\n    analogWrite(LED_PIN, v);\n    delay(5);\n  }\n}"
+          }
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Armé un on/off con pulsador (o lo expliqué).\n☐ Medí una señal analógica con pote + multímetro.\n☐ Sé qué es duty cycle a nivel conceptual.\n☐ (Opcional) Probé PWM en Arduino."
+        }
+      ]
+    },
+    {
+      "id": "10-seguridad-cierre",
+      "number": 10,
+      "title": "Seguridad, hábitos de banco y cierre",
+      "goal": "Cerrar con método seguro y un plan claro de siguiente curso.",
+      "sections": [
+        {
+          "heading": "Orden en el protoboard",
+          "body": "1. Dibujá VCC, GND y señal.\n2. Conectá GND.\n3. Colocá componentes.\n4. Revisá polaridad.\n5. Medí la fuente.\n6. Recién ahí energizá el circuito completo.",
+          "image": "/assets/img/lessons/electronica/jumpers-protoboard.jpg",
+          "imageAlt": "Protoboard con jumpers",
+          "imageCaption": "Orden y medición evitan la mayoría de los cortos."
+        },
+        {
+          "heading": "Errores clásicos",
+          "body": "• polaridad invertida,\n• LED sin resistencia,\n• corto entre rieles del protoboard,\n• LiPo mal tratada,\n• energizar antes de revisar,\n• culpar al software sin medir la batería."
+        },
+        {
+          "heading": "Checklist final del curso",
+          "body": "☐ Reconozco LED, resistencia, protoboard y pila.\n☐ Medí voltaje y continuidad con multímetro.\n☐ Explico V, I y R.\n☐ Armé LED + R con pila y un divisor.\n☐ Entiendo GND y brownout.\n☐ Distingo digital / analógica / PWM.\n☐ Sé el orden seguro de armado."
+        },
+        {
+          "heading": "Qué sigue",
+          "body": "• Programación desde Cero con Arduino: lógica de software.\n• Prácticas con Arduino: sensores y actuadores en el banco.\n\nSi esta base te quedó sólida, el salto a la placa es mucho más calmo."
+        }
+      ]
+    }
+  ]
+}

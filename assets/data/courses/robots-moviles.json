@@ -1,0 +1,200 @@
+{
+  "id": "robots-moviles",
+  "title": "Robots Móviles",
+  "level": "Intermedio",
+  "summary": "Después de la intro: locomoción, odometría, sensores de navegación y comportamientos básicos para que un robot se mueva con criterio.",
+  "requirements": "Introducción a la Robótica (recomendado)",
+  "image": "/assets/img/courses/robots-moviles.jpg",
+  "imageAlt": "Robot móvil en entorno de laboratorio",
+  "playlistUrl": "",
+  "outcomes": [
+    "Distinguir tipos de locomoción y cuándo usarlas",
+    "Explicar drive diferencial y sus limitaciones",
+    "Entender odometría y por qué acumula error",
+    "Elegir sensores según la tarea de navegación",
+    "Diseñar comportamientos simples (evitar / seguir)",
+    "Armar un plan hacia ROS / SLAM / práctica con hardware"
+  ],
+  "sources": [
+    {
+      "title": "The Robotics Primer — Maja J. Matarić (mobile robots chapters)",
+      "url": "https://pages.ucsd.edu/~ehutchins/cogs8/mataric-primer.pdf"
+    },
+    {
+      "title": "Introduction to Autonomous Mobile Robots — Siegwart, Nourbakhsh, Scaramuzza",
+      "url": "https://mitpress.mit.edu/9780262015356/introduction-to-autonomous-mobile-robots/"
+    },
+    {
+      "title": "MIT OCW — Underactuated Robotics / mobile systems references",
+      "url": "https://ocw.mit.edu/"
+    },
+    {
+      "title": "ROS Navigation Stack overview",
+      "url": "https://wiki.ros.org/navigation"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "01-que-es-movil",
+      "number": 1,
+      "title": "¿Qué es un robot móvil?",
+      "goal": "Ubicar al robot móvil en el mapa mental de la robótica y separar locomoción de manipulación.",
+      "sections": [
+        {
+          "heading": "Moverse vs manipular",
+          "body": "En la intro viste que hay robots móviles, manipuladores y sistemas híbridos. Un robot móvil tiene como misión principal cambiar de pose en el espacio: ir de A a B, patrullar, explorar o transportar.\n\nUn brazo industrial puede ser “inteligente”, pero si está atornillado al piso, no es un robot móvil. La movilidad cambia todo: energía, localización, seguridad y incertidumbre del entorno.",
+          "image": "/assets/img/lessons/moviles/robot-movil.jpg",
+          "imageAlt": "Robot móvil sobre ruedas",
+          "imageCaption": "La movilidad suma un problema nuevo: saber dónde estás mientras te movés."
+        },
+        {
+          "heading": "El problema central",
+          "body": "Tres preguntas aparecen una y otra vez:\n\n1. ¿Cómo me muevo? (locomoción y actuadores)\n2. ¿Dónde estoy? (localización / odometría / sensores)\n3. ¿Adónde voy y cómo evito chocar? (planificación y comportamientos)\n\nSi resolvés solo una, el sistema se siente “a medias”: un robot que rueda pero no sabe dónde está, o que ve pero no puede actuar a tiempo."
+        },
+        {
+          "heading": "Aplicaciones típicas",
+          "body": "• AGVs / AMRs en fábricas y depósitos\n• aspiradoras y robots de servicio\n• inspección y seguridad\n• educación (TurtleBot, kits diferenciales)\n• investigación (SLAM, flotas, human-robot interaction)\n\nEn este curso nos quedamos en fundamentos: lo que necesitás antes de tirarte a ROS Navigation o a un kit con encoders."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "Un robot móvil no es “ruedas + Arduino”. Es un sistema donde locomoción, percepción y decisión se acoplan en bucle. Las próximas lecciones desarman ese bucle pieza por pieza."
+        }
+      ]
+    },
+    {
+      "id": "02-locomocion",
+      "number": 2,
+      "title": "Locomoción: ruedas, diferencial y más",
+      "goal": "Entender las formas habituales de moverse y por qué el drive diferencial es el caballo de batalla educativo.",
+      "sections": [
+        {
+          "heading": "Opciones de locomoción",
+          "body": "• Ruedas diferenciales (2 ruedas motrices + apoyo)\n• Ackermann (como un auto: dirección en el eje delantero)\n• Omnidireccional / mecanum (traslación lateral)\n• Orugas (mejor tracción, peor eficiencia en piso liso)\n• Patas (hexápodos, humanoides: más DOF, más control)\n\nNo hay una “mejor”: depende del terreno, costo, energía y control.",
+          "image": "/assets/img/lessons/moviles/ruedas.jpg",
+          "imageAlt": "Mecanismos y ruedas en un entorno técnico",
+          "imageCaption": "La mecánica de locomoción define qué tan fácil es controlar el robot."
+        },
+        {
+          "heading": "Drive diferencial (el clásico)",
+          "body": "Dos ruedas motrices independientes:\n\n• misma velocidad → recta\n• velocidades distintas → curva\n• igual magnitud y sentido opuesto → giro sobre sí mismo\n\nEs simple de construir y de modelar. Por eso lo ves en kits educativos y en muchos robots de servicio.\n\nLimitación: no se traslada “de costado” sin maniobra. En pasillos angostos eso importa."
+        },
+        {
+          "heading": "Holonomía (sin drama matemático)",
+          "body": "Un sistema holonómico puede moverse instantáneamente en cualquier dirección del plano (ej. mecanum bien controlado). El diferencial no: para cambiar orientación o hacer un lateral necesitás una secuencia de movimientos.\n\nEn la práctica: planificar trayectorias para un diferencial es más restrictivo, pero el hardware es más barato y robusto."
+        },
+        {
+          "heading": "Checklist de diseño",
+          "body": "Antes de comprar motores:\n\n☐ ¿Piso liso, alfombra, outdoor?\n☐ ¿Necesito girar en el lugar?\n☐ ¿Cuánta carga / pendiente?\n☐ ¿Presupuesto de encoders y control?\n☐ ¿Prefiero simplicidad (diferencial) o agilidad (omni)?"
+        }
+      ]
+    },
+    {
+      "id": "03-odometria",
+      "number": 3,
+      "title": "Cinemática básica y odometría",
+      "goal": "Explicar cómo se estima la pose a partir de las ruedas y por qué esa estimación se degrada.",
+      "sections": [
+        {
+          "heading": "Pose en el plano",
+          "body": "En 2D suele alcanzar con (x, y, θ): posición y orientación. El controlador decide velocidades de rueda; el modelo cinemático traduce eso a movimiento del cuerpo del robot.\n\nNo necesitás memorizar todas las fórmulas ahora: sí entender que hay un mapa “ruedas → movimiento” y que ese mapa asume piso ideal, sin deslizamiento.",
+          "image": "/assets/img/lessons/moviles/odometria.jpg",
+          "imageAlt": "Circuitos y datos como metáfora de estimación",
+          "imageCaption": "La odometría es una estimación: útil, pero nunca perfecta sola."
+        },
+        {
+          "heading": "Qué es odometría",
+          "body": "Odometría = integrar movimiento medido (típicamente encoders) para actualizar la pose.\n\nSi la rueda izquierda avanzó ΔsL y la derecha ΔsR, podés estimar cuánto avanzó el centro y cuánto rotó el robot.\n\nSuena sólido… hasta que aparece el mundo real."
+        },
+        {
+          "heading": "Por qué falla (y siempre falla un poco)",
+          "body": "Errores típicos:\n\n• deslizamiento / patinaje\n• diámetro de rueda distinto al nominal\n• piso irregular\n• resolución limitada del encoder\n• golpes y vibración\n\nEl error se acumula: después de 10 metros, “creer” solo en odometría es peligroso. Por eso se fusiona con sensores externos (LiDAR, visión, balizas) o se corrige con localización."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "Usá odometría para control de corto plazo (seguir una trayectoria suave). No la uses como única verdad en misiones largas. Esa idea te prepara para filtros y para SLAM más adelante."
+        }
+      ]
+    },
+    {
+      "id": "04-sensores-nav",
+      "number": 4,
+      "title": "Sensores para navegación",
+      "goal": "Elegir sensores según la pregunta: distancia, presencia, orientación o mapa.",
+      "sections": [
+        {
+          "heading": "Mapa rápido de sensores",
+          "body": "• Ultrasonido / IR: baratos, buenos para “¿hay algo cerca?”\n• LiDAR 2D: excelente para obstáculos y SLAM en indoor\n• Cámara: rica en semántica, sensible a luz\n• IMU: aceleración/giro; útil en fusión, ruidosa sola\n• Encoder: propriocepción de ruedas\n• GPS: outdoor; malo o nulo indoor\n\nEn móviles educativos, ultrasonido + encoders es un punto de partida; LiDAR aparece cuando querés mapas serios.",
+          "image": "/assets/img/lessons/moviles/lidar-nav.jpg",
+          "imageAlt": "Sensores y sistemas de percepción",
+          "imageCaption": "Más sensor no siempre es mejor: sumá lo que responde a tu tarea."
+        },
+        {
+          "heading": "Campo de visión y puntos ciegos",
+          "body": "Un ultrasonido frontal no ve un obstáculo lateral. Un LiDAR a cierta altura no ve patas de silla bajas. Una cámara no mide distancia de forma directa sin estereoscopía o modelos.\n\nDiseñá cobertura: ¿qué zona del robot debe “sentir” el entorno para no chocar ni perderse?"
+        },
+        {
+          "heading": "Tiempo real",
+          "body": "Navegar es un problema de latencia. Si el sensor tarda o el algoritmo es pesado, el robot decide tarde.\n\nRegla práctica: medí ciclo de control (por ejemplo 10–50 Hz en comportamientos simples) y preguntate si tu pipeline entra en ese presupuesto."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "Primero definí la decisión (“frenar”, “girar”, “seguir pared”). Después elegí el sensor mínimo que la habilita. Ese orden evita hardware carísimo para una tarea simple."
+        }
+      ]
+    },
+    {
+      "id": "05-comportamientos",
+      "number": 5,
+      "title": "Comportamientos: evitar y navegar",
+      "goal": "Armar una intuición de control reactivo y de capas (comportamientos → navegación).",
+      "sections": [
+        {
+          "heading": "Reactivo vs deliberativo",
+          "body": "• Reactivo: sensor → acción rápida (evitar obstáculo, seguir luz)\n• Deliberativo: mapa + plan (ir al pasillo B evitando zonas)\n\nLos robots reales mezclan ambos: una capa rápida de seguridad y una capa más lenta de planificación.",
+          "image": "/assets/img/lessons/moviles/obstaculos.jpg",
+          "imageAlt": "Robot autónomo en un entorno",
+          "imageCaption": "Evitar chocar es el primer comportamiento que tiene que funcionar siempre."
+        },
+        {
+          "heading": "Comportamientos clásicos",
+          "body": "• Obstacle avoidance: si hay obstáculo cerca, girar / frenar\n• Wall following: mantener distancia a una pared\n• Wander: explorar con reglas simples\n• Goto (con odometría): ir a un punto relativo\n\nEn educación, implementar 2–3 comportamientos y combinarlos (prioridades) enseña más que un “viaje autónomo” mágico de una sola pieza."
+        },
+        {
+          "heading": "Seguridad primero",
+          "body": "Antes de mapear el edificio:\n\n1. límites de velocidad\n2. parada de emergencia\n3. zona de seguridad frontal\n4. qué pasa si un sensor falla (fail-safe)\n\nUn robot móvil sin política de fallo es un proyectil con WiFi."
+        },
+        {
+          "heading": "Puente a navegación moderna",
+          "body": "Stacks como ROS Navigation separan:\n\n• localización\n• mapa de costos\n• planificador global\n• planificador local / control\n\nVos, con comportamientos, estás construyendo la intuición de esas capas. No hace falta ROS todavía para entender el porqué."
+        }
+      ]
+    },
+    {
+      "id": "06-arquitectura-y-siguiente",
+      "number": 6,
+      "title": "Arquitectura práctica y siguientes pasos",
+      "goal": "Cerrar con una arquitectura mental clara y un plan de práctica concreto.",
+      "sections": [
+        {
+          "heading": "Arquitectura mínima viable",
+          "body": "Pensá bloques:\n\n1. Drivers (motores, encoders, sensores)\n2. Estimación de pose (odometría ± fusión)\n3. Percepción de obstáculos\n4. Comportamientos / control\n5. Supervisión (batería, watchdog, logs)\n\nAunque arranques en un solo sketch de Arduino, nombrar los bloques te ordena cuando el código crece.",
+          "image": "/assets/img/lessons/moviles/arquitectura.jpg",
+          "imageAlt": "Electrónica y control embebido",
+          "imageCaption": "Separar drivers, estimación y decisión evita el “spaghetti” típico."
+        },
+        {
+          "heading": "Camino de práctica sugerido",
+          "body": "1. Kit diferencial + ultrasonido: evitar obstáculos\n2. Sumar encoders: odometría y goto relativo\n3. Seguir pared / recorrer un cuadrado\n4. (Opcional) cámara o LiDAR barato\n5. Migrar ideas a ROS 2 + TurtleBot / simulación\n\nSi ya cursaste Visión por Computadora, el paso 4 se vuelve mucho más interesante."
+        },
+        {
+          "heading": "Checklist final",
+          "body": "☐ Puedo explicar qué problema agrega la movilidad.\n☐ Sé cuándo conviene un drive diferencial.\n☐ Entiendo por qué la odometría acumula error.\n☐ Elijo sensores según la decisión, no al revés.\n☐ Priorizo seguridad y comportamientos reactivos.\n☐ Tengo un plan de práctica (kit o simulación)."
+        },
+        {
+          "heading": "Cierre",
+          "body": "Con Intro + Robots Móviles ya tenés el esqueleto de un sistema que se mueve con criterio. Sumá Visión cuando quieras percepción rica, Arduino/IoT para hardware, y ROS cuando quieras integrar como en la industria y la academia.\n\nEl siguiente salto natural: practicar en un robot diferencial real o simulado y medir (literalmente) el error de odometría."
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 (function () {
-  const container = document.getElementById("courses-list");
+  var container = document.getElementById("courses-list");
   if (!container) return;
 
   function escapeHtml(value) {
@@ -67,11 +67,10 @@
       '<div class="summary-chip"><span>Nivel</span><strong>' +
       escapeHtml(course.level) +
       "</strong></div>" +
-      '<div class="summary-chip"><span>Duración</span><strong>' +
-      escapeHtml(course.duration || "Flexible") +
-      "</strong></div>" +
       '<div class="summary-chip"><span>Lecciones</span><strong>' +
-      escapeHtml(String(course.lessonsCount || (overview.syllabus || []).length || "—")) +
+      escapeHtml(
+        String(course.lessonsCount || (overview.syllabus || []).length || "—")
+      ) +
       "</strong></div>" +
       '<div class="summary-chip"><span>Requisitos</span><strong>' +
       escapeHtml(course.requirements || "Ninguno") +
@@ -159,12 +158,13 @@
     );
   }
 
-  function renderCourseCard(course) {
+  function actionButtons(course, options) {
+    options = options || {};
     var modalId = "modal-" + course.id;
-    var imageUrl = Site.url(course.image);
     var comingSoon = Boolean(course.comingSoon);
     var hasInternal = Boolean(course.internalPath);
     var hasExternal = Boolean(course.courseUrl);
+    var compact = Boolean(options.compact);
 
     var actionButton;
     if (comingSoon) {
@@ -179,47 +179,149 @@
       actionButton =
         '<a class="btn-accent" href="' +
         escapeHtml(Site.url(course.courseUrl)) +
-        '" target="_blank" rel="noopener noreferrer">Ir al curso</a>';
+        '" target="_blank" rel="noopener noreferrer">' +
+        (compact ? "Abrir" : "Ir al curso") +
+        "</a>";
     } else {
       actionButton =
         '<button type="button" class="btn-ghost" disabled>Próximamente</button>';
     }
 
     return (
-      '<article class="card mb-4 course-card">' +
-      '<div class="row no-gutters">' +
-      '<div class="col-md-4 course-media">' +
-      '<img src="' +
-      escapeHtml(imageUrl) +
-      '" alt="' +
-      escapeHtml(course.imageAlt) +
-      '">' +
-      "</div>" +
-      '<div class="col-md-8">' +
-      '<div class="card-body course-content">' +
-      levelBadge(course.level) +
-      '<h5 class="card-title mt-2 mb-2">' +
-      escapeHtml(course.title) +
-      "</h5>" +
-      '<p class="card-text">' +
-      escapeHtml(course.summary) +
-      "</p>" +
-      '<p class="card-text mb-0">' +
-      "<small>Requisitos: " +
-      escapeHtml(course.requirements) +
-      "</small>" +
-      "</p>" +
       '<div class="course-actions">' +
       '<button type="button" class="btn-ghost" data-toggle="modal" data-target="#' +
       modalId +
       '">Resumen</button>' +
       actionButton +
+      "</div>"
+    );
+  }
+
+  function renderFeaturedCard(course) {
+    var formatChip = course.internalPath
+      ? "En el sitio"
+      : course.formatLabel || (course.courseUrl ? "Playlist" : "");
+
+    return (
+      '<article class="course-tile">' +
+      '<div class="course-tile-media">' +
+      '<img src="' +
+      escapeHtml(Site.url(course.image)) +
+      '" alt="' +
+      escapeHtml(course.imageAlt || course.title) +
+      '" loading="lazy">' +
       "</div>" +
+      '<div class="course-tile-body">' +
+      levelBadge(course.level) +
+      "<h3>" +
+      escapeHtml(course.title) +
+      "</h3>" +
+      "<p>" +
+      escapeHtml(course.summary) +
+      "</p>" +
+      '<div class="course-tile-meta">' +
+      (formatChip ? "<span>" + escapeHtml(formatChip) + "</span>" : "") +
+      (course.lessonsCount
+        ? "<span>" + escapeHtml(String(course.lessonsCount)) + " lecciones</span>"
+        : "") +
       "</div>" +
-      "</div>" +
+      '<p class="course-tile-req">Requisitos: ' +
+      escapeHtml(course.requirements || "Ninguno") +
+      "</p>" +
+      actionButtons(course) +
       "</div>" +
       "</article>"
     );
+  }
+
+  function renderMoreCard(course) {
+    return (
+      '<article class="course-more-item">' +
+      '<div class="course-more-media">' +
+      '<img src="' +
+      escapeHtml(Site.url(course.image)) +
+      '" alt="' +
+      escapeHtml(course.imageAlt || course.title) +
+      '" loading="lazy">' +
+      "</div>" +
+      '<div class="course-more-body">' +
+      levelBadge(course.level) +
+      "<h3>" +
+      escapeHtml(course.title) +
+      "</h3>" +
+      "<p>" +
+      escapeHtml(course.summary) +
+      "</p>" +
+      actionButtons(course, { compact: true }) +
+      "</div>" +
+      "</article>"
+    );
+  }
+
+  function renderGroup(title, subtitle, courses, options) {
+    options = options || {};
+    if (!courses.length) return "";
+
+    var featured = Boolean(options.featured);
+    var carousel = Boolean(options.carousel) && courses.length > 1;
+    var cards = courses
+      .map(featured ? renderFeaturedCard : renderMoreCard)
+      .join("");
+
+    if (!carousel) {
+      return (
+        '<section class="course-group">' +
+        '<header class="course-group-head">' +
+        "<h3>" +
+        escapeHtml(title) +
+        "</h3>" +
+        (subtitle ? "<p>" + escapeHtml(subtitle) + "</p>" : "") +
+        "</header>" +
+        '<div class="' +
+        (featured ? "course-grid" : "course-more-grid") +
+        '">' +
+        cards +
+        "</div>" +
+        "</section>"
+      );
+    }
+
+    return (
+      '<section class="course-group course-group--carousel">' +
+      '<header class="course-group-head course-group-head--row">' +
+      "<div>" +
+      "<h3>" +
+      escapeHtml(title) +
+      "</h3>" +
+      (subtitle ? "<p>" + escapeHtml(subtitle) + "</p>" : "") +
+      "</div>" +
+      '<div class="course-carousel-controls">' +
+      '<button type="button" class="course-carousel-btn" data-carousel-dir="-1" aria-label="Ver cursos anteriores">←</button>' +
+      '<button type="button" class="course-carousel-btn" data-carousel-dir="1" aria-label="Ver más cursos">→</button>' +
+      "</div>" +
+      "</header>" +
+      '<div class="course-carousel">' +
+      '<div class="course-carousel-track" tabindex="0">' +
+      cards +
+      "</div>" +
+      "</div>" +
+      "</section>"
+    );
+  }
+
+  function bindCarousels(root) {
+    root.querySelectorAll(".course-group--carousel").forEach(function (group) {
+      var track = group.querySelector(".course-carousel-track");
+      if (!track) return;
+
+      group.querySelectorAll("[data-carousel-dir]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var dir = Number(btn.getAttribute("data-carousel-dir") || "1");
+          var amount = Math.max(track.clientWidth * 0.85, 280);
+          track.scrollBy({ left: dir * amount, behavior: "smooth" });
+        });
+      });
+    });
   }
 
   fetch(Site.url("/assets/data/courses.json"))
@@ -228,7 +330,60 @@
       return response.json();
     })
     .then(function (courses) {
-      container.innerHTML = courses.map(renderCourseCard).join("");
+      var inicial = courses.filter(function (course) {
+        return course.level === "Inicial";
+      });
+      var intermedioFeatured = courses.filter(function (course) {
+        return course.level === "Intermedio" && Boolean(course.internalPath);
+      });
+      var more = courses.filter(function (course) {
+        return course.level !== "Inicial" && !intermedioFeatured.some(function (item) {
+          return item.id === course.id;
+        });
+      });
+
+      inicial.sort(function (a, b) {
+        var order = {
+          "intro-robotica": 0,
+          "electronica-basica": 1,
+          arduino: 2,
+        };
+        var av = Object.prototype.hasOwnProperty.call(order, a.id) ? order[a.id] : 50;
+        var bv = Object.prototype.hasOwnProperty.call(order, b.id) ? order[b.id] : 50;
+        return av - bv;
+      });
+      intermedioFeatured.sort(function (a, b) {
+        var order = {
+          "robots-moviles": 0,
+          "practicas-arduino": 1,
+          "vision-computadora": 2,
+        };
+        var av = Object.prototype.hasOwnProperty.call(order, a.id) ? order[a.id] : 50;
+        var bv = Object.prototype.hasOwnProperty.call(order, b.id) ? order[b.id] : 50;
+        return av - bv;
+      });
+
+      container.innerHTML =
+        renderGroup(
+          "Nivel inicial",
+          "Ruta sugerida: Intro → Electrónica → Arduino (LED interno). Usá las flechas para ver todos.",
+          inicial,
+          { featured: true, carousel: true }
+        ) +
+        renderGroup(
+          "Nivel intermedio",
+          "Prácticas con hardware, robots móviles y visión. Usá las flechas para recorrerlos.",
+          intermedioFeatured,
+          { featured: true, carousel: true }
+        ) +
+        renderGroup(
+          "Más cursos y playlists",
+          "Material externo (YouTube / repos). Lo iremos pasando al formato del sitio.",
+          more,
+          { featured: false }
+        );
+
+      bindCarousels(container);
 
       var modalsHost = document.getElementById("course-modals");
       if (!modalsHost) {

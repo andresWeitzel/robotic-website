@@ -1,9 +1,11 @@
 .hero {
   margin-top: 56px;
+  position: relative;
+  background: #070a0c;
 }
 
 .hero .carousel-inner {
-  aspect-ratio: 16 / 9;
+  height: clamp(200px, 36vh, 380px);
   background: #070a0c;
 }
 
@@ -16,6 +18,45 @@
   width: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+.hero .carousel-indicators {
+  bottom: 0.65rem;
+  margin-bottom: 0;
+}
+
+.hero .carousel-indicators li {
+  width: 1.6rem;
+  height: 3px;
+  border-radius: 2px;
+  opacity: 0.45;
+}
+
+.hero .carousel-indicators .active {
+  opacity: 1;
+  background-color: var(--accent, #2dd4bf);
+}
+
+.hero .carousel-control-prev,
+.hero .carousel-control-next {
+  width: 8%;
+  opacity: 0.55;
+}
+
+.hero .carousel-control-prev:hover,
+.hero .carousel-control-next:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 767.98px) {
+  .hero .carousel-inner {
+    height: clamp(170px, 28vh, 260px);
+  }
+
+  .hero .carousel-control-prev,
+  .hero .carousel-control-next {
+    width: 12%;
+  }
 }
 
 .intro-strip {

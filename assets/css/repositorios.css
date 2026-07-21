@@ -1,3 +1,23 @@
 header {
   position: relative;
+  padding-top: 4.5rem;
+}
+
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.card .btn-secondary {
+  background: var(--accent);
+  border-color: var(--accent-strong);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.card .btn-secondary:hover {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: var(--accent-ink);
 }

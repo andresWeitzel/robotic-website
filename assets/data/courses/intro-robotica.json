@@ -6,7 +6,16 @@
   "duration": "6 lecciones · ~2–3 h de lectura total",
   "requirements": "Ninguno",
   "image": "/assets/img/courses/intro-robotica.jpg",
+  "imageAlt": "Robot humanoide introduciendo el curso de robótica",
   "playlistUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDYL0ab8mt9i4z4BLF2CIqw",
+  "outcomes": [
+    "Definir qué es (y qué no es) un robot",
+    "Identificar los 5 componentes esenciales",
+    "Clasificar robots por morfología y tarea",
+    "Relacionar sensores, actuadores y lazo cerrado",
+    "Aplicar la idea de grados de libertad (DOF)",
+    "Armar un plan concreto para seguir aprendiendo"
+  ],
   "sources": [
     {
       "title": "The Robotics Primer — Maja J. Matarić",

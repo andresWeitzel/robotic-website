@@ -5,6 +5,9 @@
 
   var dataUrl =
     document.body.dataset.courseData || "/assets/data/courses/intro-robotica.json";
+  var courseBase =
+    document.body.dataset.courseBase ||
+    "/pages/cursos/introduccion-robotica";
 
   function escapeHtml(value) {
     return String(value)
@@ -14,13 +17,179 @@
       .replace(/"/g, "&quot;");
   }
 
-  function formatParagraphs(text) {
-    return escapeHtml(text)
-      .split(/\n\n+/)
-      .map(function (block) {
-        return "<p>" + block.replace(/\n/g, "<br>") + "</p>";
+  function checklistStorageKey(courseId, lessonId, sectionIndex) {
+    return "course-check:" + courseId + ":" + lessonId + ":" + sectionIndex;
+  }
+
+  function loadChecklistState(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : {};
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function saveChecklistState(key, state) {
+    try {
+      localStorage.setItem(key, JSON.stringify(state));
+    } catch (error) {
+      /* ignore quota / private mode */
+    }
+  }
+
+  function isChecklistLine(line) {
+    return /^[☐☑✓]\s*/.test(line.trim());
+  }
+
+  function checklistItemText(line) {
+    return line.trim().replace(/^[☐☑✓]\s*/, "");
+  }
+
+  function renderChecklist(items, storageKey, saved) {
+    var checkedCount = 0;
+    var listHtml = items
+      .map(function (item, index) {
+        var id = storageKey + "-" + index;
+        var checked = Boolean(saved[String(index)]);
+        if (checked) checkedCount += 1;
+        return (
+          '<li class="lesson-check-item' +
+          (checked ? " is-checked" : "") +
+          '">' +
+          '<label class="lesson-check-label" for="' +
+          escapeHtml(id) +
+          '">' +
+          '<input class="lesson-check-input" type="checkbox" id="' +
+          escapeHtml(id) +
+          '" data-check-key="' +
+          escapeHtml(storageKey) +
+          '" data-check-index="' +
+          index +
+          '"' +
+          (checked ? " checked" : "") +
+          ">" +
+          '<span class="lesson-check-box" aria-hidden="true"></span>' +
+          '<span class="lesson-check-text">' +
+          escapeHtml(item) +
+          "</span>" +
+          "</label>" +
+          "</li>"
+        );
       })
       .join("");
+
+    return (
+      '<div class="lesson-checklist' +
+      (checkedCount === items.length && items.length > 0 ? " is-complete" : "") +
+      '" data-check-group="' +
+      escapeHtml(storageKey) +
+      '" data-check-total="' +
+      items.length +
+      '">' +
+      '<div class="lesson-checklist-progress">' +
+      '<span class="lesson-checklist-count">' +
+      checkedCount +
+      " / " +
+      items.length +
+      "</span>" +
+      '<div class="lesson-checklist-bar" aria-hidden="true">' +
+      '<span class="lesson-checklist-bar-fill" style="width:' +
+      Math.round((checkedCount / items.length) * 100) +
+      '%"></span>' +
+      "</div>" +
+      "</div>" +
+      '<ul class="lesson-checklist-list">' +
+      listHtml +
+      "</ul>" +
+      "</div>"
+    );
+  }
+
+  function formatSectionBody(text, courseId, lessonId, sectionIndex) {
+    var lines = String(text).split("\n");
+    var html = [];
+    var paragraph = [];
+    var checklist = [];
+    var storageKey = checklistStorageKey(courseId, lessonId, sectionIndex);
+    var saved = loadChecklistState(storageKey);
+
+    function flushParagraph() {
+      if (!paragraph.length) return;
+      var block = paragraph.join("\n").trim();
+      paragraph = [];
+      if (!block) return;
+      html.push(
+        "<p>" +
+          escapeHtml(block).replace(/\n/g, "<br>") +
+          "</p>"
+      );
+    }
+
+    function flushChecklist() {
+      if (!checklist.length) return;
+      html.push(renderChecklist(checklist, storageKey, saved));
+      checklist = [];
+    }
+
+    lines.forEach(function (line) {
+      if (isChecklistLine(line)) {
+        flushParagraph();
+        checklist.push(checklistItemText(line));
+        return;
+      }
+
+      if (checklist.length && line.trim() === "") {
+        return;
+      }
+
+      flushChecklist();
+
+      if (line.trim() === "") {
+        flushParagraph();
+        return;
+      }
+
+      paragraph.push(line);
+    });
+
+    flushChecklist();
+    flushParagraph();
+    return html.join("");
+  }
+
+  function bindChecklists(root) {
+    if (!root) return;
+    root.querySelectorAll(".lesson-check-input").forEach(function (input) {
+      input.addEventListener("change", function () {
+        var key = input.getAttribute("data-check-key");
+        var index = input.getAttribute("data-check-index");
+        var state = loadChecklistState(key);
+        state[index] = input.checked;
+        saveChecklistState(key, state);
+
+        var item = input.closest(".lesson-check-item");
+        if (item) item.classList.toggle("is-checked", input.checked);
+
+        var group = root.querySelector(
+          '.lesson-checklist[data-check-group="' + key + '"]'
+        );
+        if (!group) return;
+
+        var total = Number(group.getAttribute("data-check-total") || 0);
+        var checked = group.querySelectorAll(
+          ".lesson-check-input:checked"
+        ).length;
+        var countEl = group.querySelector(".lesson-checklist-count");
+        var fillEl = group.querySelector(".lesson-checklist-bar-fill");
+        if (countEl) countEl.textContent = checked + " / " + total;
+        if (fillEl) {
+          fillEl.style.width =
+            total > 0 ? Math.round((checked / total) * 100) + "%" : "0%";
+        }
+        group.classList.toggle("is-complete", checked === total && total > 0);
+      });
+    });
   }
 
   function padIndex(num) {
@@ -45,9 +214,12 @@
 
   function lessonUrl(lessonId) {
     return Site.url(
-      "/pages/cursos/introduccion-robotica/leccion.html?id=" +
-        encodeURIComponent(lessonId)
+      courseBase + "/leccion.html?id=" + encodeURIComponent(lessonId)
     );
+  }
+
+  function temarioUrl() {
+    return Site.url(courseBase + "/index.html");
   }
 
   function getLessonIdFromQuery() {
@@ -55,19 +227,34 @@
     return params.get("id");
   }
 
-  function courseToolbar(course, options) {
-    options = options || {};
-    var temarioUrl = Site.url("/pages/cursos/introduccion-robotica/index.html");
+  function coursesSectionUrl() {
+    return Site.url("/index.html#cursos");
+  }
 
-    if (options.showTemario === false) {
-      return "";
+  function courseToolbar(options) {
+    options = options || {};
+    var showTemario = options.showTemario !== false;
+    var links = [];
+
+    links.push(
+      '<a class="course-toolbar-link" href="' +
+        escapeHtml(coursesSectionUrl()) +
+        '">← Todos los cursos</a>'
+    );
+
+    if (showTemario) {
+      links.push(
+        '<a class="course-toolbar-link course-toolbar-link--secondary" href="' +
+          escapeHtml(temarioUrl()) +
+          '">Temario</a>'
+      );
     }
 
     return (
-      '<div class="course-toolbar">' +
-      '<a class="course-toolbar-link" href="' +
-      escapeHtml(temarioUrl) +
-      '">← Volver al temario</a>' +
+      '<div class="course-toolbar" role="navigation" aria-label="Navegación del curso">' +
+      '<div class="course-toolbar-links">' +
+      links.join('<span class="course-toolbar-sep" aria-hidden="true">/</span>') +
+      "</div>" +
       "</div>"
     );
   }
@@ -91,6 +278,7 @@
           "<p>" +
           escapeHtml(lesson.goal) +
           "</p>" +
+          '<span class="lesson-card-cta">Abrir lección →</span>' +
           "</a>"
         );
       })
@@ -108,9 +296,35 @@
       })
       .join("");
 
+    var heroMedia = course.image
+      ? '<div class="course-hero-media">' +
+        '<img src="' +
+        escapeHtml(Site.url(course.image)) +
+        '" alt="' +
+        escapeHtml(course.imageAlt || course.title) +
+        '" loading="lazy">' +
+        "</div>"
+      : "";
+
+    var outcomes = course.outcomes || [];
+    var outcomesHtml = outcomes.length
+      ? '<section class="course-outcomes">' +
+        "<h2>Qué vas a llevarte</h2>" +
+        '<ul class="course-outcomes-list">' +
+        outcomes
+          .map(function (item) {
+            return "<li>" + escapeHtml(item) + "</li>";
+          })
+          .join("") +
+        "</ul>" +
+        "</section>"
+      : "";
+
     hub.innerHTML =
-      courseToolbar(course, { showTemario: false }) +
+      courseToolbar({ showTemario: false }) +
       '<header class="course-hero">' +
+      heroMedia +
+      '<div class="course-hero-copy">' +
       '<p class="eyebrow">Curso · ' +
       escapeHtml(course.level) +
       "</p>" +
@@ -120,15 +334,23 @@
       "<p>" +
       escapeHtml(course.summary) +
       "</p>" +
-      '<p class="course-meta">' +
+      '<div class="course-hero-meta">' +
+      '<span class="course-pill">' +
       escapeHtml(course.duration) +
-      " · Requisitos: " +
+      "</span>" +
+      '<span class="course-pill">' +
+      course.lessons.length +
+      " lecciones</span>" +
+      '<span class="course-pill">Requisitos: ' +
       escapeHtml(course.requirements) +
-      "</p>" +
-      '<p><a class="btn-accent" href="' +
+      "</span>" +
+      "</div>" +
+      '<p class="course-hero-actions"><a class="btn-accent" href="' +
       escapeHtml(lessonUrl(course.lessons[0].id)) +
       '">Empezar lección 1</a></p>' +
+      "</div>" +
       "</header>" +
+      outcomesHtml +
       '<section class="lesson-grid">' +
       "<h2>Temario</h2>" +
       '<div class="lesson-grid-items">' +
@@ -136,15 +358,15 @@
       "</div>" +
       "</section>" +
       '<section class="course-sources">' +
-      "<h2>Fuentes consultadas (inglés)</h2>" +
-      "<p>El contenido está redactado en español a partir de estas referencias académicas y de divulgación técnica:</p>" +
+      "<h2>Fuentes y referencias</h2>" +
+      "<p>Contenido redactado en español a partir de material técnico y académico:</p>" +
       "<ul>" +
       sourcesHtml +
       "</ul>" +
       (course.playlistUrl
         ? '<p class="mt-3"><a class="btn-ghost" href="' +
           escapeHtml(course.playlistUrl) +
-          '" target="_blank" rel="noopener noreferrer">Playlist complementaria en YouTube</a></p>'
+          '" target="_blank" rel="noopener noreferrer">Material complementario</a></p>'
         : "") +
       "</section>";
   }
@@ -185,7 +407,12 @@
           "</header>" +
           '<div class="lesson-block-body">' +
           renderFigure(section.image, section.imageAlt, section.imageCaption) +
-          formatParagraphs(section.body) +
+          formatSectionBody(
+            section.body,
+            course.id || "course",
+            lesson.id,
+            sectionIndex
+          ) +
           "</div>" +
           "</section>"
         );
@@ -195,12 +422,21 @@
     document.title = lesson.title + " | " + course.title;
 
     lessonView.innerHTML =
-      courseToolbar(course, { showTemario: true }) +
-      '<nav class="lesson-breadcrumb">' +
-      '<a href="./index.html">' +
+      courseToolbar({ showTemario: true }) +
+      '<nav class="lesson-breadcrumb" aria-label="Ruta">' +
+      '<a href="' +
+      escapeHtml(coursesSectionUrl()) +
+      '">Cursos</a>' +
+      '<span class="lesson-breadcrumb-sep" aria-hidden="true">/</span>' +
+      '<a href="' +
+      escapeHtml(temarioUrl()) +
+      '">' +
       escapeHtml(course.title) +
-      "</a> / Lección " +
+      "</a>" +
+      '<span class="lesson-breadcrumb-sep" aria-hidden="true">/</span>' +
+      "<span>Lección " +
       lesson.number +
+      "</span>" +
       "</nav>" +
       '<header class="lesson-header">' +
       '<p class="eyebrow">Lección ' +
@@ -229,15 +465,21 @@
           escapeHtml(prev.title) +
           "</a>"
         : "<span></span>") +
-      '<a class="btn-ghost" href="./index.html">Temario</a>' +
+      '<a class="btn-ghost" href="' +
+      escapeHtml(temarioUrl()) +
+      '">Temario</a>' +
       (next
         ? '<a class="btn-accent" href="' +
           escapeHtml(lessonUrl(next.id)) +
           '">' +
           escapeHtml(next.title) +
           " →</a>"
-        : '<a class="btn-accent" href="./index.html">Finalizar curso</a>') +
+        : '<a class="btn-accent" href="' +
+          escapeHtml(temarioUrl()) +
+          '">Finalizar curso</a>') +
       "</nav>";
+
+    bindChecklists(lessonView);
   }
 
   fetch(Site.url(dataUrl))

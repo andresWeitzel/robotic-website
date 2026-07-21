@@ -1,0 +1,214 @@
+{
+  "id": "vision-computadora",
+  "title": "Visión por Computadora",
+  "level": "Intermedio",
+  "summary": "Cómo hacen los robots para “ver”: imágenes, pipelines, detección, features y el puente hacia control y manipulación.",
+  "duration": "6 lecciones · ~2–3 h de lectura",
+  "requirements": "Introducción a la Robótica (recomendado) y nociones básicas de programación",
+  "image": "/assets/img/courses/vision-computadora.jpg",
+  "imageAlt": "Concepto visual de datos y visión artificial",
+  "playlistUrl": "",
+  "outcomes": [
+    "Explicar qué problema resuelve Computer Vision en un robot",
+    "Describir una imagen digital y el preprocesado básico",
+    "Armar mentalmente el pipeline captura → decide → actúa",
+    "Distinguir detección clásica, deep learning y tracking",
+    "Relacionar features/calibración con coordenadas del mundo",
+    "Elegir un camino práctico (OpenCV / ROS Perception)"
+  ],
+  "sources": [
+    {
+      "title": "OpenCV documentation — Getting Started",
+      "url": "https://docs.opencv.org/"
+    },
+    {
+      "title": "Stanford CS231n — Convolutional Neural Networks for Visual Recognition",
+      "url": "https://cs231n.stanford.edu/"
+    },
+    {
+      "title": "Multiple View Geometry — Hartley & Zisserman (classic reference)",
+      "url": "https://www.robots.ox.ac.uk/~vgg/hzbook/"
+    },
+    {
+      "title": "ROS Perception / vision_opencv",
+      "url": "https://wiki.ros.org/vision_opencv"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "01-que-es-vision",
+      "number": 1,
+      "title": "¿Qué es la visión por computadora?",
+      "duration": "20–25 min",
+      "goal": "Entender qué problema resuelve la visión artificial en robótica y qué NO es (solo una cámara).",
+      "sections": [
+        {
+          "heading": "Ver no es lo mismo que mirar",
+          "body": "Una cámara entrega una matriz de intensidades (una imagen). “Ver”, en ingeniería, significa transformar esa matriz en información útil para decidir: ¿hay un obstáculo?, ¿dónde está la pieza?, ¿cuál es el carril?, ¿qué gesto hizo una persona?\n\nEn robótica, la visión por computadora (Computer Vision) es la disciplina que convierte señales visuales en representaciones del mundo que el controlador puede usar.",
+          "image": "/assets/img/lessons/vision/camara.jpg",
+          "imageAlt": "Cámara y captura de imagen",
+          "imageCaption": "La cámara captura luz; el software convierte esa captura en decisiones."
+        },
+        {
+          "heading": "Por qué importa en robots",
+          "body": "Los sensores de distancia (ultrasonido, LiDAR) son excelentes, pero la visión agrega:\n\n• riqueza semántica (reconocer objetos, textos, personas),\n• gran campo de información por frame,\n• costo relativamente bajo en hardware educativo.\n\nEl precio: es sensible a la iluminación, requiere más cómputo y suele ser más frágil si no se diseña bien el pipeline."
+        },
+        {
+          "heading": "El stack mental",
+          "body": "Pensá la visión como capas:\n\n1. Adquisición (cámara, lente, exposición).\n2. Preprocesado (ruido, color, geometría).\n3. Extracción de información (bordes, blobs, keypoints, redes).\n4. Interpretación (detección, tracking, pose).\n5. Acción (evitar, agarrar, seguir).\n\nSi fallás en la capa 1 (mala imagen), ninguna red neuronal te salva del todo."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "Computer Vision no es “poner una cámara USB”. Es un pipeline completo desde fotones hasta decisión. En las próximas lecciones vamos a recorrer ese camino con lenguaje claro y ejemplos de robótica."
+        }
+      ]
+    },
+    {
+      "id": "02-imagen-digital",
+      "number": 2,
+      "title": "La imagen digital",
+      "duration": "20–25 min",
+      "goal": "Entender resolución, canales, color y por qué el preprocesado cambia el resultado.",
+      "sections": [
+        {
+          "heading": "Qué es una imagen para el computador",
+          "body": "Una imagen en escala de grises es una matriz HxW de valores (por ejemplo 0–255). Una imagen color suele ser HxWx3 (B,G,R o R,G,B según la librería).\n\nResolución, bit depth y formato (JPEG/PNG/RAW) afectan calidad y latencia. En robots en tiempo real, a veces conviene bajar resolución para ganar FPS.",
+          "image": "/assets/img/lessons/vision/features.jpg",
+          "imageAlt": "Representación digital y circuitos",
+          "imageCaption": "La imagen es datos: matrices que se filtran, transforman y clasifican."
+        },
+        {
+          "heading": "Color, iluminación y trampas clásicas",
+          "body": "El mismo objeto puede verse distinto con luz amarilla, contraluz o sombras. Por eso se usan:\n\n• conversión a HSV/Lab para segmentar color de forma más estable,\n• equalización / normalización,\n• máscaras y umbrales adaptativos.\n\nUn detector “perfecto” en laboratorio puede romperse en el taller si cambia la luz."
+        },
+        {
+          "heading": "Preprocesado útil",
+          "body": "Operaciones que vas a ver una y otra vez:\n\n• blur / Gaussian para reducir ruido,\n• threshold / Canny para bordes,\n• morphología (erode/dilate) para limpiar máscaras,\n• ROI (region of interest) para mirar solo donde importa.\n\nEl arte está en hacer lo mínimo necesario: cada filtro suma costo y puede borrar detalle útil."
+        },
+        {
+          "heading": "Ejercicio mental",
+          "body": "Querés detectar una pelota naranja sobre piso gris. ¿Trabajarías en RGB crudo o pasarías a HSV? ¿Qué pasa si alguien prende una lámpara cálida? Anotá tu hipótesis: la vamos a retomar en detección."
+        }
+      ]
+    },
+    {
+      "id": "03-pipeline",
+      "number": 3,
+      "title": "El pipeline de visión",
+      "duration": "20–25 min",
+      "goal": "Armar el mapa de un pipeline típico captura → procesa → decide → actúa.",
+      "sections": [
+        {
+          "heading": "De frame a acción",
+          "body": "Un loop típico en un robot móvil o brazo con cámara:\n\n1. Capturar frame.\n2. Preprocesar.\n3. Extraer features / detectar.\n4. Estimar estado (posición, clase, pose).\n5. Enviar comando al controlador.\n6. Repetir a N FPS.\n\nLa cadencia importa: si el brazo es rápido y la visión va a 5 FPS, el control “ve el pasado”.",
+          "image": "/assets/img/lessons/vision/pipeline.jpg",
+          "imageAlt": "Código y pipeline de procesamiento",
+          "imageCaption": "Un pipeline claro es más valioso que un modelo sofisticado mal integrado."
+        },
+        {
+          "heading": "Latencia, throughput y recursos",
+          "body": "En edge (Raspberry Pi, Jetson, PC industrial) compiten:\n\n• FPS deseados,\n• tamaño de modelo,\n• CPU/GPU/NPU disponible,\n• consumo energético.\n\nA veces un método clásico (color + contornos) a 40 FPS supera a una red profunda a 3 FPS para una tarea simple."
+        },
+        {
+          "heading": "Dónde vive el pipeline",
+          "body": "• Todo en el micro/SBC del robot (más simple, menos flexible).\n• PC de a bordo + cámara.\n• Nodos ROS (camera_driver → vision_node → control_node).\n\nSeparar responsabilidades ayuda a debuggear: ¿falló la cámara, el detector o el control?"
+        },
+        {
+          "heading": "Checklist de diseño",
+          "body": "Antes de codear:\n\n☐ ¿Qué decisión habilita la visión?\n☐ ¿Qué precisión y FPS necesitás?\n☐ ¿Qué iluminación controlás?\n☐ ¿Qué pasa si la visión falla (fallback)?"
+        }
+      ]
+    },
+    {
+      "id": "04-deteccion",
+      "number": 4,
+      "title": "Detección y seguimiento",
+      "duration": "25–30 min",
+      "goal": "Distinguir detección clásica vs aprendizaje profundo y cuándo usar cada una.",
+      "sections": [
+        {
+          "heading": "Detección clásica (aún muy útil)",
+          "body": "Antes del deep learning —y todavía hoy en muchos proyectos— se usan:\n\n• umbrales de color + contornos,\n• template matching,\n• Haar / HOG + SVM,\n• blob detection.\n\nVentajas: interpretables, livianos, debuggeables. Límites: frágiles ante cambios de escena.",
+          "image": "/assets/img/lessons/vision/deteccion.jpg",
+          "imageAlt": "Robot y escena para detección visual",
+          "imageCaption": "Detectar es responder: qué hay y aproximadamente dónde está."
+        },
+        {
+          "heading": "Deep learning en visión",
+          "body": "Detectores modernos (YOLO, SSD, Faster R-CNN, etc.) aprenden features a partir de datos etiquetados.\n\nVentajas: robustez en escenas complejas. Costos: dataset, entrenamiento, cómputo, y a veces “cajas negras” difíciles de certificar.\n\nEn robótica educativa, un buen punto medio es: prototipar clásico, escalar a DL cuando el problema lo exige."
+        },
+        {
+          "heading": "Tracking",
+          "body": "Detectar en cada frame es caro. El tracking sigue un objeto ya detectado entre frames (KCF, CSRT, sort/DeepSORT, etc.).\n\nSirve para suavizar trayectorias y reducir cómputo, pero puede perder el objeto si hay oclusiones: entonces volvés a detectar."
+        },
+        {
+          "heading": "Métrica que importa al robot",
+          "body": "No alcanza el mAP del paper. Preguntá:\n\n• ¿falsos positivos hacen chocar el robot?\n• ¿falsos negativos frenan la tarea?\n• ¿el bounding box es lo bastante estable para un gripper?\n\nLa métrica correcta es la del sistema completo."
+        }
+      ]
+    },
+    {
+      "id": "05-features-geometria",
+      "number": 5,
+      "title": "Features y geometría básica",
+      "duration": "20–25 min",
+      "goal": "Conocer keypoints, calibración y la idea de pasar de 2D a utilidad geométrica.",
+      "sections": [
+        {
+          "heading": "Features: puntos que se pueden seguir",
+          "body": "Keypoints (Harris, ORB, SIFT/SURF históricos) marcan regiones distintivas. Sirven para:\n\n• emparejar imágenes,\n• estimar movimiento,\n• realidad aumentada,\n• SLAM visual (en stacks más avanzados).\n\nLa intuición: en lugar de mirar toda la imagen, mirás puntos confiables.",
+          "image": "/assets/img/lessons/vision/procesamiento.jpg",
+          "imageAlt": "Procesamiento y extracción de información",
+          "imageCaption": "Las features comprimen la imagen en pistas geométricas útiles."
+        },
+        {
+          "heading": "Calibración de cámara",
+          "body": "Una cámara deforma la realidad (distorsión de lente). La calibración estima parámetros intrínsecos y permite:\n\n• corregir distorsión,\n• medir ángulos/tamaños con más sentido,\n• combinar con extrínsecos (dónde está la cámara respecto al robot).\n\nSin calibración, “el pixel (u,v)” no se traduce bien a metros."
+        },
+        {
+          "heading": "Del píxel al mundo (idea)",
+          "body": "Con una sola cámara, la profundidad es ambigua. Se resuelve con:\n\n• estereoscopía (dos cámaras),\n• RGB-D (Kinect/RealSense),\n• supuestos (objeto sobre un plano conocido),\n• movimiento (estructura from motion).\n\nPara un brazo que agarra, casi siempre necesitás alguna forma de profundidad o un truco geométrico sólido."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "Visión geométrica conecta imagen con mecánica del robot. Aunque no implementes SLAM mañana, sabé que calibración y modelo de cámara son el puente entre CV y control."
+        }
+      ]
+    },
+    {
+      "id": "06-vision-en-robots",
+      "number": 6,
+      "title": "Visión en robots reales y siguientes pasos",
+      "duration": "20–25 min",
+      "goal": "Cerrar el curso con arquitectura práctica, fallas típicas y un plan de estudio.",
+      "sections": [
+        {
+          "heading": "Patrones de uso en robótica",
+          "body": "• Navegación: lanes, señales, obstáculos visuales.\n• Manipulación: localizar pieza → pose → grasp.\n• Inspección: calidad, defectos, lectura de códigos.\n• Interacción: personas, gestos, seguridad.\n\nCada patrón impone distinto FPS, precisión y tolerancia al error.",
+          "image": "/assets/img/lessons/vision/robot-vision.jpg",
+          "imageAlt": "Robot que usa percepción para interactuar",
+          "imageCaption": "La visión solo vale si cambia una decisión del robot."
+        },
+        {
+          "heading": "Edge computing",
+          "body": "Correr visión en el robot (Raspberry Pi, Jetson, NUC) reduce latencia de red pero limita modelos. Offloading a un PC/servidor da potencia, pero agrega delay y dependencia.\n\nElegí según la tarea: un gripper rápido odia la latencia; un inspector offline puede permitirse más cómputo.",
+          "image": "/assets/img/lessons/vision/edge-compute.jpg",
+          "imageAlt": "Placa tipo Raspberry para cómputo en el borde",
+          "imageCaption": "El hardware de visión define qué algoritmos son realistas."
+        },
+        {
+          "heading": "Fallas típicas (y cómo pensarlas)",
+          "body": "• Iluminación variable → controlá luz o adaptá algoritmos.\n• Motion blur → exposición más corta / más luz.\n• Reflexiones → polarizadores, ángulos, features robustas.\n• Overfitting a un dataset lindo → validá en el entorno real.\n• Visión OK pero control malo → el bug no era el detector."
+        },
+        {
+          "heading": "Qué estudiar después",
+          "body": "1. Practicá OpenCV: captura, máscaras, contornos, tracking simple.\n2. Subí a un detector liviano (YOLO nano) si tu hardware aguanta.\n3. Integrá con ROS (image topics + vision node) cuando el sistema crezca.\n4. Si vas a manipulación, sumá profundidad (RGB-D) temprano.\n\nCon Introducción a la Robótica + este curso ya tenés el idioma para conectar percepción visual con el resto del stack."
+        },
+        {
+          "heading": "Checklist final",
+          "body": "☐ Puedo explicar captura → pipeline → decisión.\n☐ Sé cuándo preferir método clásico vs deep learning.\n☐ Entiendo latencia/FPS en un robot.\n☐ Sé por qué calibrar la cámara importa.\n☐ Tengo un plan de práctica con OpenCV/ROS."
+        }
+      ]
+    }
+  ]
+}

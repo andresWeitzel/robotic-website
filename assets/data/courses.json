@@ -35,6 +35,41 @@
     }
   },
   {
+    "id": "vision-computadora",
+    "level": "Intermedio",
+    "title": "Visión por Computadora",
+    "summary": "Computer Vision para robots: imágenes, pipelines, detección, features y el puente a la acción.",
+    "requirements": "Intro a Robótica (recomendado) y nociones de programación",
+    "duration": "~2–3 h de lectura",
+    "lessonsCount": 6,
+    "image": "/assets/img/courses/vision-computadora.jpg",
+    "imageAlt": "Concepto de visión artificial y datos",
+    "internalPath": "/pages/cursos/vision-por-computadora/index.html",
+    "courseUrl": "",
+    "details": "Curso propio de Computer Vision aplicado a robótica.",
+    "overview": {
+      "lead": "Aprendé cómo un robot pasa de una imagen a una decisión: captura, preprocesado, detección, geometría básica e integración con control.",
+      "highlights": [
+        "Qué es (y qué no es) Computer Vision en robótica",
+        "Imagen digital, color, iluminación y preprocesado",
+        "Pipeline captura → procesa → decide → actúa",
+        "Detección clásica vs deep learning y tracking",
+        "Features, calibración y el salto del píxel al mundo",
+        "Arquitectura práctica, edge compute y plan de estudio"
+      ],
+      "syllabus": [
+        "¿Qué es la visión por computadora?",
+        "La imagen digital",
+        "El pipeline de visión",
+        "Detección y seguimiento",
+        "Features y geometría básica",
+        "Visión en robots reales y siguientes pasos"
+      ],
+      "audience": "Quienes ya entienden lo básico de un robot y quieren sumar percepción visual.",
+      "format": "6 lecciones en el sitio con imágenes por sección. Pensado como base antes de OpenCV/ROS Perception."
+    }
+  },
+  {
     "id": "arduino",
     "level": "Inicial",
     "title": "Programación desde Cero con Arduino",

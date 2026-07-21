@@ -1,0 +1,8 @@
+header {
+  position: relative;
+}
+
+#blog-list .card-img-top {
+  height: 220px;
+  object-fit: cover;
+}

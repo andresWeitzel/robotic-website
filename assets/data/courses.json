@@ -5,7 +5,6 @@
     "title": "Introducción a la Robótica",
     "summary": "Curso propio en profundidad: qué es un robot, componentes, tipos, sensores, DOF y cómo seguir.",
     "requirements": "Ninguno",
-    "duration": "~2–3 h de lectura",
     "lessonsCount": 6,
     "image": "/assets/img/courses/intro-robotica.jpg",
     "imageAlt": "Robot humanoide introduciendo el curso de robótica",
@@ -35,12 +34,49 @@
     }
   },
   {
+    "id": "electronica-basica",
+    "level": "Inicial",
+    "title": "Electrónica básica para robótica",
+    "summary": "Fundamentos eléctricos: componentes, multímetro, Ohm, circuitos, alimentación y señales — sin depender de Arduino.",
+    "requirements": "Ninguno",
+    "lessonsCount": 10,
+    "image": "/assets/img/courses/electronica.jpg",
+    "imageAlt": "Componentes electrónicos sobre un banco de trabajo",
+    "internalPath": "/pages/cursos/electronica-basica/index.html",
+    "courseUrl": "",
+    "details": "Curso teórico-práctico de electrónica con medición temprana, circuitos en protoboard y Arduino opcional.",
+    "overview": {
+      "lead": "Aprendé electrónica de verdad: piezas, multímetro, Ohm, circuitos, GND, alimentación y señales.",
+      "highlights": [
+        "Componentes del banco explicados uno a uno",
+        "Multímetro temprano: voltaje y continuidad",
+        "Ohm y prácticas con pila (Arduino opcional)",
+        "Serie, paralelo, divisor con esquemas y ejercicios",
+        "GND, capacitores, alimentación y señales",
+        "Hábitos seguros de banco"
+      ],
+      "syllabus": [
+        "Por qué la electrónica importa en un robot",
+        "Componentes del banco: LED, resistencia y más",
+        "Multímetro: medir antes de adivinar",
+        "Voltaje, corriente, resistencia y Ohm",
+        "Serie, paralelo y divisor de tensión",
+        "Circuito cerrado, GND y referencia",
+        "Capacitores: idea básica para robots",
+        "Alimentación, baterías y potencia",
+        "Señales: digital, analógica y PWM",
+        "Seguridad, hábitos de banco y cierre"
+      ],
+      "audience": "Quienes quieren entender el hardware eléctrico antes de cablear un microcontrolador.",
+      "format": "10 lecciones teóricas con prácticas de protoboard y medición; Arduino opcional."
+    }
+  },
+  {
     "id": "vision-computadora",
     "level": "Intermedio",
     "title": "Visión por Computadora",
     "summary": "Computer Vision para robots: imágenes, pipelines, detección, features y el puente a la acción.",
     "requirements": "Intro a Robótica (recomendado) y nociones de programación",
-    "duration": "~2–3 h de lectura",
     "lessonsCount": 6,
     "image": "/assets/img/courses/vision-computadora.jpg",
     "imageAlt": "Concepto de visión artificial y datos",
@@ -70,26 +106,106 @@
     }
   },
   {
+    "id": "robots-moviles",
+    "level": "Intermedio",
+    "title": "Robots Móviles",
+    "summary": "Continuación natural de la intro: locomoción, odometría, sensores de navegación y comportamientos básicos.",
+    "requirements": "Introducción a la Robótica (recomendado)",
+    "lessonsCount": 6,
+    "image": "/assets/img/courses/robots-moviles.jpg",
+    "imageAlt": "Robot móvil en entorno de laboratorio",
+    "internalPath": "/pages/cursos/robots-moviles/index.html",
+    "courseUrl": "",
+    "details": "Curso propio de robots móviles como puente entre la introducción y práctica con kits / ROS.",
+    "overview": {
+      "lead": "Aprendé cómo un robot se mueve con criterio: ruedas y diferencial, odometría, sensores de navegación y comportamientos para no chocar mientras avanza.",
+      "highlights": [
+        "Qué problema agrega la movilidad respecto a un brazo fijo",
+        "Locomoción: diferencial, Ackermann, orugas y omni",
+        "Pose (x, y, θ) y odometría con sus límites",
+        "Sensores según la decisión (no al revés)",
+        "Comportamientos reactivos y seguridad",
+        "Arquitectura mínima y plan hacia kits / ROS"
+      ],
+      "syllabus": [
+        "¿Qué es un robot móvil?",
+        "Locomoción: ruedas, diferencial y más",
+        "Cinemática básica y odometría",
+        "Sensores para navegación",
+        "Comportamientos: evitar y navegar",
+        "Arquitectura práctica y siguientes pasos"
+      ],
+      "audience": "Quienes ya hicieron la intro y quieren profundizar en robots que se desplazan.",
+      "format": "6 lecciones en el sitio con imágenes, checklists y el mismo formato que Introducción a la Robótica."
+    }
+  },
+  {
     "id": "arduino",
     "level": "Inicial",
     "title": "Programación desde Cero con Arduino",
-    "summary": "Aprendé a programar en Arduino desde el encendido de un LED hasta proyectos más complejos.",
-    "requirements": "Ninguno",
+    "summary": "Lógica de programación con el LED interno: IDE, variables, if/else, bucles y funciones. Sin protoboard.",
+    "requirements": "Placa + cable USB",
+    "lessonsCount": 6,
     "image": "/assets/img/courses/arduino.webp",
     "imageAlt": "Placa Arduino Uno",
+    "internalPath": "/pages/cursos/arduino/index.html",
     "courseUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurD7gio85rXzD8PvT5zPuV06",
-    "details": "Arduino es una plataforma de creación de electrónica de código abierto, la cual está basada en hardware y software libre, flexible y fácil de utilizar para los creadores y desarrolladores. Esta plataforma permite crear diferentes tipos de microordenadores de una sola placa a los que la comunidad de creadores puede darles diferentes tipos de uso. Para poder entender este concepto, primero vas a tener que entender los conceptos de hardware libre y el software libre.\n\nEl hardware libre son los dispositivos cuyas especificaciones y diagramas son de acceso público, de manera que cualquiera puede replicarlos. Esto quiere decir que Arduino ofrece las bases para que cualquier otra persona o empresa pueda crear sus propias placas, pudiendo ser diferentes entre ellas pero igualmente funcionales al partir de la misma base."
+    "details": "Curso inicial enfocado en programación básica con LED_BUILTIN. Sensores y PWM están en Prácticas con Arduino.",
+    "overview": {
+      "lead": "Aprendé a programar Arduino con lo mínimo: la placa, el IDE y el LED interno. Ideal para entender la lógica antes de cablear.",
+      "highlights": [
+        "Qué es Arduino y qué materiales hace falta",
+        "IDE, puerto y Blink con LED_BUILTIN",
+        "Variables y Serial Monitor",
+        "Condicionales if/else",
+        "Bucles for y funciones",
+        "Mini proyecto SOS solo con el LED interno"
+      ],
+      "syllabus": [
+        "¿Qué es Arduino?",
+        "IDE y tu primer Blink",
+        "Variables y Serial Monitor",
+        "Condicionales if / else",
+        "Bucles for",
+        "Funciones y mini proyecto"
+      ],
+      "audience": "Principiantes que quieren código primero, sin armar circuitos todavía.",
+      "format": "6 lecciones en el sitio. Hardware opcional: solo placa + USB."
+    }
   },
   {
     "id": "practicas-arduino",
     "level": "Intermedio",
     "title": "Prácticas con Arduino",
-    "summary": "Proyectos guiados para afianzar sensores, actuadores y lógica de control con Arduino.",
-    "requirements": "Arduino básico",
+    "summary": "Protoboard, botón, potenciómetro, PWM, ultrasonido, servo y un mini proyecto de proximidad.",
+    "requirements": "Programación desde Cero con Arduino (recomendado)",
+    "lessonsCount": 6,
     "image": "/assets/img/courses/practicas-arduino.jpg",
     "imageAlt": "Proyecto práctico con Arduino",
+    "internalPath": "/pages/cursos/practicas-arduino/index.html",
     "courseUrl": "https://github.com/andresWeitzel/PlayList_PracticasConArduino",
-    "details": "Este recorrido complementa el curso de Arduino desde cero con prácticas concretas: lectura de sensores, control de motores, displays y circuitos más completos.\n\nLa idea es pasar de ejercicios aislados a proyectos que puedas armar, probar y mejorar. Todo el material de apoyo está disponible en el repositorio del curso para que copies, adaptes y experimentes a tu ritmo."
+    "details": "Curso intermedio de prácticas con hardware real sobre la base de programación del curso inicial.",
+    "overview": {
+      "lead": "Pasá de la lógica pura al banco: LED externo, botón, analógico/PWM, sensores y actuadores con sketches listos para subir.",
+      "highlights": [
+        "LED externo en protoboard",
+        "Botón con INPUT_PULLUP",
+        "Potenciómetro, analogRead y PWM",
+        "HC-SR04 y medición de distancia",
+        "Servo con alimentación correcta",
+        "Mini proyecto de proximidad integrado"
+      ],
+      "syllabus": [
+        "Protoboard y LED externo",
+        "Entrada digital: botón",
+        "Analógico y PWM",
+        "Sensor ultrasónico HC-SR04",
+        "Actuador: servo",
+        "Mini proyecto integrado"
+      ],
+      "audience": "Quienes ya dominan Blink, if y bucles y quieren cablear sensores/actuadores.",
+      "format": "6 lecciones en el sitio + repo de apoyo."
+    }
   },
   {
     "id": "wemos",

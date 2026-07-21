@@ -1,0 +1,189 @@
+{
+  "id": "practicas-arduino",
+  "title": "Prácticas con Arduino",
+  "level": "Intermedio",
+  "summary": "Después de la lógica básica: protoboard, botón, potenciómetro, PWM, ultrasonido, servo y un mini proyecto integrado.",
+  "requirements": "Programación desde Cero con Arduino (recomendado)",
+  "image": "/assets/img/courses/practicas-arduino.jpg",
+  "imageAlt": "Proyecto práctico con Arduino",
+  "playlistUrl": "https://github.com/andresWeitzel/PlayList_PracticasConArduino",
+  "outcomes": [
+    "Armar LED externo y botón en protoboard",
+    "Leer un potenciómetro (analógico)",
+    "Controlar brillo con PWM",
+    "Usar HC-SR04 para distancia",
+    "Mover un servo con criterio de alimentación",
+    "Integrar sensor + actuador en un mini proyecto"
+  ],
+  "sources": [
+    {
+      "title": "Arduino Language Reference",
+      "url": "https://www.arduino.cc/reference/en/"
+    },
+    {
+      "title": "Repo / material de prácticas",
+      "url": "https://github.com/andresWeitzel/PlayList_PracticasConArduino"
+    },
+    {
+      "title": "Arduino Project Hub",
+      "url": "https://projecthub.arduino.cc/"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "01-protoboard-led",
+      "number": 1,
+      "title": "Protoboard y LED externo",
+      "goal": "Pasar del LED interno a un LED en protoboard con resistencia.",
+      "sections": [
+        {
+          "heading": "Del LED_BUILTIN al banco",
+          "body": "Ya sabés programar el LED interno. Ahora cableamos un LED real: D8 → 220 Ω → LED → GND.",
+          "image": "/assets/img/lessons/electronica/circuito-led-fritzing.png",
+          "imageAlt": "Diagrama LED con Arduino",
+          "imageCaption": "Diagrama de referencia: LED + resistencia a un pin digital."
+        },
+        {
+          "heading": "Sketch: Blink externo",
+          "body": "Mismo patrón de Blink, otro pin.",
+          "code": {
+            "title": "Sketch: LED en D8",
+            "filename": "blink_externo.ino",
+            "language": "Arduino C++",
+            "tip": "Revisá polaridad del LED (cátodo a GND).",
+            "content": "const int PIN_LED = 8;\n\nvoid setup() {\n  pinMode(PIN_LED, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(PIN_LED, HIGH);\n  delay(400);\n  digitalWrite(PIN_LED, LOW);\n  delay(400);\n}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "02-boton",
+      "number": 2,
+      "title": "Entrada digital: botón",
+      "goal": "Leer un botón con INPUT_PULLUP y controlar un LED.",
+      "sections": [
+        {
+          "heading": "Cableado",
+          "body": "• LED en D8 con resistencia a GND\n• Botón: un lado a D2, el otro a GND\n• pinMode(D2, INPUT_PULLUP) → LOW al pulsar",
+          "image": "/assets/img/lessons/arduino/esquema-boton-led.png",
+          "imageAlt": "Esquema botón y LED",
+          "imageCaption": "Esquema: D8 LED y D2 botón a GND."
+        },
+        {
+          "heading": "Sketch: botón → LED",
+          "code": {
+            "title": "Sketch: botón controla LED",
+            "filename": "boton_led.ino",
+            "language": "Arduino C++",
+            "tip": "Si queda invertido, revisá el if o la polaridad del LED.",
+            "content": "const int PIN_LED = 8;\nconst int PIN_BOTON = 2;\n\nvoid setup() {\n  pinMode(PIN_LED, OUTPUT);\n  pinMode(PIN_BOTON, INPUT_PULLUP);\n}\n\nvoid loop() {\n  if (digitalRead(PIN_BOTON) == LOW) {\n    digitalWrite(PIN_LED, HIGH);\n  } else {\n    digitalWrite(PIN_LED, LOW);\n  }\n}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "03-analogico-pwm",
+      "number": 3,
+      "title": "Analógico y PWM",
+      "goal": "Leer un potenciómetro y variar brillo con PWM.",
+      "sections": [
+        {
+          "heading": "Qué es analógico y PWM",
+          "body": "• analogRead(A0): 0–1023 según el voltaje del pote.\n• analogWrite(pinPWM, 0–255): brillo aparente por pulsos (PWM).\n\nCircuito: pote 5V/A0/GND · LED en D9 con resistencia.",
+          "image": "/assets/img/lessons/arduino/esquema-pote-pwm.png",
+          "imageAlt": "Esquema potenciómetro y PWM",
+          "imageCaption": "Esquema del ejercicio pote → PWM."
+        },
+        {
+          "heading": "Sketch: pote controla brillo",
+          "code": {
+            "title": "Sketch: pote → PWM",
+            "filename": "pote_pwm.ino",
+            "language": "Arduino C++",
+            "tip": "Serial Monitor a 9600. Pin 9 debe ser PWM.",
+            "content": "const int PIN_POTE = A0;\nconst int PIN_LED = 9;\n\nvoid setup() {\n  pinMode(PIN_LED, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  int adc = analogRead(PIN_POTE);\n  int pwm = map(adc, 0, 1023, 0, 255);\n  analogWrite(PIN_LED, pwm);\n  Serial.print(\"ADC=\");\n  Serial.print(adc);\n  Serial.print(\" PWM=\");\n  Serial.println(pwm);\n  delay(40);\n}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "04-ultrasonido",
+      "number": 4,
+      "title": "Sensor ultrasónico HC-SR04",
+      "goal": "Medir distancia y reaccionar con un LED.",
+      "sections": [
+        {
+          "heading": "Cableado HC-SR04",
+          "body": "VCC→5V · GND→GND · Trig→D7 · Echo→D6 · LED alerta en D8.",
+          "image": "/assets/img/lessons/arduino/esquema-hcsr04.png",
+          "imageAlt": "Esquema HC-SR04",
+          "imageCaption": "Esquema etiquetado del sensor de distancia."
+        },
+        {
+          "heading": "Sketch: distancia + alerta",
+          "code": {
+            "title": "Sketch: ultrasonido",
+            "filename": "ultrasonido_alerta.ino",
+            "language": "Arduino C++",
+            "tip": "Si no hay eco, revisá VCC/GND y el cableado Trig/Echo.",
+            "content": "const int PIN_TRIG = 7;\nconst int PIN_ECHO = 6;\nconst int PIN_LED = 8;\n\nfloat medirCm() {\n  digitalWrite(PIN_TRIG, LOW);\n  delayMicroseconds(2);\n  digitalWrite(PIN_TRIG, HIGH);\n  delayMicroseconds(10);\n  digitalWrite(PIN_TRIG, LOW);\n  long duracion = pulseIn(PIN_ECHO, HIGH, 30000);\n  if (duracion == 0) return -1;\n  return duracion * 0.0343 / 2.0;\n}\n\nvoid setup() {\n  pinMode(PIN_TRIG, OUTPUT);\n  pinMode(PIN_ECHO, INPUT);\n  pinMode(PIN_LED, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  float cm = medirCm();\n  Serial.println(cm);\n  digitalWrite(PIN_LED, (cm > 0 && cm < 15) ? HIGH : LOW);\n  delay(120);\n}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "05-servo",
+      "number": 5,
+      "title": "Actuador: servo",
+      "goal": "Mover un servo con la librería Servo y alimentación correcta.",
+      "sections": [
+        {
+          "heading": "Alimentación",
+          "body": "El pin solo manda señal. Servos piden corriente: fuente adecuada + GND común. Evitá alimentar servos grandes solo por USB si ves reinicios.",
+          "image": "/assets/img/lessons/arduino/circuito-servo.jpg",
+          "imageAlt": "Micro servo",
+          "imageCaption": "Micro servo: señal por PWM, potencia por fuente aparte."
+        },
+        {
+          "heading": "Sketch: barrido",
+          "code": {
+            "title": "Sketch: servo barrido",
+            "filename": "servo_barrido.ino",
+            "language": "Arduino C++",
+            "tip": "Señal en D9. Librería Servo incluida en el IDE.",
+            "content": "#include <Servo.h>\n\nServo miServo;\n\nvoid setup() {\n  miServo.attach(9);\n}\n\nvoid loop() {\n  for (int ang = 0; ang <= 180; ang++) {\n    miServo.write(ang);\n    delay(12);\n  }\n  for (int ang = 180; ang >= 0; ang--) {\n    miServo.write(ang);\n    delay(12);\n  }\n}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "06-mini-proyecto",
+      "number": 6,
+      "title": "Mini proyecto integrado",
+      "goal": "Unir distancia + LED + servo en un comportamiento de proximidad.",
+      "sections": [
+        {
+          "heading": "Objetivo",
+          "body": "Si hay objeto cerca: LED ON y servo a 90°. Si no: LED OFF y servo a 0°.",
+          "image": "/assets/img/lessons/electronica/circuito-breadboard-leds.jpg",
+          "imageAlt": "Protoboard con circuito",
+          "imageCaption": "Integrá en protoboard: ultrasonido + LED (+ servo opcional)."
+        },
+        {
+          "heading": "Sketch del proyecto",
+          "code": {
+            "title": "Sketch: proximidad",
+            "filename": "proximidad_robot.ino",
+            "language": "Arduino C++",
+            "tip": "Ajustá UMBRAL_CM a tu mesa. Podés comentar el servo si aún no lo tenés.",
+            "content": "#include <Servo.h>\n\nconst int PIN_TRIG = 7;\nconst int PIN_ECHO = 6;\nconst int PIN_LED = 8;\nconst float UMBRAL_CM = 18.0;\n\nServo servoAlerta;\n\nfloat medirCm() {\n  digitalWrite(PIN_TRIG, LOW);\n  delayMicroseconds(2);\n  digitalWrite(PIN_TRIG, HIGH);\n  delayMicroseconds(10);\n  digitalWrite(PIN_TRIG, LOW);\n  long d = pulseIn(PIN_ECHO, HIGH, 30000);\n  if (d == 0) return -1;\n  return d * 0.0343 / 2.0;\n}\n\nvoid setup() {\n  pinMode(PIN_TRIG, OUTPUT);\n  pinMode(PIN_ECHO, INPUT);\n  pinMode(PIN_LED, OUTPUT);\n  servoAlerta.attach(9);\n  servoAlerta.write(0);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  float cm = medirCm();\n  Serial.println(cm);\n  bool cerca = (cm > 0 && cm < UMBRAL_CM);\n  digitalWrite(PIN_LED, cerca ? HIGH : LOW);\n  servoAlerta.write(cerca ? 90 : 0);\n  delay(100);\n}"
+          }
+        },
+        {
+          "heading": "Checklist final",
+          "body": "☐ LED externo OK\n☐ Botón OK\n☐ Pote + PWM OK\n☐ Ultrasonido OK\n☐ Servo OK (o entendido)\n☐ Mini proyecto subido"
+        }
+      ]
+    }
+  ]
+}

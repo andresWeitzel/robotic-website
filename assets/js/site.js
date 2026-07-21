@@ -1,18 +1,17 @@
 window.Site = (function () {
   function getBase() {
     var path = window.location.pathname;
+    var pagesIdx = path.indexOf("/pages/");
+
+    if (pagesIdx !== -1) {
+      return path.slice(0, pagesIdx);
+    }
 
     if (/\.html$/i.test(path)) {
       path = path.replace(/\/[^/]+$/, "");
     }
 
-    path = path.replace(/\/$/, "");
-
-    if (path.slice(-6) === "/pages") {
-      path = path.slice(0, -6);
-    }
-
-    return path;
+    return path.replace(/\/$/, "");
   }
 
   function url(path) {

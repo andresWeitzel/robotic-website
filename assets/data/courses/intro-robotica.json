@@ -1,0 +1,286 @@
+{
+  "id": "intro-robotica",
+  "title": "Introducción a la Robótica",
+  "level": "Inicial",
+  "summary": "Curso completo para entender qué es un robot, cómo se construye conceptualmente y por dónde seguir aprendiendo.",
+  "duration": "6 lecciones · ~2–3 h de lectura total",
+  "requirements": "Ninguno",
+  "image": "/assets/img/courses/intro-robotica.jpg",
+  "playlistUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDYL0ab8mt9i4z4BLF2CIqw",
+  "sources": [
+    {
+      "title": "The Robotics Primer — Maja J. Matarić",
+      "url": "https://pages.ucsd.edu/~ehutchins/cogs8/mataric-primer.pdf"
+    },
+    {
+      "title": "Introduction to Robotics (Lecture 01) — Jan Faigl, CTU",
+      "url": "https://cw.fel.cvut.cz/b251/_media/courses/uir/lectures/b4m36uir-lec01-slides.pdf"
+    },
+    {
+      "title": "MIT OCW 2.12 Introduction to Robotics — Asada & Leonard",
+      "url": "https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/"
+    },
+    {
+      "title": "ASEE: Intro to Robotics undergraduate course design",
+      "url": "https://peer.asee.org/intro-to-robotics-design-and-development-of-a-hands-on-undergraduate-course-on-robotics"
+    },
+    {
+      "title": "IEEE / MiRobot — Definition and Categories of Robots",
+      "url": "https://www.mirobot.ai/ieee-beginner/chapter1/lesson1"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "01-que-es-un-robot",
+      "number": 1,
+      "title": "¿Qué es un robot?",
+      "duration": "20–25 min",
+      "goal": "Definir un robot con criterios claros, entender por qué la definición importa y distinguir robot de automatismo simple o de un personaje de ficción.",
+      "sections": [
+        {
+          "heading": "Por qué hace falta una definición",
+          "body": "Si preguntás en la calle qué es un robot, vas a escuchar respuestas muy distintas: un androide de película, un brazo de fábrica, una aspiradora, un chatbot o incluso un script en la nube. En ingeniería necesitamos una definición más estricta, porque de ella dependen el diseño, la seguridad, las normas y lo que realmente vamos a construir.\n\nAutores introductorios como Maja J. Matarić (The Robotics Primer) y cursos universitarios (CTU, ASEE, MIT OCW) coinciden en una idea central: un robot es un sistema que existe en el mundo físico, percibe, actúa y tiene algún grado de autonomía o control programable. No alcanza con “parecer inteligente” en una pantalla."
+        },
+        {
+          "heading": "Una definición útil para este curso",
+          "body": "Para este curso vamos a trabajar con esta definición práctica:\n\nUn robot es un sistema autónomo o semi-autónomo, con cuerpo físico, que puede percibir su entorno (y/o su propio estado), procesar esa información y actuar sobre el mundo para lograr objetivos.\n\nDesglosemos:\n\n• Autónomo / semi-autónomo: no hace falta que un humano mueva cada articulación en tiempo real. Puede haber supervisión, pero el sistema ejecuta comportamientos por sí mismo.\n• Cuerpo físico (embodiment): ocupa espacio, tiene masa, inercia, límites mecánicos y puede romper cosas… o romperse.\n• Percibir: sensores o señales que informan sobre el exterior o el interior del robot.\n• Actuar: motores, pinzas, ruedas, hélices u otros effectors que cambian el entorno.\n• Objetivos: hay una tarea (soldar, navegar, empaquetar, explorar) que justifica el diseño.",
+          "image": "/assets/img/lessons/intro/robot-humanoide.jpg",
+          "imageAlt": "Robot humanoide en entorno físico",
+          "imageCaption": "Embodiment: el robot ocupa espacio real e interactúa con el mundo, no solo con datos abstractos."
+        },
+        {
+          "heading": "Las cuatro ideas que no podés olvidar",
+          "body": "1. Embodiment (cuerpo físico)\nEl software solo no es un robot en el sentido clásico de la disciplina. Un agente en un simulador puede ser muy útil para aprender algoritmos, pero la robótica “de verdad” aparece cuando hay fricción, gravedad, ruido de sensores y fallas mecánicas.\n\n2. Sensing (percepción)\nSin información del mundo o del propio cuerpo, el control se vuelve ciego. Aun los robots industriales “simples” suelen tener encoders en las articulaciones para saber en qué posición están.\n\n3. Acting (acción)\nPercibir sin poder actuar no resuelve tareas físicas. La acción puede ser locomoción (moverse) o manipulación (mover objetos), o ambas.\n\n4. Control / autonomía\nHay un “cerebro” —microcontrolador, PC industrial, PLC, etc.— que cierra el ciclo: lee, decide, comanda. La autonomía puede ser mínima (repetir una trayectoria) o alta (adaptarse a cambios)."
+        },
+        {
+          "heading": "Qué NO es (necesariamente) un robot",
+          "body": "Estas distinciones evitan confusiones comunes:\n\n• No es solo un personaje de ciencia ficción. Los humanoides existen, pero la mayoría de robots útiles no se parecen a personas.\n• No es cualquier máquina automática. Una lavarropas con temporizador ejecuta un ciclo fijo. Un brazo neumático que siempre hace el mismo golpe sin sensores ni reprogramación flexible suele considerarse automatismo, no robot moderno.\n• No es solo un chatbot o un modelo de IA en la nube. Pueden formar parte del cerebro de un robot, pero sin cuerpo y acción física no cumplen la definición que usamos acá.\n\nLa frontera a veces es difusa (sobre todo en normas industriales ISO), pero para aprender conviene exigir: percepción + acción + control programable con cierta autonomía."
+        },
+        {
+          "heading": "Ejemplos para fijar la idea",
+          "body": "• Aspiradora robot: cuerpo, sensores de distancia/choque, ruedas (actuadores), mapa o heurísticas de cobertura. Encaja bien en la definición.\n• Brazo soldador en línea de producción: cuerpo articulado, encoders, control de trayectoria, a veces visión. Es un robot industrial clásico.\n• Dron de entrega: locomoción aérea, GPS/IMU/cámaras, autonomía parcial. También es robot (móvil aéreo).\n• Videojuego con NPCs: puede haber “autonomía” simulada, pero no hay embodiment físico real → fuera de nuestra definición de robot."
+        },
+        {
+          "heading": "Para llevarte de esta lección",
+          "body": "Antes de seguir, intentá explicar con tus palabras (sin mirar el texto):\n\n1. ¿Qué cuatro elementos pedimos para llamar “robot” a un sistema?\n2. ¿Por qué una lavarropas típica no entra en la definición?\n3. ¿Qué ejemplo cotidiano sí entra, y por qué?\n\nSi podés responder eso, ya tenés el ancla del curso."
+        }
+      ]
+    },
+    {
+      "id": "02-cinco-componentes",
+      "number": 2,
+      "title": "Los 5 componentes esenciales",
+      "duration": "25–30 min",
+      "goal": "Reconocer las piezas mínimas de un robot, entender cómo se relacionan y detectar cuellos de botella en ejemplos reales.",
+      "sections": [
+        {
+          "heading": "El kit mental de un robot",
+          "body": "Diseños de asignaturas hands-on (por ejemplo trabajos ASEE sobre intro a robótica) suelen resumir un robot en cinco bloques que tienen que trabajar juntos: estructura, sensores, actuadores, controlador y energía.\n\nPensalos como un equipo: si uno falla, el resto no salva el partido. Un sensor excelente no sirve si el motor no tiene torque; un algoritmo brillante no sirve si la batería se cae a la mitad de la misión.\n\nAbajo vas a ver cada componente con una imagen representativa y preguntas para entrenar el ojo de ingeniero."
+        },
+        {
+          "heading": "1. Cuerpo / estructura mecánica",
+          "body": "Es el esqueleto y la “piel” del sistema: chasis, eslabones, bases fijas, ruedas, patas, carcasas. Define:\n\n• Alcance: hasta dónde llega un brazo o qué terreno puede cruzar un móvil.\n• Estabilidad: centro de masa, base de apoyo, vibraciones.\n• Carga útil: cuánto peso puede cargar sin deformarse o volcar.\n• Seguridad: bordes, protecciones, zonas de aplastamiento.\n\nEn brazos industriales, la estructura está pensada para repetibilidad y rigidez. En robots móviles livianos, se prioriza peso bajo y autonomía energética. El mismo “cerebro” montado en dos cuerpos distintos se comporta como dos robots diferentes.",
+          "image": "/assets/img/lessons/intro/estructura-brazo.jpg",
+          "imageAlt": "Brazo robótico industrial y estructura mecánica",
+          "imageCaption": "La estructura mecánica define el espacio de trabajo, la rigidez y los límites físicos del robot."
+        },
+        {
+          "heading": "2. Sensores",
+          "body": "Convierten fenómenos físicos en señales que el controlador puede usar: distancia, ángulo, fuerza, imagen, temperatura, corriente, etc.\n\nSin sensores, el robot actúa a ciegas o solo en un mundo 100% predecible (poco realista). En la práctica siempre hay ruido, calibración y fallas: un sensor sucio, un eco ultrasonido engañado por una cortina, una cámara con malas luces.\n\nMás adelante vas a separar sensores proprioceptivos (estado interno) y exteroceptivos (mundo exterior). Por ahora, retené esto: percibir es tan importante como actuar.",
+          "image": "/assets/img/lessons/intro/sensor-proximidad.jpg",
+          "imageAlt": "Sensores y electrónica de percepción",
+          "imageCaption": "Los sensores convierten distancia, luz, fuerza u otras magnitudes en datos para el control."
+        },
+        {
+          "heading": "3. Actuadores y effectors",
+          "body": "Acá conviene separar dos palabras que se mezclan mucho:\n\n• Actuator (actuador): mecanismo que genera movimiento o fuerza (motor DC, servo, stepper, cilindro neumático/hidráulico).\n• Effector: lo que interactúa con el entorno (rueda, oruga, pinza, soldador, hélice, ventosa).\n\nEjemplo: el servo es el actuador; la pinza es el effector. En un auto robotizado, el motor es el actuador; la rueda es el effector de locomoción.\n\nElegir mal el actuador (poco torque, demasiada holgura, mala velocidad) se traduce en tareas imposibles aunque el software sea correcto.",
+          "image": "/assets/img/lessons/intro/actuador-motor.jpg",
+          "imageAlt": "Motor y mecanismo de actuación",
+          "imageCaption": "Actuadores mueven; effectors son la interfaz concreta con el mundo físico."
+        },
+        {
+          "heading": "4. Cerebro / controlador",
+          "body": "Es donde corre la lógica: microcontrolador (Arduino, ESP32), computadora de placa única (Raspberry Pi), PC industrial o PLC.\n\nSus responsabilidades típicas:\n\n• Leer sensores (ADC, buses I2C/SPI/UART, cámaras).\n• Ejecutar el programa de control (PID, máquinas de estados, planners).\n• Enviar comandos a drivers de motores.\n• Comunicarse con otros sistemas (PC, nube, HMI, otros robots).\n\nNo hace falta IA avanzada para tener un robot útil. Muchísimos sistemas industriales y educativos resuelven tareas con control clásico y reglas claras. La IA aparece cuando el entorno es muy variable o la percepción es compleja (visión, lenguaje, etc.).",
+          "image": "/assets/img/lessons/intro/controlador-arduino.webp",
+          "imageAlt": "Placa Arduino como controlador",
+          "imageCaption": "El controlador cierra el lazo: sentido → decide → actúa, una y otra vez."
+        },
+        {
+          "heading": "5. Energía",
+          "body": "Baterías, fuentes industriales, regeneración o, en casos especiales, solar. Sin energía estable, el resto es teoría.\n\nProblemas típicos que vas a ver en proyectos reales:\n\n• Los motores piden picos de corriente y “tiran abajo” la alimentación del microcontrolador (reinicios misteriosos).\n• Cables finos, malas masas o conectores flojos generan caídas de tensión.\n• No separar lógica y potencia (aunque compartan GND) complica el debug.\n\nRegla práctica: diseñá la energía como un componente de primera clase, no como un detalle del final.",
+          "image": "/assets/img/lessons/intro/circuitos.jpg",
+          "imageAlt": "Circuitos y alimentación electrónica",
+          "imageCaption": "La energía sostiene sensores, controlador y actuadores al mismo tiempo."
+        },
+        {
+          "heading": "Cómo se conectan entre sí",
+          "body": "Un ciclo típico de funcionamiento:\n\n1. Los sensores miden.\n2. El controlador interpreta y decide.\n3. Los actuadores ejecutan.\n4. La estructura transmite fuerzas y posiciones.\n5. La energía mantiene vivo el ciclo.\n\nSi cambiás un bloque, cambian los requisitos de los demás. Por eso en robótica se diseña en conjunto (mecánica + electrónica + software), no en silos aislados."
+        },
+        {
+          "heading": "Ejercicio: diagnóstico de un robot",
+          "body": "Elegí un robot que conozcas (aspiradora, brazo de fábrica, dron, Spot, etc.) y completá:\n\n• Estructura: ¿qué forma tiene y qué limita?\n• Sensores: ¿qué necesita “saber”?\n• Actuadores/effectors: ¿cómo actúa?\n• Controlador: ¿dónde “piensa”?\n• Energía: ¿de dónde sale y cuál es el riesgo?\n\nDespués preguntate: ¿cuál es el cuello de botella más probable si fallara la misión?"
+        }
+      ]
+    },
+    {
+      "id": "03-tipos-de-robots",
+      "number": 3,
+      "title": "Tipos de robots",
+      "duration": "20–25 min",
+      "goal": "Clasificar robots por locomoción y manipulación, reconocer categorías comunes y hacer preguntas útiles ante cualquier ejemplo nuevo.",
+      "sections": [
+        {
+          "heading": "Una brújula simple: dos ejes",
+          "body": "En lugar de memorizar catálogos infinitos, Matarić y muchas clasificaciones modernas proponen mirar dos actividades fundamentales:\n\n• Locomoción: desplazarse (móvil).\n• Manipulación: manejar objetos (brazos, grippers, tools).\n\nUn robot puede especializarse en una, en la otra, o combinar ambas (mobile manipulator, humanoide).\n\nEsta brújula te permite ubicar rápido casi cualquier sistema que veas en una noticia o en un laboratorio."
+        },
+        {
+          "heading": "Robots móviles",
+          "body": "Se desplazan por el entorno usando ruedas, orugas, patas, hélices o propulsión acuática. Ejemplos: AMR de almacén, drones, cuadrúpedos, ROVs submarinos, robots de servicio en hospitales.\n\nDesafíos típicos:\n\n• Localización: ¿dónde estoy?\n• Mapeo: ¿cómo es el entorno?\n• Planificación de caminos: ¿cómo llego sin chocar?\n• Dinámica: deslizamiento, viento, corrientes, terreno irregular.\n\nCuanto más abierto e incierto es el ambiente, más pesada se vuelve la percepción y la autonomía.",
+          "image": "/assets/img/lessons/intro/robot-movil.jpg",
+          "imageAlt": "Robot móvil cuadrúpedo",
+          "imageCaption": "Robot móvil: prioriza locomoción y percepción del entorno para navegar."
+        },
+        {
+          "heading": "Manipuladores",
+          "body": "Son brazos (y a veces manos) diseñados para posicionar un end-effector: soldar, pintar, ensamblar, paletizar, operar instrumentos.\n\nClásicamente están fijos a una base industrial. Su “universo” es un volumen de trabajo alrededor de esa base. Eso simplifica muchas cosas (el mundo es más predecible), pero limita el alcance: si la pieza está lejos, hay que llevar la pieza al robot… o poner el brazo sobre una base móvil.\n\nEn esta familia aparecen también los cobots (colaborativos), pensados para compartir espacio con personas bajo restricciones de fuerza/velocidad.",
+          "image": "/assets/img/lessons/intro/manipulador.jpg",
+          "imageAlt": "Robot manipulador para mover cargas",
+          "imageCaption": "Manipulador: prioriza posicionar un end-effector con precisión y repetibilidad."
+        },
+        {
+          "heading": "Cuando se mezclan: mobile manipulators y humanoides",
+          "body": "Un mobile manipulator combina base móvil + brazo. Sirve para tareas en plantas grandes: ir hasta una estación, tomar una pieza, llevarla a otra.\n\nUn humanoide intenta imitar morfología humana (piernas + brazos). Es atractivo porque el mundo está diseñado para personas (escaleras, herramientas, puertas), pero es mucho más difícil de controlar: equilibrio, caídas, coordinación de muchos DOF.\n\nNo hace falta que tu primer robot sea humanoide. De hecho, para aprender, un diferencial con ruedas + un sensor suele enseñar más, más rápido."
+        },
+        {
+          "heading": "Aéreos, submarinos y otras especializaciones",
+          "body": "• Aéreos (drones, VTOL): dinámica rápida, límites fuertes de peso y energía, seguridad crítica.\n• Submarinos / AUVs: comunicación difícil, percepción óptica limitada, corrientes.\n• Médicos / quirúrgicos: precisión, esterilidad, regulación estricta.\n• De servicio vs industriales: las normas ISO distinguen usos (fábrica vs atención a personas/equipos).\n\nLa categoría importa porque cambia prioridades: en industria suele ganar repetibilidad; en servicio, interacción segura; en exploración, autonomía energética.",
+          "image": "/assets/img/lessons/intro/dron.jpg",
+          "imageAlt": "Dron como robot aéreo",
+          "imageCaption": "Los robots aéreos suelen tener dinámicas exigentes y restricciones fuertes de peso/energía."
+        },
+        {
+          "heading": "Tres preguntas que clasifican casi todo",
+          "body": "Ante cualquier robot nuevo, preguntá:\n\n1. ¿Se mueve por el entorno o está fijo?\n2. ¿Manipula objetos / herramientas?\n3. ¿Con qué nivel de autonomía opera?\n\nCon esas tres respuestas ya sabés mucho más que con una etiqueta de marketing (“robot AI”, “robot 5.0”, etc.)."
+        }
+      ]
+    },
+    {
+      "id": "04-sensores-actuadores",
+      "number": 4,
+      "title": "Sensores y actuadores",
+      "duration": "25–30 min",
+      "goal": "Dominar el vocabulario de percepción y actuación, entender el lazo cerrado y relacionar sensores con decisiones de control.",
+      "sections": [
+        {
+          "heading": "Por qué esta lección es el corazón práctico",
+          "body": "Si la lección 1 fue la definición y la 2 el inventario de partes, acá entra la dinámica: cómo el robot se entera del mundo y cómo responde.\n\nCasi todo bug “misterioso” en proyectos educativos termina siendo:\n\n• un sensor mal leído o mal interpretado,\n• un actuador mal alimentado,\n• o un lazo de control mal sintonizado.\n\nEntender estas piezas te ahorra semanas."
+        },
+        {
+          "heading": "Sensores proprioceptivos vs exteroceptivos",
+          "body": "En introducciones universitarias (Faigl/CTU, De Luca y otros) se usa esta clasificación:\n\nProprioceptivos — miden el estado interno del robot:\n• encoders / potenciómetros en articulaciones,\n• corriente o torque del motor,\n• IMU (aceleración/giro del propio cuerpo),\n• nivel de batería, temperatura interna.\n\nExteroceptivos — miden el exterior:\n• ultrasonido, infrarrojo, LiDAR,\n• cámaras,\n• sensores de fuerza/contacto con objetos,\n• GPS (en exteriores).\n\nPara controlar un brazo necesitás propriocepción (¿en qué ángulo está cada joint?). Para no chocar con una mesa necesitás exterocepción. Los buenos sistemas combinan ambas (fusión sensorial).",
+          "image": "/assets/img/lessons/intro/sensor-camara.jpg",
+          "imageAlt": "Cámara y sistema de visión como sensor exteroceptivo",
+          "imageCaption": "Una cámara es un sensor exteroceptivo típico: observa el mundo fuera del robot."
+        },
+        {
+          "heading": "Qué implica “medir” en la práctica",
+          "body": "Medir no es magia: hay rango, resolución, ruido, delay y fallas.\n\n• Un ultrasonido puede confundirse con superficies blandas o ángulos raros.\n• Una cámara depende de la luz y del procesamiento (que consume CPU).\n• Un encoder puede perder conteos si hay rebotes eléctricos.\n\nPor eso el software de robots serios no cree ciegamente en una sola muestra: filtra, valida y a veces cruza varias fuentes."
+        },
+        {
+          "heading": "Actuadores y effectors, con más detalle",
+          "body": "Tipos comunes de actuadores en educación e industria ligera:\n\n• DC + driver: simples, baratos, buen torque con reducción.\n• Servos: posición controlada (muy usados en brazos chicos).\n• Steppers: pasos discretos, útiles en CNC y precisión media.\n• Neumática/hidráulica: mucha fuerza; más común en industria pesada.\n\nEl effector define la tarea: una pinza de dos dedos no suelda; un soplete no apila cajas. Cambiar el effector puede convertir el mismo brazo en otra máquina.",
+          "image": "/assets/img/lessons/intro/actuador-motor.jpg",
+          "imageAlt": "Motor usado como actuador",
+          "imageCaption": "Sin actuadores, el robot puede “pensar”, pero no transforma el mundo físico."
+        },
+        {
+          "heading": "El lazo cerrado (closed loop)",
+          "body": "Es el patrón más importante de esta lección:\n\n1. Medir (sensor).\n2. Comparar con lo deseado (error = objetivo − medición).\n3. Corregir (comando al actuador).\n4. Repetir continuamente.\n\nEjemplo: querés que una rueda gire a cierta velocidad. Medís con encoder, calculás el error y ajustás PWM al motor. Eso es control (a menudo con un PID).\n\nSin lazo cerrado, solo “empujás” y esperás que el mundo se comporte perfecto. En robótica real, casi nunca lo hace.",
+          "image": "/assets/img/lessons/intro/pcb-control.jpg",
+          "imageAlt": "Placa y circuitos de control",
+          "imageCaption": "El lazo cerrado vive en hardware + software ejecutándose en tiempo continuo."
+        },
+        {
+          "heading": "Open loop vs closed loop (para no confundirse)",
+          "body": "• Open loop: mando “girar 1 segundo” y asumo que avance 20 cm. Si hay pendiente o batería baja, falla.\n• Closed loop: mando “avanzar hasta 20 cm” midiendo con encoder/odometría y corrijo.\n\nAmbos sirven. Open loop es más simple (y a veces suficiente). Closed loop es más robusto cuando importa precisión o hay perturbaciones."
+        },
+        {
+          "heading": "Mini práctica mental",
+          "body": "Imaginá un robot que debe seguir una línea negra en el piso.\n\n• ¿Qué sensores usarías (exteroceptivos)?\n• ¿Qué actuadores?\n• ¿Cómo se vería el lazo cerrado en una frase?\n\nRespuesta guía: sensores IR/cámara miran la línea; motores diferenciales corrigen izquierda/derecha según el error de posición de la línea."
+        }
+      ]
+    },
+    {
+      "id": "05-grados-de-libertad",
+      "number": 5,
+      "title": "Grados de libertad (DOF)",
+      "duration": "20–25 min",
+      "goal": "Explicar qué es un DOF, relacionarlo con joints y tareas, y entender por qué “más ejes” no siempre es mejor.",
+      "sections": [
+        {
+          "heading": "Definición clara",
+          "body": "Un grado de libertad (DOF) es el número mínimo de parámetros independientes necesarios para describir completamente el movimiento de un sistema mecánico.\n\nEjemplos intuitivos:\n\n• Una puerta con bisagras: 1 DOF (ángulo de apertura).\n• Un cajón: 1 DOF (desplazamiento lineal).\n• Un ratón en un plano (ignorando clic): 3 DOF (x, y, rotación).\n\nEn el espacio 3D, un cuerpo rígido libre tiene 6 DOF: traslación en x, y, z y rotación (roll, pitch, yaw).",
+          "image": "/assets/img/lessons/intro/industria-brazo.jpg",
+          "imageAlt": "Brazo industrial con múltiples articulaciones",
+          "imageCaption": "Cada articulación controlada suele aportar un DOF al mecanismo."
+        },
+        {
+          "heading": "Joints típicos en robots",
+          "body": "Según material introductorio de MIT OCW (Asada), la mayoría de mecanismos robóticos se arman combinando dos joints primitivos:\n\n• Revolute (R): gira alrededor de un eje (como un codo o un hombro).\n• Prismatic (P): se desliza en línea (como un pistón o un eje Cartesian).\n\nCon secuencias de R y P se construyen arquitecturas clásicas: antropomórficas (tipo brazo humano), cartesianas (XYZ), SCARA, etc.\n\nCada joint controlado aporta, en general, un DOF controlable (CDOF)."
+        },
+        {
+          "heading": "DOF de la mecánica vs DOF de la tarea",
+          "body": "No confundas cuántos ejes tiene el robot con cuántos necesita la tarea.\n\n• Tarea plana “poner un sello en (x, y) con orientación θ”: suele pedir 3 DOF.\n• Posicionar una herramienta en 3D con orientación completa: hasta 6 DOF.\n\nSi el robot tiene más DOF que los necesarios, hay redundancia: varias posturas llegan al mismo punto del end-effector. Eso da flexibilidad (evitar obstáculos, optimizar energía), pero complica la cinemática inversa y el control."
+        },
+        {
+          "heading": "Por qué “más DOF” no es automáticamente mejor",
+          "body": "Cada DOF extra suele sumar:\n\n• un motor (costo, peso, consumo),\n• sensores de ese eje,\n• más cableado y fallas posibles,\n• más complejidad de calibración y software.\n\nEl buen diseño elige los DOF justos para la tarea. Un robot de 6 ejes para apretar tuercas en una línea fija puede ser overkill; un mecanismo de 2–3 ejes bien pensado puede ser más rápido, barato y robusto."
+        },
+        {
+          "heading": "Ejemplo guiado",
+          "body": "Supongamos un brazo educativo de 3 servos en el plano:\n\n• Joint 1 (base): yaw.\n• Joint 2 (hombro): pitch.\n• Joint 3 (codo): pitch.\n\nTiene 3 DOF. Puede alcanzar muchas posiciones (x, y) con distintas orientaciones de la pinza, pero no “sale” del plano.\n\nSi agregás una muñeca que rote la pinza, sumás un DOF orientacional: más tareas posibles (enroscar), más control que sintonizar."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "Cuando veas un robot, preguntá:\n\n1. ¿Cuántos joints controlados tiene?\n2. ¿Qué tarea hace y cuántos DOF necesita esa tarea?\n3. ¿Hay redundancia? ¿Para qué le sirve?\n\nEso te conecta mecánica con propósito, que es el salto de “mirar robots” a “pensar robots”."
+        }
+      ]
+    },
+    {
+      "id": "06-control-y-siguientes-pasos",
+      "number": 6,
+      "title": "Control, autonomía y siguientes pasos",
+      "duration": "20–25 min",
+      "goal": "Entender niveles de autonomía, cerrar el mapa mental del curso y armar un plan concreto de estudio en este sitio.",
+      "sections": [
+        {
+          "heading": "Autonomía no es todo-o-nada",
+          "body": "En divulgación se habla de “robots autónomos” como si hubiera un interruptor. En ingeniería es un espectro:\n\n• Teleoperado: el humano decide casi cada movimiento (drone FPV, brazo remoto).\n• Semi-autónomo: el robot ejecuta skills (mantener altura, seguir línea, evitar obstáculo) con supervisión.\n• Autónomo en un dominio: cumple misiones con poca intervención dentro de reglas y un entorno relativamente conocido.\n\nUn mismo hardware puede operar en distintos niveles según el software y la tarea.",
+          "image": "/assets/img/lessons/intro/robot-autonomo.jpg",
+          "imageAlt": "Robot móvil usado en aprendizaje autónomo",
+          "imageCaption": "La autonomía es un espectro: depende de la tarea, los sensores y el software."
+        },
+        {
+          "heading": "El bucle que une todo el curso",
+          "body": "Si tuviéramos que resumir robótica en un ciclo, sería este:\n\nPercibir → Interpretar / decidir / planificar → Actuar → (volver a percibir)\n\n• Percibir: sensores (lecciones 2 y 4).\n• Decidir: controlador y algoritmos (lección 2 y esta).\n• Actuar: actuadores/effectors y estructura (lecciones 2, 3 y 5).\n\nCuando un robot “se comporta mal”, el debug profesional recorre ese ciclo pregunta por pregunta: ¿midió mal?, ¿decidió mal?, ¿actuó mal?, ¿la mecánica no da?"
+        },
+        {
+          "heading": "Arquitecturas de control (vista panorámica)",
+          "body": "Sin entrar aún en detalle matemático, conviene conocer tres familias que vas a escuchar seguido:\n\n• Deliberativa: percibe, arma un modelo/plan, luego actúa. Potente pero puede ser lenta si el mundo cambia rápido.\n• Reactiva: reglas rápidas estímulo→respuesta (si obstáculo cerca → girar). Ágil, pero puede ser miope.\n• Híbrida: combina ambas (lo más común en robots reales): reacciones rápidas de seguridad + planificación de más alto nivel.\n\nNo tenés que implementarlas hoy; sí reconocer el vocabulario."
+        },
+        {
+          "heading": "Mapa para seguir en este sitio",
+          "body": "Con esta base conceptual, el camino recomendado es:\n\n1. Arduino desde cero — pasar de ideas a hardware: GPIO, PWM, sensores simples, motores.\n2. Prácticas con Arduino — proyectos que integran varios componentes.\n3. IoT con Wemos — conectar el sistema al mundo (WiFi, datos, telemetría).\n4. ROS — el framework estándar cuando el robot crece en complejidad (nodos, mensajes, navegación).\n\nLa playlist de YouTube de introducción queda como complemento audiovisual: útil para ver sistemas reales en movimiento, no como reemplazo de este marco conceptual."
+        },
+        {
+          "heading": "Checklist final del curso",
+          "body": "Marcá solo cuando puedas explicar cada punto en voz alta, con un ejemplo:\n\n☐ Qué es un robot (definición de 3–4 elementos).\n☐ Diferencia entre automatismo simple y robot.\n☐ Los 5 componentes y un cuello de botella típico de cada uno.\n☐ Móvil vs manipulador vs ambos.\n☐ Proprioceptivo vs exteroceptivo.\n☐ Qué es un DOF y por qué no siempre conviene “más ejes”.\n☐ Qué significa lazo cerrado.\n☐ En qué nivel de autonomía ubicarías una aspiradora robot y un brazo teleoperado.\n\nSi tildás todo, estás listo para el siguiente curso con una base sólida."
+        },
+        {
+          "heading": "Cierre",
+          "body": "La robótica se ve intimidante porque mezcla mecánica, electrónica, control y software. La buena noticia: se aprende por capas. Ya diste la primera: el idioma y el mapa.\n\nAhora toca construir. Cuando tengas un LED parpadeando, un sensor midiendo y un motor corrigiendo por error, esta teoría se vuelve obvia… y poderosa."
+        }
+      ]
+    }
+  ]
+}

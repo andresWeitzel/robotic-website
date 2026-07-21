@@ -1,18 +1,44 @@
 [
   {
     "id": "intro-robotica",
+    "level": "Inicial",
     "title": "Introducción a la Robótica",
-    "summary": "Comenzaremos desde los temas mas generales de la robótica hasta análisis detallados sobre las diversas áreas que existen.",
+    "summary": "Curso propio en profundidad: qué es un robot, componentes, tipos, sensores, DOF y cómo seguir.",
     "requirements": "Ninguno",
+    "duration": "~2–3 h de lectura",
+    "lessonsCount": 6,
     "image": "/assets/img/courses/intro-robotica.jpg",
-    "imageAlt": "Robot humanoides introduciendo el curso de robótica",
+    "imageAlt": "Robot humanoide introduciendo el curso de robótica",
+    "internalPath": "/pages/cursos/introduccion-robotica/index.html",
     "courseUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDYL0ab8mt9i4z4BLF2CIqw",
-    "details": "La robótica es la ciencia que se ocupa del estudio de la programación y la mecánica de los robots y está relacionada con campos tan variados como la informática, la electrónica, la nanotecnología y la ingeniería. Los profesionales de la robótica trabajan como técnicos de pruebas, programadores, investigadores y desarrolladores, entre otras posiciones.\n\nAntes de plantearse si estudiar robótica o no, puede ser conveniente obtener experiencia en la interacción con robots, electrónica, programación y mecánica. Esta práctica resulta esencial para entender realmente la teoría que la sustenta y, al mismo tiempo, facilita el descubrimiento de las áreas de interés dentro de una disciplina con tantas posibilidades."
+    "details": "Curso de introducción en el sitio, con lecciones ampliadas a partir de material académico (Matarić, MIT OCW, CTU, ASEE, IEEE).",
+    "overview": {
+      "lead": "Un recorrido conceptual sólido para empezar en robótica con criterio de ingeniería: definición, piezas, tipos de sistemas, percepción, actuación y autonomía.",
+      "highlights": [
+        "Definición clara de robot vs automatismo o ficción",
+        "Los 5 componentes esenciales con ejemplos visuales",
+        "Móviles, manipuladores, humanoides y aéreos",
+        "Sensores proprioceptivos / exteroceptivos y lazo cerrado",
+        "Grados de libertad (DOF) aplicados a tareas reales",
+        "Plan concreto para seguir con Arduino, IoT y ROS"
+      ],
+      "syllabus": [
+        "¿Qué es un robot?",
+        "Los 5 componentes esenciales",
+        "Tipos de robots",
+        "Sensores y actuadores",
+        "Grados de libertad (DOF)",
+        "Control, autonomía y siguientes pasos"
+      ],
+      "audience": "Pensado para quienes arrancan desde cero o quieren ordenar ideas antes de armar hardware.",
+      "format": "Lectura en el sitio + imágenes por sección. Playlist de YouTube como complemento opcional."
+    }
   },
   {
     "id": "arduino",
+    "level": "Inicial",
     "title": "Programación desde Cero con Arduino",
-    "summary": "Aprendé a programar en Arduino desde el encendido de un Led hasta proyectos más complejos",
+    "summary": "Aprendé a programar en Arduino desde el encendido de un LED hasta proyectos más complejos.",
     "requirements": "Ninguno",
     "image": "/assets/img/courses/arduino.webp",
     "imageAlt": "Placa Arduino Uno",
@@ -20,23 +46,48 @@
     "details": "Arduino es una plataforma de creación de electrónica de código abierto, la cual está basada en hardware y software libre, flexible y fácil de utilizar para los creadores y desarrolladores. Esta plataforma permite crear diferentes tipos de microordenadores de una sola placa a los que la comunidad de creadores puede darles diferentes tipos de uso. Para poder entender este concepto, primero vas a tener que entender los conceptos de hardware libre y el software libre.\n\nEl hardware libre son los dispositivos cuyas especificaciones y diagramas son de acceso público, de manera que cualquiera puede replicarlos. Esto quiere decir que Arduino ofrece las bases para que cualquier otra persona o empresa pueda crear sus propias placas, pudiendo ser diferentes entre ellas pero igualmente funcionales al partir de la misma base."
   },
   {
+    "id": "practicas-arduino",
+    "level": "Intermedio",
+    "title": "Prácticas con Arduino",
+    "summary": "Proyectos guiados para afianzar sensores, actuadores y lógica de control con Arduino.",
+    "requirements": "Arduino básico",
+    "image": "/assets/img/courses/practicas-arduino.jpg",
+    "imageAlt": "Proyecto práctico con Arduino",
+    "courseUrl": "https://github.com/andresWeitzel/PlayList_PracticasConArduino",
+    "details": "Este recorrido complementa el curso de Arduino desde cero con prácticas concretas: lectura de sensores, control de motores, displays y circuitos más completos.\n\nLa idea es pasar de ejercicios aislados a proyectos que puedas armar, probar y mejorar. Todo el material de apoyo está disponible en el repositorio del curso para que copies, adaptes y experimentes a tu ritmo."
+  },
+  {
     "id": "wemos",
-    "title": "Internet de las Cosas (IOT) con Wemos D1",
-    "summary": "Aprendé sobre el internet de las cosas con una placa electrónica y su programación",
-    "requirements": "Electrónica Básica",
+    "level": "Intermedio",
+    "title": "Internet de las Cosas (IoT) con Wemos D1",
+    "summary": "Conectá tus proyectos a la red: WiFi, sensores remotos y automatización con Wemos D1.",
+    "requirements": "Electrónica básica",
     "image": "/assets/img/courses/wemos.webp",
     "imageAlt": "Placa Wemos D1 para IoT",
     "courseUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDoK2yvHGnH33OW4ihjnsZ3",
-    "details": "Aunque ya tiene algunos años en el mercado, la placa Wemos D1 tiene características sumamente interesantes para aquellos que quieren comenzar a experimentar en el campo del Internet de las cosas (IoT), ya que tiene el mismo formato que un Arduino UNO, lo que permite hacer conexiones con facilidad y utilizar algunas placas shield compatibles. Predecesora de la D1 mini, esta placa puede encontrarse en dos versiones, la revisión 1 (D1 R1) y la revisión 2 (D1 R2).\n\nHay varias diferencias entre ambos modelos. Una es el módulo ESP8266 utilizado. Mientras que la R1 (original) incluye un módulo ESP-12B o ESP-12E, la R2 viene con el mas moderno ESP-12F. Aclaro que esta diferencia se aplica a los modelos originales de Wemos, ya que hay algunos clones de la R1 con el módulo ESP-12F (Wemos ha discontinuado la producción de los dos modelos, así que en la actualidad solo pueden encontrarse placas de otros fabricantes)."
+    "details": "Aunque ya tiene algunos años en el mercado, la placa Wemos D1 tiene características sumamente interesantes para aquellos que quieren comenzar a experimentar en el campo del Internet de las cosas (IoT), ya que tiene el mismo formato que un Arduino UNO, lo que permite hacer conexiones con facilidad y utilizar algunas placas shield compatibles. Predecesora de la D1 mini, esta placa puede encontrarse en dos versiones, la revisión 1 (D1 R1) y la revisión 2 (D1 R2).\n\nHay varias diferencias entre ambos modelos. Una es el módulo ESP8266 utilizado. Mientras que la R1 (original) incluye un módulo ESP-12B o ESP-12E, la R2 viene con el más moderno ESP-12F. Aclaro que esta diferencia se aplica a los modelos originales de Wemos, ya que hay algunos clones de la R1 con el módulo ESP-12F (Wemos ha discontinuado la producción de los dos modelos, así que en la actualidad solo pueden encontrarse placas de otros fabricantes)."
   },
   {
     "id": "ros",
+    "level": "Avanzado",
     "title": "Sistema Operativo Robótico (ROS)",
-    "summary": "Adentrate al control y programación de Robots usando ROS",
-    "requirements": "Manejo básico de la línea de comandos en Linux, Robótica Básica",
+    "summary": "Adentrate al control y la programación de robots con el framework estándar de la industria.",
+    "requirements": "Línea de comandos en Linux y robótica básica",
     "image": "/assets/img/courses/ros-turtlebot.jpg",
     "imageAlt": "Robot TurtleBot usado con ROS",
     "courseUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDjDv-eSKnV6lMlffQJwSuw",
     "details": "Es un framework para el desarrollo de software para robots que provee la funcionalidad de un sistema operativo en un clúster heterogéneo. ROS se desarrolló originalmente en 2007 bajo el nombre de switchyard por el Laboratorio de Inteligencia Artificial de Stanford para dar soporte al proyecto del Robot con Inteligencia Artificial de Stanford (STAIR).\n\nROS provee los servicios estándar de un sistema operativo tales como abstracción del hardware, control de dispositivos de bajo nivel, implementación de funcionalidad de uso común, paso de mensajes entre procesos y mantenimiento de paquetes. Está basado en una arquitectura de grafos donde el procesamiento toma lugar en los nodos que pueden recibir, mandar y multiplexar mensajes de sensores, control, estados, planificaciones y actuadores, entre otros."
+  },
+  {
+    "id": "raspberry-pi",
+    "level": "Próximamente",
+    "title": "Robótica con Raspberry Pi",
+    "summary": "Una placa completa para visión, Linux y robots más ambiciosos. Contenido en preparación.",
+    "requirements": "Arduino o electrónica básica",
+    "image": "/assets/img/courses/raspberry-pi.jpg",
+    "imageAlt": "Placa Raspberry Pi",
+    "courseUrl": "",
+    "comingSoon": true,
+    "details": "Raspberry Pi abre la puerta a proyectos con sistema operativo, cámaras, redes y mayor capacidad de cómputo que un microcontrolador clásico.\n\nEstamos preparando el material de este curso. Mientras tanto, podés avanzar con Arduino, IoT y ROS, y seguir el canal para enterarte cuando se publique."
   }
 ]

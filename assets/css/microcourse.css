@@ -1,0 +1,204 @@
+.microcourse {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 5.5rem 1.25rem 3.5rem;
+  color: var(--text);
+}
+
+.course-hero,
+.lesson-header {
+  margin-bottom: 2.4rem;
+}
+
+.course-hero h1,
+.lesson-header h1 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 0.78rem;
+  color: var(--accent);
+  margin-bottom: 0.45rem;
+  font-weight: 600;
+}
+
+.course-meta,
+.lesson-meta {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.lesson-goal {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border);
+  color: #d7e0e6;
+}
+
+.lesson-grid h2,
+.course-sources h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.lesson-grid-items {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.lesson-card {
+  display: block;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--bg-panel), var(--bg-elevated));
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lesson-card:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.lesson-num {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+
+.lesson-card h3 {
+  font-size: 1.05rem;
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+}
+
+.course-sources {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.course-sources ul {
+  padding-left: 1.1rem;
+}
+
+.lesson-breadcrumb {
+  margin-bottom: 1.1rem;
+  font-size: 0.95rem;
+}
+
+.course-toolbar {
+  margin: 0 0 1.35rem;
+  padding: 0 0 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.course-toolbar-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.course-toolbar-link:hover {
+  color: #7af0df;
+  text-decoration: none;
+}
+
+.lesson-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.lesson-block {
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.lesson-block:first-child {
+  border-top: none;
+  padding-top: 0.35rem;
+}
+
+.lesson-block-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.85rem;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.lesson-block-index {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.lesson-block-head h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-family: var(--font-display);
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.lesson-block-body p {
+  line-height: 1.75;
+  margin-bottom: 0.9rem;
+  color: #d7e0e6;
+}
+
+.lesson-figure {
+  margin: 0 0 1.15rem;
+  overflow: hidden;
+  background: #0b1014;
+  border-radius: 12px;
+}
+
+.lesson-figure img {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.lesson-figure figcaption {
+  padding: 0.7rem 0.85rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  background: rgba(24, 33, 40, 0.85);
+}
+
+.lesson-pager {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 2.2rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .lesson-grid-items {
+    grid-template-columns: 1fr 1fr;
+  }
+}

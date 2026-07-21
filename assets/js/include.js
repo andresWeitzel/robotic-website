@@ -35,6 +35,15 @@
     });
   }
 
+  function rewriteExistingNav() {
+    var nav = document.querySelector("#site-nav nav, nav.site-nav");
+    if (!nav) return;
+    nav.outerHTML = Site.rewriteRootPaths(nav.outerHTML);
+  }
+
+  // If the page already has an inline navbar fallback, fix its paths first.
+  rewriteExistingNav();
+
   Promise.all([
     loadPartial("#site-nav", "/components/navbar.html"),
     loadPartial("#site-footer", "/components/footer.html"),
@@ -42,5 +51,6 @@
     .then(markActiveNav)
     .catch(function (error) {
       console.error(error);
+      markActiveNav();
     });
 })();

@@ -1,0 +1,215 @@
+{
+  "id": "sensores-actuadores",
+  "title": "Sensores y actuadores: conceptos",
+  "level": "Inicial",
+  "summary": "Cómo un robot percibe y actúa: tipos de sensores, señales, motores/servos y el lazo percibir → decidir → actuar.",
+  "requirements": "Ninguno (ideal después de Intro o junto a Electrónica)",
+  "image": "/assets/img/courses/sensores-actuadores.jpg",
+  "imageAlt": "Sensores y módulos para robótica educativa",
+  "playlistUrl": "",
+  "outcomes": [
+    "Distinguir sensor de actuador y explicar el lazo de control",
+    "Clasificar sensores proprioceptivos y exteroceptivos",
+    "Relacionar señal digital / analógica con sensores comunes",
+    "Reconocer ultrasonido, IR, botón, pote, encoder a nivel conceptual",
+    "Entender motor DC, servo y cuidados de alimentación",
+    "Elegir un sensor/actuador razonable para una tarea simple"
+  ],
+  "sources": [
+    {
+      "title": "The Robotics Primer — Matarić (sensores y actuación)",
+      "url": "https://pages.ucsd.edu/~ehutchins/cogs8/mataric-primer.pdf"
+    },
+    {
+      "title": "SparkFun — Sensors",
+      "url": "https://learn.sparkfun.com/tutorials/tags/sensor"
+    },
+    {
+      "title": "Arduino — Built-in examples (lectura complementaria)",
+      "url": "https://docs.arduino.cc/built-in-examples/"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "01-percibir-actuar",
+      "number": 1,
+      "title": "Percibir y actuar: el lazo del robot",
+      "goal": "Entender por qué un robot necesita sensores y actuadores juntos.",
+      "sections": [
+        {
+          "heading": "Sin percepción no hay decisión útil",
+          "body": "Un robot no “adivina” el mundo: mide (sensores), decide (controlador/programa) y actúa (actuadores).\n\nEse ciclo se repite todo el tiempo. Si falla un eslabón, el comportamiento se rompe aunque el código “compile”.",
+          "image": "/assets/img/lessons/intro/04-sensores.jpg",
+          "imageAlt": "Sensores en contexto robótico",
+          "imageCaption": "Percibir → decidir → actuar: el lazo básico."
+        },
+        {
+          "heading": "Sensor vs actuador",
+          "body": "• Sensor: convierte una magnitud del mundo (distancia, luz, ángulo, fuerza…) en una señal eléctrica o digital útil.\n• Actuador: convierte una decisión/comando en acción física (girar, empujar, abrir, iluminar…).\n\nEl LED también puede ser un actuador simple: indica estado."
+        },
+        {
+          "heading": "Qué vas a aprender en este curso",
+          "body": "1. Tipos de sensores y qué miden.\n2. Señales: digital, analógica y “casi digital” (pulsos).\n3. Sensores típicos del kit educativo.\n4. Actuadores: motor DC, servo y cuidados.\n5. Cómo elegir piezas para una tarea.\n6. Puente a Arduino y prácticas.\n\nAcá priorizamos conceptos. El cableado fino y los sketches viven en Electrónica / Arduino / Prácticas."
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Sé explicar el lazo percibir → decidir → actuar.\n☐ Distingo sensor de actuador con un ejemplo cada uno."
+        }
+      ]
+    },
+    {
+      "id": "02-tipos-sensores",
+      "number": 2,
+      "title": "Tipos de sensores",
+      "goal": "Clasificar sensores y saber qué pregunta responde cada uno.",
+      "sections": [
+        {
+          "heading": "Proprioceptivos vs exteroceptivos",
+          "body": "• Proprioceptivos: hablan del propio robot (encoder de rueda, corriente del motor, IMU/orientación).\n• Exteroceptivos: hablan del entorno (ultrasonido, cámara, sensor de línea, botón de choque).\n\nUn móvil sano usa ambos: “dónde creo que estoy” + “qué hay afuera”.",
+          "image": "/assets/img/lessons/intro/sensor-proximidad.jpg",
+          "imageAlt": "Sensor de proximidad",
+          "imageCaption": "Un sensor de proximidad es exteroceptivo: mira hacia afuera."
+        },
+        {
+          "heading": "Preguntas que responde un sensor",
+          "body": "Antes de comprar, preguntá:\n• ¿Qué magnitud mido? (distancia, luz, ángulo, temperatura…)\n• ¿Con qué rango y resolución?\n• ¿Con qué frecuencia necesito leer?\n• ¿Cuánta “mentira” tolero? (ruido, falsos positivos)\n\nEl sensor perfecto no existe: existe el adecuado a la tarea."
+        },
+        {
+          "heading": "Ejercicio mental",
+          "body": "Para un robot que sigue una línea negra en el piso:\n¿Qué sensores te alcanzan? ¿Cuáles sobran?\n\nPara un robot que frena ante una pared:\n¿Ultrasonido, IR, cámara, bumpers? ¿Por qué?"
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Distingo proprioceptivo de exteroceptivo.\n☐ Sé plantear la “pregunta” que debe responder un sensor."
+        }
+      ]
+    },
+    {
+      "id": "03-senales",
+      "number": 3,
+      "title": "Señales: digital, analógica y pulsos",
+      "goal": "Conectar sensores con lo que ya viste en electrónica: niveles y voltajes.",
+      "sections": [
+        {
+          "heading": "Digital: sí / no (o pocos estados)",
+          "body": "Ejemplos: botón, fin de carrera, “hay obstáculo / no hay” en un módulo digital.\n\nEn la práctica leés un HIGH/LOW. El detalle eléctrico (pull-up, rebote) aparece cuando cableás en Prácticas con Arduino.",
+          "image": "/assets/img/lessons/arduino/boton-circuito.jpg",
+          "imageAlt": "Botón en circuito",
+          "imageCaption": "El botón es el sensor digital más simple."
+        },
+        {
+          "heading": "Analógica: un continuo",
+          "body": "Ejemplos: potenciómetro, LDR (luz), algunos sensores de distancia analógicos.\n\nEntrega un voltaje que varía. Más adelante un ADC lo convierte en número (0–1023 en Arduino clásico).",
+          "image": "/assets/img/lessons/arduino/potenciometro.jpg",
+          "imageAlt": "Potenciómetro",
+          "imageCaption": "El pote es un sensor (o entrada) analógico didáctico."
+        },
+        {
+          "heading": "Pulsos y tiempo",
+          "body": "Algunos sensores no dan un “voltaje quieto”, sino pulsos o tiempos:\n• ultrasonido HC-SR04: medís duración del eco,\n• encoder: contás flancos,\n• PWM en actuadores: es comando, no sensor.\n\nLa idea: a veces medís tiempo o conteos, no solo un nivel."
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Relaciono botón → digital y pote → analógico.\n☐ Sé que hay sensores basados en tiempo/pulsos."
+        }
+      ]
+    },
+    {
+      "id": "04-kit-comun",
+      "number": 4,
+      "title": "Sensores del kit educativo",
+      "goal": "Reconocer los sensores más usados en robótica escolar y para qué sirven.",
+      "sections": [
+        {
+          "heading": "Ultrasonido (HC-SR04 y similares)",
+          "body": "Mide distancia aproximada emitiendo un ping y escuchando el eco.\n\nÚtil para: frenar ante paredes, estacionar, demos de proximidad.\nLímites: superficies blandas/anguladas, interferencia, rango típico acotado.",
+          "image": "/assets/img/lessons/arduino/ultrasonico.jpg",
+          "imageAlt": "Sensor ultrasónico",
+          "imageCaption": "Ultrasonido: distancia sin contacto, con límites reales."
+        },
+        {
+          "heading": "Línea, luz e IR",
+          "body": "• Seguidor de línea: contraste blanco/negro.\n• LDR / luz: intensidad luminosa.\n• IR de proximidad: “algo cerca” a corta distancia.\n\nBaratos y didácticos; sensibles a iluminación ambiente."
+        },
+        {
+          "heading": "Encoders e IMU (idea)",
+          "body": "• Encoder: cuántos “pasos” giró una rueda → base de odometría.\n• IMU: orientación/aceleración (más avanzado de calibrar).\n\nEn móviles intermedios vuelven con fuerza: acá alcanza con saber que existen y qué pregunta responden.",
+          "image": "/assets/img/lessons/intro/robot-movil.jpg",
+          "imageAlt": "Robot móvil",
+          "imageCaption": "En un móvil, ruedas + encoders cuentan historia del movimiento."
+        },
+        {
+          "heading": "Cámara (spoiler)",
+          "body": "La cámara es un sensor rico (muchos datos por frame) y exigente (luz, cómputo, algoritmos). La profundizás en Visión por Computadora.",
+          "image": "/assets/img/lessons/intro/sensor-camara.jpg",
+          "imageAlt": "Cámara como sensor",
+          "imageCaption": "Visión = sensor potente, no mágico."
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Sé para qué sirve un ultrasonido y un límite suyo.\n☐ Reconozco línea/IR/encoder a nivel de idea.\n☐ Sé que la cámara es otro nivel de complejidad."
+        }
+      ]
+    },
+    {
+      "id": "05-actuadores",
+      "number": 5,
+      "title": "Actuadores: motores, servos y más",
+      "goal": "Entender qué hace cada actuador típico y por qué la alimentación importa.",
+      "sections": [
+        {
+          "heading": "Motor DC",
+          "body": "Gira de forma continua. Ideal para ruedas.\n\nSuele necesitar driver (no se cuelga directo de un pin de lógica). Pide corriente: de ahí brownouts si compartís mal la fuente.",
+          "image": "/assets/img/lessons/intro/actuador-motor.jpg",
+          "imageAlt": "Motor como actuador",
+          "imageCaption": "El motor transforma energía eléctrica en movimiento."
+        },
+        {
+          "heading": "Servo",
+          "body": "Se posiciona en un ángulo (típicamente ~0–180° en servos hobby).\n\nÚtil para: direcciones, garras, pan/tilt de sensor.\nCuidado: pico de corriente al arrancar; GND común con la lógica.",
+          "image": "/assets/img/lessons/arduino/servo-motor.jpg",
+          "imageAlt": "Servo motor",
+          "imageCaption": "Servo: posición angular comandada."
+        },
+        {
+          "heading": "Otros actuadores",
+          "body": "• LED / buzzer: señalización.\n• Relé / MOSFET: conmutar cargas mayores.\n• Bombas, solenoides: más adelante, con circuitos de potencia.\n\nRegla: el pin de un microcontrolador manda señales; la potencia grande va por otro camino."
+        },
+        {
+          "heading": "Checklist",
+          "body": "☐ Distingo motor DC (continuo) de servo (ángulo).\n☐ Sé por qué un motor no se alimenta “de cualquier pin”.\n☐ Relaciono actuadores con alimentación y GND común."
+        }
+      ]
+    },
+    {
+      "id": "06-elegir-y-seguir",
+      "number": 6,
+      "title": "Elegir piezas y siguientes pasos",
+      "goal": "Cerrar con un método simple de selección y el puente a los cursos siguientes.",
+      "sections": [
+        {
+          "heading": "Método corto para elegir",
+          "body": "1. Escribí la tarea en una frase.\n2. Listá qué necesitás saber del mundo (sensores).\n3. Listá qué movimiento necesitás (actuadores).\n4. Mirá alimentación y montaje.\n5. Recién ahí buscá el módulo concreto.\n\nSi salteás al módulo de moda, terminás pelearte con el problema equivocado.",
+          "image": "/assets/img/lessons/arduino/sensor.jpg",
+          "imageAlt": "Módulos sensores",
+          "imageCaption": "Primero la tarea; después el catálogo."
+        },
+        {
+          "heading": "Ejercicio de diseño",
+          "body": "Diseñá (en papel) un robot de escritorio que:\n• detecte un objeto a menos de 20 cm,\n• encienda un LED,\n• gire un servo 90°.\n\nAnotá: sensores, actuadores, señales (digital/analógica/pulso) y de dónde sale la energía."
+        },
+        {
+          "heading": "Qué sigue en la ruta",
+          "body": "• Electrónica básica: medir y armar el circuito detrás de la señal.\n• Arduino (inicial): lógica de programa.\n• Prácticas con Arduino: cablear botón, PWM, ultrasonido, servo.\n• Robots móviles / visión: llevar percepción a comportamientos.\n\nCon este mapa conceptual, esas prácticas dejan de ser “recetas” y pasan a tener sentido.",
+          "image": "/assets/img/lessons/intro/06-control.jpg",
+          "imageAlt": "Control y autonomía",
+          "imageCaption": "Percepción + actuación + control = comportamiento."
+        },
+        {
+          "heading": "Checklist final",
+          "body": "☐ Explico el lazo percibir → decidir → actuar.\n☐ Clasifico sensores y reconozco los del kit típico.\n☐ Distingo motor y servo y cuido la idea de potencia.\n☐ Elegí piezas para una tarea simple en papel."
+        }
+      ]
+    }
+  ]
+}

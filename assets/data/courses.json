@@ -72,26 +72,60 @@
     }
   },
   {
+    "id": "sensores-actuadores",
+    "level": "Inicial",
+    "title": "Sensores y actuadores: conceptos",
+    "summary": "Cómo un robot percibe y actúa: tipos de sensores, señales, motores/servos y el lazo de control.",
+    "requirements": "Ninguno (ideal después de Intro o junto a Electrónica)",
+    "lessonsCount": 6,
+    "image": "/assets/img/courses/sensores-actuadores.jpg",
+    "imageAlt": "Sensores y módulos para robótica educativa",
+    "internalPath": "/pages/cursos/sensores-actuadores/index.html",
+    "courseUrl": "",
+    "details": "Curso inicial conceptual de percepción y actuación, puente hacia Arduino y las prácticas intermedias.",
+    "overview": {
+      "lead": "Aprendé a mirar el robot como un sistema que mide el mundo y se mueve: sensores, señales y actuadores sin perderte en el cableado todavía.",
+      "highlights": [
+        "Lazo percibir → decidir → actuar",
+        "Sensores proprioceptivos y exteroceptivos",
+        "Señales digital, analógica y por pulsos",
+        "Kit típico: ultrasonido, línea, IR, encoder",
+        "Motores DC, servos y alimentación",
+        "Método simple para elegir piezas"
+      ],
+      "syllabus": [
+        "Percibir y actuar: el lazo del robot",
+        "Tipos de sensores",
+        "Señales: digital, analógica y pulsos",
+        "Sensores del kit educativo",
+        "Actuadores: motores, servos y más",
+        "Elegir piezas y siguientes pasos"
+      ],
+      "audience": "Principiantes que quieren entender percepción y actuación antes de cablear módulos.",
+      "format": "6 lecciones en el sitio, mismo formato que Intro y Electrónica."
+    }
+  },
+  {
     "id": "vision-computadora",
     "level": "Intermedio",
     "title": "Visión por Computadora",
-    "summary": "Computer Vision para robots: imágenes, pipelines, detección, features y el puente a la acción.",
+    "summary": "Computer Vision para robots: imagen digital, pipeline, detección vs features, geometría y puente a la acción.",
     "requirements": "Intro a Robótica (recomendado) y nociones de programación",
     "lessonsCount": 6,
     "image": "/assets/img/courses/vision-computadora.jpg",
     "imageAlt": "Concepto de visión artificial y datos",
     "internalPath": "/pages/cursos/vision-por-computadora/index.html",
     "courseUrl": "",
-    "details": "Curso propio de Computer Vision aplicado a robótica.",
+    "details": "Curso propio de Computer Vision aplicado a robótica, ampliado con preprocesado, contratos del pipeline, métricas de sistema y camino práctico a OpenCV/ROS.",
     "overview": {
-      "lead": "Aprendé cómo un robot pasa de una imagen a una decisión: captura, preprocesado, detección, geometría básica e integración con control.",
+      "lead": "Aprendé cómo un robot pasa de una imagen a una decisión: captura, preprocesado, detección, features/geometría e integración con control — con foco en latencia y fallas reales.",
       "highlights": [
         "Qué es (y qué no es) Computer Vision en robótica",
-        "Imagen digital, color, iluminación y preprocesado",
-        "Pipeline captura → procesa → decide → actúa",
-        "Detección clásica vs deep learning y tracking",
-        "Features, calibración y el salto del píxel al mundo",
-        "Arquitectura práctica, edge compute y plan de estudio"
+        "Imagen digital, color, iluminación, ROI y preprocesado",
+        "Pipeline captura → procesa → decide → actúa (con contrato)",
+        "Detección clásica vs deep learning, tracking y métricas de sistema",
+        "Features, calibración, marcos y el salto del píxel al mundo",
+        "Edge compute, fallas típicas y plan OpenCV / ROS Perception"
       ],
       "syllabus": [
         "¿Qué es la visión por computadora?",
@@ -102,30 +136,30 @@
         "Visión en robots reales y siguientes pasos"
       ],
       "audience": "Quienes ya entienden lo básico de un robot y quieren sumar percepción visual.",
-      "format": "6 lecciones en el sitio con imágenes por sección. Pensado como base antes de OpenCV/ROS Perception."
+      "format": "6 lecciones en el sitio con teoría ampliada, ejercicios y checklists. Base antes de OpenCV/ROS Perception."
     }
   },
   {
     "id": "robots-moviles",
     "level": "Intermedio",
     "title": "Robots Móviles",
-    "summary": "Continuación natural de la intro: locomoción, odometría, sensores de navegación y comportamientos básicos.",
+    "summary": "Continuación natural de la intro: locomoción, odometría, sensores de navegación, comportamientos y arquitectura mínima hacia kits / ROS.",
     "requirements": "Introducción a la Robótica (recomendado)",
     "lessonsCount": 6,
     "image": "/assets/img/courses/robots-moviles.jpg",
     "imageAlt": "Robot móvil en entorno de laboratorio",
     "internalPath": "/pages/cursos/robots-moviles/index.html",
     "courseUrl": "",
-    "details": "Curso propio de robots móviles como puente entre la introducción y práctica con kits / ROS.",
+    "details": "Curso propio de robots móviles ampliado: teoría de locomoción y odometría, selección de sensores, comportamientos reactivos con seguridad, y plan práctico hacia hardware o simulación.",
     "overview": {
-      "lead": "Aprendé cómo un robot se mueve con criterio: ruedas y diferencial, odometría, sensores de navegación y comportamientos para no chocar mientras avanza.",
+      "lead": "Aprendé cómo un robot se mueve con criterio: ruedas y diferencial, odometría y sus errores, sensores según la decisión, comportamientos seguros y una arquitectura mínima para practicar.",
       "highlights": [
         "Qué problema agrega la movilidad respecto a un brazo fijo",
-        "Locomoción: diferencial, Ackermann, orugas y omni",
-        "Pose (x, y, θ) y odometría con sus límites",
-        "Sensores según la decisión (no al revés)",
-        "Comportamientos reactivos y seguridad",
-        "Arquitectura mínima y plan hacia kits / ROS"
+        "Locomoción: diferencial, Ackermann, orugas, omni y holonomía",
+        "Pose (x, y, θ), encoders y por qué la odometría acumula error",
+        "Sensores según la decisión, cobertura y tiempo real",
+        "Comportamientos reactivos, prioridades y fail-safe",
+        "Arquitectura mínima, logs y plan hacia kits / ROS / SLAM"
       ],
       "syllabus": [
         "¿Qué es un robot móvil?",
@@ -136,7 +170,7 @@
         "Arquitectura práctica y siguientes pasos"
       ],
       "audience": "Quienes ya hicieron la intro y quieren profundizar en robots que se desplazan.",
-      "format": "6 lecciones en el sitio con imágenes, checklists y el mismo formato que Introducción a la Robótica."
+      "format": "6 lecciones en el sitio con teoría ampliada, ejercicios mentales, checklists e imágenes."
     }
   },
   {
@@ -177,23 +211,23 @@
     "id": "practicas-arduino",
     "level": "Intermedio",
     "title": "Prácticas con Arduino",
-    "summary": "Protoboard, botón, potenciómetro, PWM, ultrasonido, servo y un mini proyecto de proximidad.",
+    "summary": "Protoboard, botón, potenciómetro, PWM, ultrasonido, servo y un mini proyecto de proximidad — con el porqué, medición y troubleshooting.",
     "requirements": "Programación desde Cero con Arduino (recomendado)",
     "lessonsCount": 6,
     "image": "/assets/img/courses/practicas-arduino.jpg",
     "imageAlt": "Proyecto práctico con Arduino",
     "internalPath": "/pages/cursos/practicas-arduino/index.html",
     "courseUrl": "https://github.com/andresWeitzel/PlayList_PracticasConArduino",
-    "details": "Curso intermedio de prácticas con hardware real sobre la base de programación del curso inicial.",
+    "details": "Curso intermedio de prácticas con hardware real: sketches listos, explicación del porqué, tips de alimentación/seguridad y validación con medición.",
     "overview": {
-      "lead": "Pasá de la lógica pura al banco: LED externo, botón, analógico/PWM, sensores y actuadores con sketches listos para subir.",
+      "lead": "Pasá de la lógica pura al banco: LED externo, botón, analógico/PWM, ultrasonido y servo, con sketches, el porqué de cada circuito y un mini proyecto de proximidad.",
       "highlights": [
-        "LED externo en protoboard",
-        "Botón con INPUT_PULLUP",
-        "Potenciómetro, analogRead y PWM",
-        "HC-SR04 y medición de distancia",
-        "Servo con alimentación correcta",
-        "Mini proyecto de proximidad integrado"
+        "LED externo en protoboard con resistencia y polaridad",
+        "Botón con INPUT_PULLUP, rebote y niveles lógicos",
+        "Potenciómetro, analogRead, PWM y medición con Serial",
+        "HC-SR04: eco, límites, validación con regla",
+        "Servo: señal vs potencia y GND común",
+        "Mini proyecto integrado con umbral y prueba de aceptación"
       ],
       "syllabus": [
         "Protoboard y LED externo",
@@ -204,41 +238,149 @@
         "Mini proyecto integrado"
       ],
       "audience": "Quienes ya dominan Blink, if y bucles y quieren cablear sensores/actuadores.",
-      "format": "6 lecciones en el sitio + repo de apoyo."
+      "format": "6 lecciones prácticas en el sitio + repo de apoyo. Arduino practices conservadas y ampliadas."
     }
   },
   {
     "id": "wemos",
     "level": "Intermedio",
     "title": "Internet de las Cosas (IoT) con Wemos D1",
-    "summary": "Conectá tus proyectos a la red: WiFi, sensores remotos y automatización con Wemos D1.",
-    "requirements": "Electrónica básica",
+    "summary": "Llevá tus circuitos a la red: WiFi con ESP8266, servidor web, sensores remotos y telemetría HTTP con Wemos D1.",
+    "requirements": "Electrónica básica y Arduino (recomendado). Placa Wemos D1 / D1 mini + USB.",
+    "lessonsCount": 8,
     "image": "/assets/img/courses/wemos.webp",
     "imageAlt": "Placa Wemos D1 para IoT",
-    "courseUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDoK2yvHGnH33OW4ihjnsZ3",
-    "details": "Aunque ya tiene algunos años en el mercado, la placa Wemos D1 tiene características sumamente interesantes para aquellos que quieren comenzar a experimentar en el campo del Internet de las cosas (IoT), ya que tiene el mismo formato que un Arduino UNO, lo que permite hacer conexiones con facilidad y utilizar algunas placas shield compatibles. Predecesora de la D1 mini, esta placa puede encontrarse en dos versiones, la revisión 1 (D1 R1) y la revisión 2 (D1 R2).\n\nHay varias diferencias entre ambos modelos. Una es el módulo ESP8266 utilizado. Mientras que la R1 (original) incluye un módulo ESP-12B o ESP-12E, la R2 viene con el más moderno ESP-12F. Aclaro que esta diferencia se aplica a los modelos originales de Wemos, ya que hay algunos clones de la R1 con el módulo ESP-12F (Wemos ha discontinuado la producción de los dos modelos, así que en la actualidad solo pueden encontrarse placas de otros fabricantes)."
+    "internalPath": "/pages/cursos/iot-wemos/index.html",
+    "courseUrl": "",
+    "details": "Curso propio en el sitio: IoT práctico con Wemos D1 / ESP8266 — hardware, IDE, WiFi, servidor web, cliente HTTP y buenas prácticas. Playlist de YouTube como complemento opcional.",
+    "overview": {
+      "lead": "Aprendé IoT práctico con Wemos D1: de la placa y el WiFi hasta servidor embebido, telemetría HTTP y un nodo estable.",
+      "highlights": [
+        "Qué es IoT y por qué Wemos/ESP8266 encaja en prototipos",
+        "Pines, alimentación y diferencias D1 vs D1 mini",
+        "Board package ESP8266 e IDE listos para flashear",
+        "WiFi STA, IP local y diagnóstico (RSSI, timeout)",
+        "Servidor web embebido para controlar un LED",
+        "Cliente HTTP, sensores y hábitos anti-reinicio"
+      ],
+      "syllabus": [
+        "Qué es IoT y por qué Wemos/ESP8266",
+        "Hardware: pines, alimentación, D1 vs D1 mini",
+        "IDE y board package ESP8266",
+        "WiFi: conectar y diagnosticar",
+        "Servidor web embebido / control LED",
+        "Sensores + HTTP client / telemetría",
+        "Buenas prácticas, alimentación, reinicios",
+        "Proyecto integrador y siguientes pasos"
+      ],
+      "audience": "Quienes ya armaron circuitos con Arduino y quieren que el prototipo hable con la red.",
+      "format": "8 lecciones en el sitio con sketches Arduino. Playlist de YouTube como complemento opcional."
+    }
   },
   {
     "id": "ros",
     "level": "Avanzado",
     "title": "Sistema Operativo Robótico (ROS)",
-    "summary": "Adentrate al control y la programación de robots con el framework estándar de la industria.",
-    "requirements": "Línea de comandos en Linux y robótica básica",
+    "summary": "El middleware estándar para robots: nodos, tópicos, mensajes, herramientas y el flujo percibir → decidir → actuar.",
+    "requirements": "Linux básico, robótica introductoria y programación (C++/Python ayudan)",
+    "lessonsCount": 8,
     "image": "/assets/img/courses/ros-turtlebot.jpg",
     "imageAlt": "Robot TurtleBot usado con ROS",
-    "courseUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDjDv-eSKnV6lMlffQJwSuw",
-    "details": "Es un framework para el desarrollo de software para robots que provee la funcionalidad de un sistema operativo en un clúster heterogéneo. ROS se desarrolló originalmente en 2007 bajo el nombre de switchyard por el Laboratorio de Inteligencia Artificial de Stanford para dar soporte al proyecto del Robot con Inteligencia Artificial de Stanford (STAIR).\n\nROS provee los servicios estándar de un sistema operativo tales como abstracción del hardware, control de dispositivos de bajo nivel, implementación de funcionalidad de uso común, paso de mensajes entre procesos y mantenimiento de paquetes. Está basado en una arquitectura de grafos donde el procesamiento toma lugar en los nodos que pueden recibir, mandar y multiplexar mensajes de sensores, control, estados, planificaciones y actuadores, entre otros."
+    "internalPath": "/pages/cursos/ros/index.html",
+    "courseUrl": "",
+    "details": "Curso propio en el sitio sobre ROS 1 (conceptos) con puente a ROS 2: nodos, tópicos, servicios, launch, rqt/rviz y flujo TurtleBot. Base para SLAM y navegación.",
+    "overview": {
+      "lead": "Entrá a ROS con criterio de ingeniería: arquitectura, herramientas y el grafo de comunicación que sostiene un robot moderno.",
+      "highlights": [
+        "Qué problema resuelve ROS frente a un programa monolítico",
+        "Entorno Linux, distro y workspace (concepto)",
+        "Nodos, grafo, tópicos y mensajes tipados",
+        "Servicios, parámetros y launch files",
+        "rosrun, roslaunch, rqt, rviz y rosbag",
+        "Flujo TurtleBot y puente a ROS 2 / SLAM"
+      ],
+      "syllabus": [
+        "Qué es ROS y cuándo usarlo",
+        "Instalación y entorno Linux (concepto)",
+        "Nodos y grafo",
+        "Tópicos y mensajes",
+        "Servicios, parámetros y launch",
+        "Herramientas (rosrun, roslaunch, rqt, rviz)",
+        "Ejemplo robot móvil / TurtleBot flow",
+        "Buenas prácticas y puente a ROS 2 / navegación-SLAM"
+      ],
+      "audience": "Quienes ya entienden robots móviles o visión a nivel conceptual y quieren el stack profesional de software.",
+      "format": "8 lecciones en el sitio (teoría + comandos de ejemplo). Playlist de YouTube como complemento opcional."
+    }
+  },
+  {
+    "id": "slam-navegacion",
+    "level": "Próximamente",
+    "title": "SLAM y navegación autónoma",
+    "summary": "Mapas, localización y planificación de caminos: el siguiente salto después de ROS y robots móviles.",
+    "requirements": "ROS (recomendado), robots móviles y nociones de sensores",
+    "lessonsCount": 7,
+    "image": "/assets/img/courses/slam-navegacion.jpg",
+    "imageAlt": "Navegación con LiDAR en un robot móvil",
+    "courseUrl": "",
+    "comingSoon": true,
+    "details": "SLAM (Simultaneous Localization and Mapping) combina estimación de pose y construcción de mapa. La navegación autónoma agrega planificación global/local y control para llegar a metas evitando obstáculos.\n\nEste curso cierra el arco móvil → ROS → autonomía real en interiores.",
+    "overview": {
+      "lead": "Del mapa ocupacional al robot que llega solo: SLAM, localización y stacks de navegación sobre ROS.",
+      "highlights": [
+        "Por qué odometría sola no alcanza",
+        "Mapas de ocupación y representaciones útiles",
+        "Idea de SLAM 2D (LiDAR) vs enfoques con visión",
+        "Localización en un mapa ya conocido",
+        "Planificación global y local (evitar obstáculos)",
+        "Costmaps, tolerancias y fallas típicas en el lab"
+      ],
+      "syllabus": [
+        "Repaso: odometría, sensores y frames",
+        "Mapas y representaciones del entorno",
+        "SLAM 2D: idea y flujo de trabajo",
+        "Localización (AMCL y variantes)",
+        "Navegación: meta, planificador y control",
+        "Ajustes, depuración y pruebas en pasillos",
+        "Proyecto: mapa + ir a un punto objetivo"
+      ],
+      "audience": "Quienes ya vieron ROS y robots móviles y quieren autonomía de verdad.",
+      "format": "Curso avanzado en preparación (próximamente en el sitio). Mientras tanto avanzá ROS y robots móviles."
+    }
   },
   {
     "id": "raspberry-pi",
     "level": "Próximamente",
     "title": "Robótica con Raspberry Pi",
-    "summary": "Una placa completa para visión, Linux y robots más ambiciosos. Contenido en preparación.",
-    "requirements": "Arduino o electrónica básica",
+    "summary": "Una SBC con Linux para visión, redes y robots con más cómputo que un microcontrolador.",
+    "requirements": "Electrónica básica; Arduino o Linux ayudan",
+    "lessonsCount": 7,
     "image": "/assets/img/courses/raspberry-pi.jpg",
     "imageAlt": "Placa Raspberry Pi",
     "courseUrl": "",
     "comingSoon": true,
-    "details": "Raspberry Pi abre la puerta a proyectos con sistema operativo, cámaras, redes y mayor capacidad de cómputo que un microcontrolador clásico.\n\nEstamos preparando el material de este curso. Mientras tanto, podés avanzar con Arduino, IoT y ROS, y seguir el canal para enterarte cuando se publique."
+    "details": "Raspberry Pi aporta sistema operativo, cámara, red y potencia para pipelines de visión, servidores locales y control de alto nivel, mientras un MCU puede seguir cuidando el tiempo real de bajo nivel.",
+    "overview": {
+      "lead": "Prepará el salto a robots con Linux: setup de la Pi, GPIO, cámara y el rol de la SBC junto a microcontroladores.",
+      "highlights": [
+        "Cuándo conviene Pi vs Arduino / ESP",
+        "Imagen del sistema, SSH y entorno de trabajo",
+        "GPIO, I²C/SPI y cuidado con niveles lógicos",
+        "Cámara y primer pipeline de visión liviano",
+        "Red local, servicios y telemetría",
+        "Arquitectura híbrida: Pi + MCU"
+      ],
+      "syllabus": [
+        "¿Por qué Raspberry Pi en robótica?",
+        "Setup: SO, red y acceso remoto",
+        "GPIO y periféricos",
+        "Cámara y visión básica",
+        "Servicios en red y automatización",
+        "Integración con Arduino / sensores",
+        "Proyecto guía y siguientes pasos"
+      ],
+      "audience": "Quienes quieren más cómputo y Linux después de Arduino / IoT.",
+      "format": "Contenido en preparación. Mientras tanto avanzá IoT, visión y ROS."
+    }
   }
 ]

@@ -2,7 +2,7 @@
   "id": "practicas-arduino",
   "title": "Prácticas con Arduino",
   "level": "Intermedio",
-  "summary": "Después de la lógica básica: protoboard, botón, potenciómetro, PWM, ultrasonido, servo y un mini proyecto integrado.",
+  "summary": "Después de la lógica básica: protoboard, botón, potenciómetro, PWM, ultrasonido, servo y un mini proyecto integrado — con el porqué, medición y tips de falla.",
   "requirements": "Programación desde Cero con Arduino (recomendado)",
   "image": "/assets/img/courses/practicas-arduino.jpg",
   "imageAlt": "Proyecto práctico con Arduino",
@@ -34,18 +34,29 @@
       "id": "01-protoboard-led",
       "number": 1,
       "title": "Protoboard y LED externo",
-      "goal": "Pasar del LED interno a un LED en protoboard con resistencia.",
+      "goal": "Pasar del LED interno a un LED en protoboard con resistencia, entendiendo por qué hace falta limitar corriente.",
       "sections": [
         {
           "heading": "Del LED_BUILTIN al banco",
-          "body": "Ya sabés programar el LED interno. Ahora cableamos un LED real: D8 → 220 Ω → LED → GND.",
+          "body": "Ya sabés programar el LED interno. Ahora cableamos un LED real: el pin entrega (o no) tensión, pero el LED necesita una resistencia en serie para no pedir corriente de más.\n\nCircuito típico: D8 → 220 Ω → ánodo del LED → cátodo → GND.\n\n¿Por qué no conectar el LED directo al pin? Porque el LED, una vez polarizado, se comporta casi como un cortocircuito “parcial”: la corriente se dispara y podés dañar el LED o el pin del micro.",
+          "image": "/assets/img/lessons/arduino/breadboard-led.jpg",
+          "imageAlt": "LED cableado en protoboard",
+          "imageCaption": "Protoboard: el mismo Blink, pero con circuito real y polaridad que importa."
+        },
+        {
+          "heading": "Por qué la resistencia",
+          "body": "Idea rápida (sin drama de Ohm todavía):\n\n• El pin de Arduino (5 V en Uno) quiere “empujar” tensión.\n• El LED cae ~1,8–3 V según el color.\n• La resistencia se come el resto y limita la corriente (típicamente 5–15 mA para un LED indicador).\n\n220 Ω o 330 Ω suelen andar bien. Si el LED queda muy tenue, bajá un poco el valor (con cuidado). Si brilla demasiado o se calienta, subí la resistencia.",
           "image": "/assets/img/lessons/electronica/circuito-led-fritzing.png",
           "imageAlt": "Diagrama LED con Arduino",
           "imageCaption": "Diagrama de referencia: LED + resistencia a un pin digital."
         },
         {
+          "heading": "Polaridad y protoboard",
+          "body": "• Ánodo (pata larga / lado plano opuesto en muchos LEDs) hacia el pin (vía resistencia).\n• Cátodo a GND.\n• En protoboard: las filas horizontales están conectadas por tramos; la canaleta central separa mitades. No asumas continuidad “de oído”: si dudás, medí continuidad.\n\nTip: cable rojo ≈ VCC / señal “viva”, negro ≈ GND. No es ley, pero ordena el banco."
+        },
+        {
           "heading": "Sketch: Blink externo",
-          "body": "Mismo patrón de Blink, otro pin.",
+          "body": "Mismo patrón de Blink, otro pin. Si esto funciona, tu cadena placa → cable → protoboard → componente está viva.",
           "code": {
             "title": "Sketch: LED en D8",
             "filename": "blink_externo.ino",
@@ -53,6 +64,14 @@
             "tip": "Revisá polaridad del LED (cátodo a GND).",
             "content": "const int PIN_LED = 8;\n\nvoid setup() {\n  pinMode(PIN_LED, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(PIN_LED, HIGH);\n  delay(400);\n  digitalWrite(PIN_LED, LOW);\n  delay(400);\n}"
           }
+        },
+        {
+          "heading": "Medición y seguridad",
+          "body": "☐ Con la placa alimentada, medí tensión en el pin en HIGH (~5 V) y LOW (~0 V).\n☐ Si tenés duda de la resistencia, medila en Ω antes de cablear.\n☐ No cortocircuités 5 V contra GND “para probar”.\n☐ Desconectá USB si vas a rearmar el circuito con las manos llenas de cables sueltos."
+        },
+        {
+          "heading": "Si no prende (troubleshooting)",
+          "body": "1. ¿El sketch subió? (LED_BUILTIN de prueba rápida)\n2. ¿Pin correcto en código y en cable?\n3. ¿LED al revés?\n4. ¿Resistencia en serie o LED directo (peligroso)?\n5. ¿GND común entre protoboard y Arduino?\n6. ¿Fila de protoboard rota / cable mal pinchado?\n\nPara llevarte: el LED externo prueba que sabés salir del mundo “solo placa” al banco real."
         }
       ]
     },
@@ -60,17 +79,25 @@
       "id": "02-boton",
       "number": 2,
       "title": "Entrada digital: botón",
-      "goal": "Leer un botón con INPUT_PULLUP y controlar un LED.",
+      "goal": "Leer un botón con INPUT_PULLUP, entender niveles lógicos y controlar un LED.",
       "sections": [
         {
-          "heading": "Cableado",
-          "body": "• LED en D8 con resistencia a GND\n• Botón: un lado a D2, el otro a GND\n• pinMode(D2, INPUT_PULLUP) → LOW al pulsar",
+          "heading": "Por qué INPUT_PULLUP",
+          "body": "Un pin en INPUT “flotando” (sin conectar) puede leer basura: a veces HIGH, a veces LOW. El botón necesita un nivel definido en reposo.\n\nCon INPUT_PULLUP, el Arduino activa una resistencia interna hacia VCC: en reposo leés HIGH. Al pulsar el botón a GND, el pin va a LOW.\n\nPor eso el if suele ser: si digitalRead == LOW → pulsado. No es magia invertida: es el cableado pull-up clásico.",
           "image": "/assets/img/lessons/arduino/esquema-boton-led.png",
           "imageAlt": "Esquema botón y LED",
           "imageCaption": "Esquema: D8 LED y D2 botón a GND."
         },
         {
+          "heading": "Cableado",
+          "body": "• LED en D8 con resistencia a GND (como la lección anterior)\n• Botón: un lado a D2, el otro a GND\n• pinMode(D2, INPUT_PULLUP)\n\nNo hace falta resistencia externa de pull-up para este ejercicio. Si usás pull-down externo (botón a 5 V, resistencia a GND), la lógica se invierte: pulsado = HIGH.",
+          "image": "/assets/img/lessons/arduino/boton-circuito.jpg",
+          "imageAlt": "Botón en protoboard",
+          "imageCaption": "El botón cierra el circuito a GND; el pull-up interno define el reposo."
+        },
+        {
           "heading": "Sketch: botón → LED",
+          "body": "Leemos el botón en cada vuelta del loop y copiamos el estado al LED. Es el patrón más simple de entrada → salida.",
           "code": {
             "title": "Sketch: botón controla LED",
             "filename": "boton_led.ino",
@@ -78,6 +105,18 @@
             "tip": "Si queda invertido, revisá el if o la polaridad del LED.",
             "content": "const int PIN_LED = 8;\nconst int PIN_BOTON = 2;\n\nvoid setup() {\n  pinMode(PIN_LED, OUTPUT);\n  pinMode(PIN_BOTON, INPUT_PULLUP);\n}\n\nvoid loop() {\n  if (digitalRead(PIN_BOTON) == LOW) {\n    digitalWrite(PIN_LED, HIGH);\n  } else {\n    digitalWrite(PIN_LED, LOW);\n  }\n}"
           }
+        },
+        {
+          "heading": "Rebote (debounce) — idea",
+          "body": "Al pulsar, el contacto mecánico “tiembla” unos milisegundos: podés leer varios flancos si contás clicks. Para LED on/off directo casi no molesta; para contar pulsaciones o menús, sí.\n\nSoluciones típicas: delay corto tras detectar flanco, o timestamp con millis() (mejor que llenar de delay el loop). En este curso alcanza con saber que el rebote existe."
+        },
+        {
+          "heading": "Troubleshooting",
+          "body": "☐ LED siempre prendido → ¿botón mal cableado a GND / pin en corto?\n☐ Nunca prende → ¿confusión HIGH/LOW? Probá invertir el if.\n☐ Lecturas locas → ¿olvidaste INPUT_PULLUP?\n☐ Medí con multímetro el pin: reposo ≈ 5 V, pulsado ≈ 0 V."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Pull-up = reposo HIGH, pulsado a GND = LOW.\n☐ Entrada digital es el puente entre el mundo mecánico y el if.\n☐ El rebote importa cuando contás eventos, no tanto cuando solo “seguís” el botón."
         }
       ]
     },
@@ -85,17 +124,25 @@
       "id": "03-analogico-pwm",
       "number": 3,
       "title": "Analógico y PWM",
-      "goal": "Leer un potenciómetro y variar brillo con PWM.",
+      "goal": "Leer un potenciómetro, mapear ADC→PWM y entender qué es (y qué no es) el “analógico” de Arduino.",
       "sections": [
         {
           "heading": "Qué es analógico y PWM",
-          "body": "• analogRead(A0): 0–1023 según el voltaje del pote.\n• analogWrite(pinPWM, 0–255): brillo aparente por pulsos (PWM).\n\nCircuito: pote 5V/A0/GND · LED en D9 con resistencia.",
+          "body": "• analogRead(A0): el ADC mide tensión en el pin y devuelve 0–1023 (aprox. 0–5 V en Uno).\n• analogWrite(pinPWM, 0–255): no es DAC verdadero en pines PWM clásicos: son pulsos rápidos (duty cycle). El ojo / el motor “promedian” y parecen un valor continuo.\n\nCircuito: pote entre 5V y GND, cursor a A0 · LED en D9 (PWM) con resistencia.\n\n¿Por qué map()? Porque 0–1023 no entra en 0–255: hay que escalar.",
           "image": "/assets/img/lessons/arduino/esquema-pote-pwm.png",
           "imageAlt": "Esquema potenciómetro y PWM",
           "imageCaption": "Esquema del ejercicio pote → PWM."
         },
         {
+          "heading": "El potenciómetro como divisor",
+          "body": "El pote es un divisor de tensión variable: el cursor toma una fracción de los 5 V. Por eso necesita los tres pines (5V, A0, GND). Si olvidás GND o 5V, las lecturas quedan clavadas o locas.\n\nRuido: vas a ver el ADC bailar ± algunos counts. Es normal. Si necesitás estabilidad, promediá varias lecturas o filtrá suave.",
+          "image": "/assets/img/lessons/arduino/potenciometro.jpg",
+          "imageAlt": "Potenciómetro en el banco",
+          "imageCaption": "Tres conexiones: extremos a 5V/GND, cursor a la entrada analógica."
+        },
+        {
           "heading": "Sketch: pote controla brillo",
+          "body": "Leemos ADC, mapeamos a PWM y mandamos al LED. El Serial Monitor te muestra la cadena de números: es tu “osciloscopio pobre” y muy útil.",
           "code": {
             "title": "Sketch: pote → PWM",
             "filename": "pote_pwm.ino",
@@ -103,6 +150,18 @@
             "tip": "Serial Monitor a 9600. Pin 9 debe ser PWM.",
             "content": "const int PIN_POTE = A0;\nconst int PIN_LED = 9;\n\nvoid setup() {\n  pinMode(PIN_LED, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  int adc = analogRead(PIN_POTE);\n  int pwm = map(adc, 0, 1023, 0, 255);\n  analogWrite(PIN_LED, pwm);\n  Serial.print(\"ADC=\");\n  Serial.print(adc);\n  Serial.print(\" PWM=\");\n  Serial.println(pwm);\n  delay(40);\n}"
           }
+        },
+        {
+          "heading": "Pines PWM y límites",
+          "body": "En Arduino Uno, PWM típico: 3, 5, 6, 9, 10, 11 (marcados ~). Si usás un pin no PWM, analogWrite puede no hacer lo que esperás.\n\nPWM a un LED = brillo. PWM a un motor = velocidad aproximada (con driver). PWM no es lo mismo que una tensión analógica limpia para audio de calidad o sensores que exigen DAC."
+        },
+        {
+          "heading": "Práctica de medición",
+          "body": "1. Girá el pote y anotá ADC en “mínimo”, “medio” y “máximo”.\n2. Medí con multímetro la tensión en A0 en esos tres puntos (debería ir ~0 → ~2,5 → ~5 V).\n3. ¿El LED se apaga del todo en 0? ¿Se satura antes del máximo del pote?\n\nSi ADC no llega a 0 o 1023, el pote o el cableado no está usando todo el rango."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ analogRead mide; analogWrite (PWM) modula.\n☐ map() conecta escalas distintas.\n☐ Serial + multímetro te salvan de adivinar."
         }
       ]
     },
@@ -110,17 +169,25 @@
       "id": "04-ultrasonido",
       "number": 4,
       "title": "Sensor ultrasónico HC-SR04",
-      "goal": "Medir distancia y reaccionar con un LED.",
+      "goal": "Medir distancia con HC-SR04, entender el eco y reaccionar con un LED — con límites y fallas típicas.",
       "sections": [
         {
-          "heading": "Cableado HC-SR04",
-          "body": "VCC→5V · GND→GND · Trig→D7 · Echo→D6 · LED alerta en D8.",
+          "heading": "Cómo mide (idea)",
+          "body": "El HC-SR04 emite un pulso de ultrasonido (Trig) y escucha el eco (Echo). El tiempo de ida y vuelta se convierte en distancia:\n\ndistancia ≈ (tiempo × velocidad_del_sonido) / 2\n\nEl /2 es porque el sonido va y vuelve. En el sketch usamos 0.0343 cm/µs como aproximación a temperatura ambiente.\n\nNo es un láser: el haz es ancho, rebota mal en telas/espumas y puede dar ecos fantasmas en rincones.",
           "image": "/assets/img/lessons/arduino/esquema-hcsr04.png",
           "imageAlt": "Esquema HC-SR04",
           "imageCaption": "Esquema etiquetado del sensor de distancia."
         },
         {
+          "heading": "Cableado HC-SR04",
+          "body": "VCC→5V · GND→GND · Trig→D7 · Echo→D6 · LED alerta en D8.\n\nAlgunos clones son sensibles a alimentación flaca: si las lecturas son locas, probá cable corto y buena GND. El Echo es 5 V en el módulo clásico (ojo si algún día usás placas 3,3 V sin divisor).",
+          "image": "/assets/img/lessons/arduino/ultrasonico.jpg",
+          "imageAlt": "Sensor ultrasónico HC-SR04",
+          "imageCaption": "Trig dispara; Echo dura según la distancia al obstáculo."
+        },
+        {
           "heading": "Sketch: distancia + alerta",
+          "body": "pulseIn espera el eco con timeout. Si duracion == 0, no hubo eco a tiempo: devolvemos -1 y no encendemos la alerta por “cerca”.",
           "code": {
             "title": "Sketch: ultrasonido",
             "filename": "ultrasonido_alerta.ino",
@@ -128,6 +195,18 @@
             "tip": "Si no hay eco, revisá VCC/GND y el cableado Trig/Echo.",
             "content": "const int PIN_TRIG = 7;\nconst int PIN_ECHO = 6;\nconst int PIN_LED = 8;\n\nfloat medirCm() {\n  digitalWrite(PIN_TRIG, LOW);\n  delayMicroseconds(2);\n  digitalWrite(PIN_TRIG, HIGH);\n  delayMicroseconds(10);\n  digitalWrite(PIN_TRIG, LOW);\n  long duracion = pulseIn(PIN_ECHO, HIGH, 30000);\n  if (duracion == 0) return -1;\n  return duracion * 0.0343 / 2.0;\n}\n\nvoid setup() {\n  pinMode(PIN_TRIG, OUTPUT);\n  pinMode(PIN_ECHO, INPUT);\n  pinMode(PIN_LED, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  float cm = medirCm();\n  Serial.println(cm);\n  digitalWrite(PIN_LED, (cm > 0 && cm < 15) ? HIGH : LOW);\n  delay(120);\n}"
           }
+        },
+        {
+          "heading": "Límites y buenas prácticas",
+          "body": "• Rango útil típico: unos pocos cm hasta ~2–4 m (según módulo y blanco).\n• Apuntá a superficies duras y perpendiculares para practicar.\n• No pidas 200 mediciones por segundo: dejá tiempo entre triggers.\n• Filtrá: un promedio de 3–5 lecturas reduce saltos.\n• Timeout: mejor un -1 explícito que colgarse esperando un eco que no llega."
+        },
+        {
+          "heading": "Práctica de validación",
+          "body": "1. Poné un libro a 10, 20 y 40 cm (medidos con regla).\n2. Compará con el Serial.\n3. Probá con una tela / esponja: ¿desaparece el eco?\n4. Inclíná el blanco 45°: ¿qué pasa?\n\nAnotá: el sensor miente según el material. En un robot móvil, eso importa."
+        },
+        {
+          "heading": "Troubleshooting",
+          "body": "☐ Siempre -1 → VCC/GND, Trig/Echo cruzados, timeout corto, objeto fuera de rango.\n☐ Valores locos → GND floja, cables largos, otro ultrasonido cerca, eco múltiple.\n☐ LED no prende → umbral (15 cm) o condición cm > 0."
         }
       ]
     },
@@ -135,17 +214,25 @@
       "id": "05-servo",
       "number": 5,
       "title": "Actuador: servo",
-      "goal": "Mover un servo con la librería Servo y alimentación correcta.",
+      "goal": "Mover un servo con la librería Servo, con criterio de alimentación y GND común.",
       "sections": [
         {
-          "heading": "Alimentación",
-          "body": "El pin solo manda señal. Servos piden corriente: fuente adecuada + GND común. Evitá alimentar servos grandes solo por USB si ves reinicios.",
+          "heading": "Señal vs potencia",
+          "body": "Un servo de hobby tiene tres cables: potencia (V+), GND y señal. El pin del Arduino solo manda la señal de control (ancho de pulso → ángulo). La corriente del motor la tiene que bancar la fuente.\n\nSi alimentás un servo “exigido” solo por USB, vas a ver reinicios del Arduino, LED de power parpadeando o el PC cortando el puerto. No es un misterio de software: es falta de corriente.",
           "image": "/assets/img/lessons/arduino/circuito-servo.jpg",
           "imageAlt": "Micro servo",
-          "imageCaption": "Micro servo: señal por PWM, potencia por fuente aparte."
+          "imageCaption": "Micro servo: señal por PWM, potencia por fuente adecuada."
+        },
+        {
+          "heading": "Alimentación y GND común",
+          "body": "Reglas de oro:\n\n• Micro servo SG90 en pruebas suaves a veces aguanta 5 V de la placa; igual es frágil como hábito.\n• Servos más grandes → fuente 5–6 V con amperaje decente + GND común con Arduino.\n• Nunca dejes el GND de la fuente de potencia desconectado del GND de la lógica: sin referencia común, la señal no tiene sentido.\n• Evitá forzar el brazo del servo a mano con el torque activo: sufrís el engranaje.",
+          "image": "/assets/img/lessons/arduino/servo.jpg",
+          "imageAlt": "Servo motor de hobby",
+          "imageCaption": "Potencia aparte, señal al pin, tierras unidas."
         },
         {
           "heading": "Sketch: barrido",
+          "body": "La librería Servo genera los pulsos por vos. attach(pin) reserva el pin; write(ángulo) pide una posición aproximada (0–180 en muchos servos).",
           "code": {
             "title": "Sketch: servo barrido",
             "filename": "servo_barrido.ino",
@@ -153,6 +240,18 @@
             "tip": "Señal en D9. Librería Servo incluida en el IDE.",
             "content": "#include <Servo.h>\n\nServo miServo;\n\nvoid setup() {\n  miServo.attach(9);\n}\n\nvoid loop() {\n  for (int ang = 0; ang <= 180; ang++) {\n    miServo.write(ang);\n    delay(12);\n  }\n  for (int ang = 180; ang >= 0; ang--) {\n    miServo.write(ang);\n    delay(12);\n  }\n}"
           }
+        },
+        {
+          "heading": "Librería Servo y pines",
+          "body": "En AVR (Uno), la librería Servo puede interferir con PWM en algunos pines. Si mezclás analogWrite y Servo y “se rompe” un PWM, ya sabés por dónde mirar.\n\nÁngulos: no todos los servos llegan limpios a 0 y 180; muchos tienen tope mecánico antes. Si escucha ruido grave al final del recorrido, achicá el rango (ej. 10–170)."
+        },
+        {
+          "heading": "Checklist de seguridad",
+          "body": "☐ Fuente acorde al servo (corriente).\n☐ GND común lógica ↔ potencia.\n☐ Piezas mecánicas libres (no atrapar cables ni dedos).\n☐ Probar primero a 90° fijo antes del barrido completo.\n☐ Si el Arduino se reinicia al mover: alimentación, no “bug de for”."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Señal ≠ potencia.\n☐ Servo es actuador: consume y puede tirar abajo tu USB.\n☐ Probá rangos seguros antes de integrar al robot."
         }
       ]
     },
@@ -160,17 +259,25 @@
       "id": "06-mini-proyecto",
       "number": 6,
       "title": "Mini proyecto integrado",
-      "goal": "Unir distancia + LED + servo en un comportamiento de proximidad.",
+      "goal": "Unir distancia + LED + servo en un comportamiento de proximidad, con umbral, log y plan B.",
       "sections": [
         {
           "heading": "Objetivo",
-          "body": "Si hay objeto cerca: LED ON y servo a 90°. Si no: LED OFF y servo a 0°.",
+          "body": "Comportamiento simple de proximidad:\n\n• Si hay objeto cerca: LED ON y servo a 90°.\n• Si no: LED OFF y servo a 0°.\n\nEs el mismo patrón que un robot móvil “reactivo”: sensor → decisión → actuadores. Acá el “robot” es una alerta en el banco; mañana puede ser un freno o un brazo.",
+          "image": "/assets/img/lessons/arduino/proyecto.jpg",
+          "imageAlt": "Proyecto integrado en protoboard",
+          "imageCaption": "Integrá ultrasonido + LED (+ servo). Un solo comportamiento, varios periféricos."
+        },
+        {
+          "heading": "Orden de armado (recomendado)",
+          "body": "1. Ultrasonido solo + Serial (¿mide?)\n2. Sumar LED de alerta (¿el umbral tiene sentido?)\n3. Sumar servo con alimentación cuidada\n4. Recién ahí unir todo en un sketch\n\nIntegrar de una acelera el caos. Integrar por capas acelera el debug.",
           "image": "/assets/img/lessons/electronica/circuito-breadboard-leds.jpg",
           "imageAlt": "Protoboard con circuito",
-          "imageCaption": "Integrá en protoboard: ultrasonido + LED (+ servo opcional)."
+          "imageCaption": "Protoboard ordenada: menos cortos, más sueño."
         },
         {
           "heading": "Sketch del proyecto",
+          "body": "UMBRAL_CM define “cerca”. Ajustalo a tu mesa. Si aún no tenés servo, comentá attach/write y dejá LED + Serial.",
           "code": {
             "title": "Sketch: proximidad",
             "filename": "proximidad_robot.ino",
@@ -180,8 +287,16 @@
           }
         },
         {
-          "heading": "Checklist final",
-          "body": "☐ LED externo OK\n☐ Botón OK\n☐ Pote + PWM OK\n☐ Ultrasonido OK\n☐ Servo OK (o entendido)\n☐ Mini proyecto subido"
+          "heading": "Mejoras opcionales (si te sobra tiempo)",
+          "body": "• Histéresis: encender a 18 cm pero apagar recién a 22 cm (evita parpadeo en el borde).\n• Promedio de 3 lecturas antes de decidir.\n• Si cm < 0 (timeout), no muevas el servo a lo loco: mantené el último estado seguro o andá a “reposo”.\n• Mapear distancia continua a ángulo (cerca → 90°, lejos → 0°) en lugar de dos estados."
+        },
+        {
+          "heading": "Prueba de aceptación",
+          "body": "☐ Acercás la mano: LED y servo reaccionan en < ~0,3 s.\n☐ Alejás: vuelven a reposo.\n☐ Serial muestra distancias coherentes con una regla.\n☐ Arduino no se reinicia al mover el servo.\n☐ Con eco fallido (-1) el sistema no “tiembla” sin sentido."
+        },
+        {
+          "heading": "Checklist final del curso",
+          "body": "☐ LED externo OK (polaridad + resistencia)\n☐ Botón OK (INPUT_PULLUP)\n☐ Pote + PWM OK (ADC visible en Serial)\n☐ Ultrasonido OK (validado con regla)\n☐ Servo OK o entendido (alimentación)\n☐ Mini proyecto subido / documentado\n☐ Sé explicar el porqué de cada bloque, no solo copiar el sketch"
         }
       ]
     }

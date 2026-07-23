@@ -1,0 +1,333 @@
+{
+  "id": "wemos",
+  "title": "Internet de las Cosas (IoT) con Wemos D1",
+  "level": "Intermedio",
+  "summary": "Llevá tus circuitos a la red: WiFi con ESP8266, servidor web, sensores remotos y telemetría HTTP con Wemos D1.",
+  "requirements": "Electrónica básica y Arduino (recomendado). Placa Wemos D1 / D1 mini + cable USB.",
+  "image": "/assets/img/courses/wemos.webp",
+  "imageAlt": "Placa Wemos D1 para IoT",
+  "playlistUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDoK2yvHGnH33OW4ihjnsZ3",
+  "outcomes": [
+    "Explicar qué es IoT y por qué ESP8266/Wemos encaja en prototipos",
+    "Identificar pines, alimentación y diferencias D1 vs D1 mini",
+    "Configurar el board package ESP8266 en el IDE y flashear",
+    "Conectar a WiFi, obtener IP y diagnosticar fallas típicas",
+    "Armar un servidor web embebido para controlar un LED",
+    "Leer un sensor y enviar telemetría con un cliente HTTP",
+    "Aplicar buenas prácticas de alimentación, reinicios y depuración",
+    "Cerrar un mini proyecto IoT y elegir siguientes pasos"
+  ],
+  "sources": [
+    {
+      "title": "ESP8266 Arduino Core — Documentation",
+      "url": "https://arduino-esp8266.readthedocs.io/"
+    },
+    {
+      "title": "ESP8266 WiFi library (Arduino core)",
+      "url": "https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/readme.html"
+    },
+    {
+      "title": "ESP8266WebServer / ESP8266HTTPClient",
+      "url": "https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/server-examples.html"
+    },
+    {
+      "title": "Playlist del curso (complemento en video)",
+      "url": "https://www.youtube.com/playlist?list=PLCl11UFjHurDoK2yvHGnH33OW4ihjnsZ3"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "01-que-es-iot-wemos",
+      "number": 1,
+      "title": "Qué es IoT y por qué Wemos/ESP8266",
+      "goal": "Ubicar IoT en el mapa de la robótica educativa y entender por qué Wemos D1 es un puente natural desde Arduino.",
+      "sections": [
+        {
+          "heading": "IoT en una frase útil",
+          "body": "Internet de las Cosas (IoT) es conectar objetos físicos a una red para medir, publicar y a veces actuar a distancia.\n\nNo es “poner WiFi porque queda moderno”: es cerrar un lazo entre el mundo físico (sensor/actuador) y un servicio (tu PC, un servidor local, una API o un dashboard).\n\nEn robótica educativa, IoT aparece cuando querés telemetría de una estación, control remoto de un LED/relé, o un nodo que avisa “hay movimiento / temperatura alta / batería baja”.",
+          "image": "/assets/img/courses/wemos.webp",
+          "imageAlt": "Placa Wemos D1",
+          "imageCaption": "Wemos D1 (ESP8266): microcontrolador + WiFi en un formato amigable para prototipar."
+        },
+        {
+          "heading": "Arduino vs ESP8266: qué cambia",
+          "body": "Con Arduino Uno aprendiste sketches, pines y Serial. El ESP8266 (cerebro del Wemos) mantiene ese estilo de programación, pero suma:\n\n• radio WiFi 2.4 GHz integrada,\n• más RAM/flash que un AVR clásico,\n• bibliotecas de red (WiFi, servidor web, cliente HTTP),\n• reinicios y estados de conexión que tenés que diseñar (no alcanza con delay).\n\nPensalo como “Arduino que habla red”, no como una Raspberry Pi chiquita: seguís en el mundo del microcontrolador, con límites de tiempo real y de potencia."
+        },
+        {
+          "heading": "Dónde encaja en un robot o estación",
+          "body": "Casos típicos en el lab:\n\n• estación ambiental: temperatura/humedad → HTTP cada N segundos,\n• control remoto de un actuador (LED, relé, buzzer) desde el celular en la misma red,\n• bridge entre un sensor “dumb” y un dashboard,\n• telemetría auxiliar de un móvil (batería, estado) sin montar un stack ROS completo.\n\nCuando necesitás Linux, cámara pesada o muchos nodos, mirás Raspberry Pi o ROS. Cuando necesitás un nodo barato y WiFi, Wemos brilla.",
+          "image": "/assets/img/lessons/intro/circuitos.jpg",
+          "imageAlt": "Circuitos y prototipado",
+          "imageCaption": "IoT empieza en el banco: sensor + MCU + red. Después viene el servicio remoto."
+        },
+        {
+          "heading": "Mapa del curso",
+          "body": "1. Concepto IoT y rol de ESP8266.\n2. Hardware: pines y alimentación.\n3. IDE y board package.\n4. WiFi: conectar y diagnosticar.\n5. Servidor web embebido.\n6. Sensores + cliente HTTP.\n7. Buenas prácticas (alimentación, reinicios).\n8. Proyecto integrador y siguientes pasos.\n\nLa playlist de YouTube es complemento opcional: el curso vive en el sitio."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ IoT = medir/actuar + red + servicio (aunque el “servicio” sea tu laptop).\n☐ Wemos/ESP8266 = estilo Arduino + WiFi, no una SBC.\n☐ Elegí IoT cuando el valor está en la telemetría o el control remoto simple."
+        }
+      ]
+    },
+    {
+      "id": "02-hardware-pines",
+      "number": 2,
+      "title": "Hardware: pines, alimentación, D1 vs D1 mini",
+      "goal": "Conocer la placa, voltajes seguros y las diferencias prácticas entre D1 y D1 mini.",
+      "sections": [
+        {
+          "heading": "Familia Wemos D1",
+          "body": "Hay dos formas muy comunes:\n\n• Wemos D1 (formato tipo Arduino Uno): cómoda con shields, más grande.\n• Wemos D1 mini: más chica, ideal para protoboard y proyectos embebidos.\n\nAmbas giran alrededor del módulo ESP-12 (ESP8266). El “número de pin” que usás en el sketch (D1, D2, …) es un alias del core; por debajo hay GPIO del chip. Anotá el pinout de tu revisión: no todas las silkscreens coinciden al milímetro.",
+          "image": "/assets/img/courses/wemos.webp",
+          "imageAlt": "Wemos D1",
+          "imageCaption": "Identificá tu revisión (D1 o D1 mini) antes de cablear sensores."
+        },
+        {
+          "heading": "Alimentación y niveles lógicos",
+          "body": "Reglas de oro:\n\n• El ESP8266 trabaja a 3.3 V. No le metas 5 V a un GPIO.\n• El USB de la placa suele alimentar el regulador a 3.3 V; está bien para prototipar.\n• Sensores de 5 V (algunos HC-SR04, módulos viejos) pueden necesitar divisor o level shifter en las líneas hacia el ESP.\n• Motores y relés: alimentación aparte + GND común. El pico de corriente del motor no puede pasar por el regulador del Wemos.\n\nSi la placa se reinicia al encender un actuador, casi siempre es alimentación — no “magia del WiFi”.",
+          "image": "/assets/img/lessons/electronica/esquema-alimentacion.png",
+          "imageAlt": "Esquema de alimentación",
+          "imageCaption": "Separá lógica y potencia; compartí GND. Evitás reinicios misteriosos."
+        },
+        {
+          "heading": "Pines útiles (idea práctica)",
+          "body": "En D1 mini, nombres frecuentes en sketches:\n\n• D0–D8: GPIO con alias del core Wemos.\n• Algunos pines tienen roles especiales al boot (pull-ups/pull-downs de arranque). Evitá colgar cargas raras en pines críticos si la placa no arranca.\n• LED_BUILTIN existe en muchas placas ESP: sirve para probar sin cablear.\n\nChecklist antes de soldar o armar permanente:\n☐ ¿El sensor es 3.3 V-friendly?\n☐ ¿Hay corriente de pico (servo/motor)?\n☐ ¿Antena / USB no queda forzado en un case metálico?",
+          "image": "/assets/img/lessons/arduino/placa.jpg",
+          "imageAlt": "Placa de desarrollo",
+          "imageCaption": "Mismo hábito que con Arduino: conocé el pinout antes de improvisar."
+        },
+        {
+          "heading": "D1 vs D1 mini (cómo elegir)",
+          "body": "• Laboratorio / shields Arduino → D1 “grande” puede ahorrar adaptadores.\n• Protoboard, wearables, cajas chicas → D1 mini.\n• Misma familia de software: el sketch casi siempre se porta; cambian pines físicos y forma.\n\nComprá de un vendedor confiable: clones baratos a veces traen USB-serial flojo o regulador justo de corriente.",
+          "image": "/assets/img/lessons/electronica/kit-componentes.jpg",
+          "imageAlt": "Kit de componentes",
+          "imageCaption": "Sumá jumpers, resistencia y un LED: alcanza para las primeras pruebas de red."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ 3.3 V en GPIO; cuidado con sensores a 5 V.\n☐ Alimentación aparte para potencia + GND común.\n☐ Anotá pinout de tu placa concreta (D1 / mini)."
+        }
+      ]
+    },
+    {
+      "id": "03-ide-board-package",
+      "number": 3,
+      "title": "IDE y board package ESP8266",
+      "goal": "Instalar el soporte de placa ESP8266 y subir el primer sketch de prueba.",
+      "sections": [
+        {
+          "heading": "Arduino IDE + core ESP8266",
+          "body": "Vas a usar el mismo IDE que con Arduino, pero instalando el board package de la comunidad ESP8266:\n\n1. File → Preferences → Additional Board Manager URLs.\n2. Agregá la URL del package (la documenta el proyecto arduino-esp8266).\n3. Tools → Board → Boards Manager → buscá “ESP8266” e instalá.\n4. Elegí tu placa (p. ej. LOLIN(WEMOS) D1 R2 & mini) y el puerto COM/tty.\n\nSin ese package, el IDE no conoce WiFi ni las librerías del core.",
+          "image": "/assets/img/lessons/arduino/ide.jpg",
+          "imageAlt": "Arduino IDE",
+          "imageCaption": "Mismo IDE; distinto board package. Elegí Wemos/LOLIN y el puerto correcto."
+        },
+        {
+          "heading": "Primer upload: Blink interno",
+          "body": "Antes de WiFi, confirmá el pipeline USB → bootloader → flash:\n\n• abrí Blink,\n• usá LED_BUILTIN si tu placa lo define,\n• Upload.\n\nSi falla el puerto: driver CH340/CP210x según el conversor USB-serial de tu clon. Si falla el upload: bajá la velocidad de upload o probá el botón reset/flash según el módulo.",
+          "code": {
+            "title": "Sketch: Blink en ESP8266",
+            "filename": "blink_esp.ino",
+            "language": "Arduino C++",
+            "tip": "Si LED_BUILTIN no compila, probá pin 2 (GPIO2) en muchas D1 mini.",
+            "content": "void setup() {\n  pinMode(LED_BUILTIN, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(LED_BUILTIN, LOW);  // en muchas placas ESP, LOW enciende\n  delay(400);\n  digitalWrite(LED_BUILTIN, HIGH); // HIGH apaga\n  delay(400);\n}"
+          }
+        },
+        {
+          "heading": "Serial a 115200",
+          "body": "En ESP8266 es común abrir Serial a 115200 (no solo 9600). El boot del chip imprime mensajes de arranque: si ves basura, cambiá el baud del Monitor.\n\nHabito útil: siempre Serial.begin + un println(\"boot ok\") al inicio. Si no aparece, el problema es USB/puerto, no tu lógica WiFi.",
+          "image": "/assets/img/lessons/arduino/arduino-uno.jpg",
+          "imageAlt": "Placa conectada por USB",
+          "imageCaption": "USB estable + driver correcto = 80% de los “no flashea”."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Board Manager ESP8266 instalado y placa Wemos/LOLIN seleccionada.\n☐ Blink OK antes de tocar WiFi.\n☐ Serial a 115200 para depurar."
+        }
+      ]
+    },
+    {
+      "id": "04-wifi-conectar",
+      "number": 4,
+      "title": "WiFi: conectar y diagnosticar",
+      "goal": "Conectar el ESP a una red en modo estación, leer la IP y diagnosticar fallas típicas.",
+      "sections": [
+        {
+          "heading": "Modo estación (STA)",
+          "body": "En IoT educativo el modo más útil al principio es STA: el Wemos se une a tu router como un celular más.\n\nFlujo:\n1. WiFi.mode(WIFI_STA)\n2. WiFi.begin(ssid, password)\n3. Esperar WL_CONNECTED (con timeout)\n4. Imprimir WiFi.localIP()\n\nCon la IP local podés entrar desde la PC/celular en la misma red (más adelante, al servidor web).",
+          "image": "/assets/img/courses/wemos.webp",
+          "imageAlt": "Wemos con WiFi",
+          "imageCaption": "Primera victoria IoT: el Monitor Serial muestra una IP válida."
+        },
+        {
+          "heading": "Sketch: conectar a WiFi",
+          "body": "Reemplazá SSID y clave. No subas credenciales a un repo público.",
+          "code": {
+            "title": "Sketch: WiFi STA",
+            "filename": "wifi_sta.ino",
+            "language": "Arduino C++",
+            "tip": "Si queda en loop imprimiendo puntos, revisá 2.4 GHz, clave y distancia al router.",
+            "content": "#include <ESP8266WiFi.h>\n\nconst char* SSID = \"TU_WIFI\";\nconst char* PASS = \"TU_CLAVE\";\n\nvoid setup() {\n  Serial.begin(115200);\n  delay(200);\n\n  WiFi.mode(WIFI_STA);\n  WiFi.begin(SSID, PASS);\n\n  Serial.print(\"Conectando\");\n  unsigned long t0 = millis();\n  while (WiFi.status() != WL_CONNECTED && millis() - t0 < 20000) {\n    delay(400);\n    Serial.print(\".\");\n  }\n  Serial.println();\n\n  if (WiFi.status() == WL_CONNECTED) {\n    Serial.print(\"OK. IP: \");\n    Serial.println(WiFi.localIP());\n  } else {\n    Serial.println(\"Fallo: timeout WiFi\");\n  }\n}\n\nvoid loop() {\n  // acá irá el resto del nodo\n}"
+          }
+        },
+        {
+          "heading": "Diagnóstico rápido",
+          "body": "• Router solo 5 GHz → el ESP8266 no ve la red (necesita 2.4 GHz).\n• Captive portal / WiFi de hotel → a veces no cierra DHCP bien.\n• RSSI muy bajo → acercá la placa; no la metas en caja metálica.\n• Credenciales con caracteres raros → probá una red de prueba simple.\n• WiFi.status() en loop: si se cae, reconectá (lección de buenas prácticas).\n\nImprimí también WiFi.RSSI() cuando esté conectado: te da una pista de “señal floja”.",
+          "image": "/assets/img/lessons/electronica/multimetro-medir.jpg",
+          "imageAlt": "Medición y depuración",
+          "imageCaption": "Depurar red es como medir en el banco: datos (IP, RSSI, status), no adivinanzas."
+        },
+        {
+          "heading": "Ejercicio",
+          "body": "☐ Conectá y anotá la IP.\n☐ Hacé ping desde la PC a esa IP.\n☐ Desconectá el router 10 s y observá qué imprime el sketch (sin reconexión todavía)."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ STA + begin + esperar WL_CONNECTED con timeout.\n☐ IP local es tu “dirección” en la LAN.\n☐ 2.4 GHz y señal decente antes de culpar al código."
+        }
+      ]
+    },
+    {
+      "id": "05-servidor-web-led",
+      "number": 5,
+      "title": "Servidor web embebido / control LED",
+      "goal": "Exponer una página HTML mínima en el ESP y controlar un LED desde el navegador.",
+      "sections": [
+        {
+          "heading": "Por qué un servidor en el chip",
+          "body": "Un ESP8266WebServer (o ESP8266WebServer en el core) deja que el propio micro sirva HTTP en la LAN.\n\nIdeal para demos:\n• encender/apagar un LED o relé,\n• mostrar un valor de sensor en HTML simple,\n• no depender de una nube el primer día.\n\nLimitación: no es un Nginx. Páginas chicas, pocos clientes, lógica simple.",
+          "image": "/assets/img/lessons/arduino/led.jpg",
+          "imageAlt": "LED para control remoto",
+          "imageCaption": "El LED es el actuador más barato para validar control por HTTP."
+        },
+        {
+          "heading": "Sketch: web + LED",
+          "body": "Conectá un LED (con resistencia) a un GPIO seguro, o usá LED_BUILTIN. Entrá a http://IP/ desde el celular en la misma WiFi.",
+          "code": {
+            "title": "Sketch: servidor web LED",
+            "filename": "web_led.ino",
+            "language": "Arduino C++",
+            "tip": "server.handleClient() debe llamarse seguido en loop(); si bloqueás con delay largos, la web se siente muerta.",
+            "content": "#include <ESP8266WiFi.h>\n#include <ESP8266WebServer.h>\n\nconst char* SSID = \"TU_WIFI\";\nconst char* PASS = \"TU_CLAVE\";\nconst int LED_PIN = LED_BUILTIN;\n\nESP8266WebServer server(80);\n\nvoid handleRoot() {\n  String html = \"<!DOCTYPE html><html><body>\"\n    \"<h1>Wemos LED</h1>\"\n    \"<p><a href=\\\"/on\\\">ON</a> | <a href=\\\"/off\\\">OFF</a></p>\"\n    \"</body></html>\";\n  server.send(200, \"text/html\", html);\n}\n\nvoid handleOn() {\n  digitalWrite(LED_PIN, LOW); // muchas placas: LOW = encendido\n  server.sendHeader(\"Location\", \"/\");\n  server.send(303);\n}\n\nvoid handleOff() {\n  digitalWrite(LED_PIN, HIGH);\n  server.sendHeader(\"Location\", \"/\");\n  server.send(303);\n}\n\nvoid setup() {\n  pinMode(LED_PIN, OUTPUT);\n  digitalWrite(LED_PIN, HIGH);\n  Serial.begin(115200);\n\n  WiFi.mode(WIFI_STA);\n  WiFi.begin(SSID, PASS);\n  while (WiFi.status() != WL_CONNECTED) {\n    delay(300);\n    Serial.print(\".\");\n  }\n  Serial.println(WiFi.localIP());\n\n  server.on(\"/\", handleRoot);\n  server.on(\"/on\", handleOn);\n  server.on(\"/off\", handleOff);\n  server.begin();\n}\n\nvoid loop() {\n  server.handleClient();\n}"
+          }
+        },
+        {
+          "heading": "Seguridad (nivel lab)",
+          "body": "En la red de tu casa/taller esto alcanza para aprender. En producción necesitarías auth, HTTPS y no exponer el dispositivo a Internet a lo loco.\n\nPara el curso: usá una WiFi conocida, no abras puertos en el router hacia el ESP, y tratá el control como demo educativa.",
+          "image": "/assets/img/lessons/arduino/breadboard-led.jpg",
+          "imageAlt": "LED en protoboard",
+          "imageCaption": "Validá primero en protoboard; después pensás en cajas y relés."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Rutas /, /on, /off (o similar) + HTML mínimo.\n☐ handleClient() sin bloquear el loop.\n☐ Misma LAN: celular y ESP en la misma WiFi."
+        }
+      ]
+    },
+    {
+      "id": "06-sensores-http-client",
+      "number": 6,
+      "title": "Sensores + HTTP client / telemetría",
+      "goal": "Leer un valor (real o simulado) y enviarlo con un cliente HTTP hacia un endpoint de prueba.",
+      "sections": [
+        {
+          "heading": "Dos roles de red",
+          "body": "• Servidor (lección anterior): otros te pegan requests.\n• Cliente HTTP: vos pegás a un servicio (ThingSpeak, un webhook, tu API, un servidor de prueba).\n\nEn telemetría IoT suele ganar el cliente: el nodo mide y publica cada N segundos. El servidor embebido queda para control local o debug.",
+          "image": "/assets/img/lessons/arduino/sensor.jpg",
+          "imageAlt": "Sensor conectado",
+          "imageCaption": "Medís en el borde; publicás por HTTP. Ese es el latido de muchos nodos IoT."
+        },
+        {
+          "heading": "Sketch: cliente HTTP simple",
+          "body": "Este ejemplo simula una lectura (podés reemplazar por analogRead o un DHT más adelante) y hace un GET a httpbin.org (servicio público de prueba). En proyectos reales usarías tu URL y, mejor, HTTPS cuando el stack lo permita.",
+          "code": {
+            "title": "Sketch: HTTP client telemetría",
+            "filename": "http_telemetry.ino",
+            "language": "Arduino C++",
+            "tip": "No martillés el servidor cada 100 ms. Cada 10–60 s suele alcanzar para telemetría educativa.",
+            "content": "#include <ESP8266WiFi.h>\n#include <ESP8266HTTPClient.h>\n#include <WiFiClient.h>\n\nconst char* SSID = \"TU_WIFI\";\nconst char* PASS = \"TU_CLAVE\";\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.mode(WIFI_STA);\n  WiFi.begin(SSID, PASS);\n  while (WiFi.status() != WL_CONNECTED) {\n    delay(300);\n    Serial.print(\".\");\n  }\n  Serial.println(WiFi.localIP());\n}\n\nvoid loop() {\n  if (WiFi.status() != WL_CONNECTED) {\n    Serial.println(\"WiFi caído\");\n    delay(2000);\n    return;\n  }\n\n  int valor = analogRead(A0); // o tu sensor\n  String url = \"http://httpbin.org/get?nodo=wemos&valor=\" + String(valor);\n\n  WiFiClient client;\n  HTTPClient http;\n  http.begin(client, url);\n  int code = http.GET();\n  Serial.printf(\"HTTP %d\\n\", code);\n  if (code > 0) {\n    Serial.println(http.getString().substring(0, 200));\n  }\n  http.end();\n\n  delay(15000);\n}"
+          }
+        },
+        {
+          "heading": "Sensores: de la idea al sketch",
+          "body": "Camino recomendado:\n1. Hacé andar el sensor solo (Serial), sin red.\n2. Conectá WiFi solo.\n3. Uní: medir → formatear → HTTP.\n\nSi mezclás los tres problemas el mismo día, no sabés qué falló. Un DHT22 o un potenciómetro en A0 alcanzan para practicar el patrón de telemetría.",
+          "image": "/assets/img/lessons/electronica/protoboard-circuito.jpg",
+          "imageAlt": "Protoboard con circuito",
+          "imageCaption": "Primero el circuito estable; después la red. Ordena el debugging."
+        },
+        {
+          "heading": "JSON y APIs (vista rápida)",
+          "body": "Muchas APIs esperan POST con JSON. El patrón es el mismo: WiFi OK → HTTPClient → header Content-Type → cuerpo.\n\nPara el curso alcanza con GET de prueba. Cuando armes dashboard propio, pasás a POST y pensás en API keys (nunca hardcodeadas en repos públicos)."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Cliente = el nodo inicia la conversación hacia un host.\n☐ Medí sin red, después publicá.\n☐ Intervalos razonables; chequear WiFi.status() antes de GET."
+        }
+      ]
+    },
+    {
+      "id": "07-buenas-practicas",
+      "number": 7,
+      "title": "Buenas prácticas, alimentación, reinicios",
+      "goal": "Anticipar fallas típicas de nodos WiFi: brownout, watchdog, reconexión y hábitos de laboratorio.",
+      "sections": [
+        {
+          "heading": "Por qué se reinicia “solo”",
+          "body": "Causas frecuentes en ESP8266:\n\n• caída de tensión al transmitir WiFi o al activar un relé/motor (brownout),\n• delays eternos que empeoran la sensación de cuelgue (el Soft WDT también existe),\n• alimentación por cables flojos / powerbank flojo,\n• antena tapada → reintentos de radio → más consumo.\n\nPrimera pregunta ante reset raro: ¿qué actuador o TX WiFi coincidió con el reset?",
+          "image": "/assets/img/lessons/electronica/bateria.jpg",
+          "imageAlt": "Alimentación y batería",
+          "imageCaption": "WiFi consume en picos. Fuente justa + motor = reinicios “fantasma”."
+        },
+        {
+          "heading": "Hábitos que salvan horas",
+          "body": "• Capacitor de desacople cerca de la alimentación del módulo si usás breadboard larga.\n• GND común sólido.\n• No alimentar motores desde el pin 3V3 del Wemos.\n• Reconexión WiFi: si status != WL_CONNECTED, WiFi.reconnect() o begin de nuevo, con backoff.\n• Logs claros: “boot”, “wifi ok”, “http 200”, “wifi lost”.\n• Credenciales fuera del código versionado (al menos un header local no commiteado).\n\nEn el lab, un LED de “heartbeat” en loop ayuda a ver si el firmware sigue vivo.",
+          "image": "/assets/img/lessons/electronica/seguridad.jpg",
+          "imageAlt": "Hábitos seguros de banco",
+          "imageCaption": "Misma disciplina que en electrónica: medir, no asumir."
+        },
+        {
+          "heading": "Deep sleep (idea)",
+          "body": "Nodos a batería a veces duermen y despiertan cada X minutos para medir y publicar. ESP.deepSleep(...) existe en el core; requiere cablear RST en muchos diseños.\n\nNo es obligatorio en este curso, pero sí saber que “siempre WiFi on” agota una batería chica en horas, no en semanas."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Alimentación primero ante resets.\n☐ Reconexión explícita y logs.\n☐ Separá potencia de lógica."
+        }
+      ]
+    },
+    {
+      "id": "08-proyecto-integrador",
+      "number": 8,
+      "title": "Proyecto integrador y siguientes pasos",
+      "goal": "Cerrar un nodo IoT mínimo y elegir el camino siguiente (nube, Raspberry Pi, ROS, más sensores).",
+      "sections": [
+        {
+          "heading": "Mini proyecto: estación + control",
+          "body": "Objetivo de aceptación (elegí una variante):\n\nA) Servidor web: mostrar un valor (A0 o contador) y botones ON/OFF de LED.\nB) Cliente: cada 30 s publicar un valor a un endpoint de prueba y loguear el código HTTP.\nC) Combo: web local para debug + publicación periódica.\n\nCriterio de “listo”:\n☐ Arranca solo tras un reset.\n☐ Se reconecta si cortás el WiFi un momento.\n☐ Serial cuenta la historia sin adivinar.",
+          "image": "/assets/img/lessons/arduino/proyecto.jpg",
+          "imageAlt": "Proyecto ensamblado",
+          "imageCaption": "Un nodo chico bien depurado vale más que diez demos a medias."
+        },
+        {
+          "heading": "Checklist de entrega",
+          "body": "☐ Foto o diagrama del cableado.\n☐ SSID de prueba (no hace falta la clave en el informe).\n☐ IP local anotada.\n☐ Qué falla encontraste y cómo la resolviste (alimentación, pin, baud, etc.).",
+          "image": "/assets/img/lessons/electronica/banco.jpg",
+          "imageAlt": "Banco de trabajo",
+          "imageCaption": "Documentar el banco es parte del oficio de prototipar."
+        },
+        {
+          "heading": "Siguientes pasos",
+          "body": "• Más sensores / MQTT (patrón pub-sub liviano para IoT).\n• Raspberry Pi como “cerebro” + ESP como nodo de borde.\n• Visión y móviles si el robot crece.\n• ROS cuando el software del robot se vuelve un grafo de nodos (curso ROS en este sitio).\n\nLa playlist de YouTube del curso puede acompañar prácticas en video; el material de referencia sigue siendo este microcurso y la doc del core ESP8266.",
+          "image": "/assets/img/courses/raspberry-pi.jpg",
+          "imageAlt": "Raspberry Pi",
+          "imageCaption": "Cuando IoT se queda chico de cómputo, la Pi o ROS suelen ser el siguiente piso."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Cerrá un nodo con criterio de aceptación.\n☐ IoT sólido = hardware estable + red predecible + logs.\n☐ Elegí el siguiente curso según el cuello de botella (cómputo, autonomía, software)."
+        }
+      ]
+    }
+  ]
+}

@@ -112,24 +112,27 @@
 
     if (course.internalPath) {
       primaryAction =
-        '<a class="btn-accent" href="' +
+        '<a class="btn-accent summary-enter-btn" href="' +
         escapeHtml(Site.url(course.internalPath)) +
-        '" data-dismiss="modal">Entrar al curso</a>';
+        '">Entrar al curso</a>';
     } else if (course.courseUrl && !course.comingSoon) {
       primaryAction =
-        '<a class="btn-accent" href="' +
+        '<a class="btn-accent summary-enter-btn" href="' +
         escapeHtml(Site.url(course.courseUrl)) +
         '" target="_blank" rel="noopener noreferrer">Ir al curso</a>';
+    } else if (course.comingSoon) {
+      primaryAction =
+        '<button type="button" class="btn-ghost" disabled>Próximamente</button>';
     }
 
     return (
-      '<div class="modal fade" id="' +
+      '<div class="modal fade summary-modal-root" id="' +
       modalId +
-      '" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="' +
+      '" tabindex="-1" aria-labelledby="' +
       labelId +
       '" aria-hidden="true">' +
-      '<div class="modal-dialog modal-dialog-centered' +
-      (hasOverview ? " modal-lg summary-modal-dialog" : "") +
+      '<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable' +
+      (hasOverview ? " modal-lg summary-modal-dialog" : " summary-modal-dialog") +
       '">' +
       '<div class="modal-content summary-modal">' +
       '<div class="modal-header summary-modal-header">' +
@@ -141,7 +144,7 @@
       escapeHtml(course.title) +
       "</h5>" +
       "</div>" +
-      '<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">' +
+      '<button type="button" class="close summary-modal-close" data-dismiss="modal" aria-label="Cerrar">' +
       '<span aria-hidden="true">&times;</span>' +
       "</button>" +
       "</div>" +
@@ -174,14 +177,12 @@
       actionButton =
         '<a class="btn-accent" href="' +
         escapeHtml(Site.url(course.internalPath)) +
-        '">Entrar al curso</a>';
+        '">Entrar</a>';
     } else if (hasExternal) {
       actionButton =
         '<a class="btn-accent" href="' +
         escapeHtml(Site.url(course.courseUrl)) +
-        '" target="_blank" rel="noopener noreferrer">' +
-        (compact ? "Abrir" : "Ir al curso") +
-        "</a>";
+        '" target="_blank" rel="noopener noreferrer">Abrir</a>';
     } else {
       actionButton =
         '<button type="button" class="btn-ghost" disabled>Próximamente</button>';
@@ -300,6 +301,7 @@
       '<button type="button" class="course-carousel-btn" data-carousel-dir="1" aria-label="Ver más cursos">→</button>' +
       "</div>" +
       "</header>" +
+      '<p class="course-carousel-hint">Deslizá o usá las flechas para ver más cursos</p>' +
       '<div class="course-carousel">' +
       '<div class="course-carousel-track" tabindex="0">' +
       cards +
@@ -317,12 +319,34 @@
       group.querySelectorAll("[data-carousel-dir]").forEach(function (btn) {
         btn.addEventListener("click", function () {
           var dir = Number(btn.getAttribute("data-carousel-dir") || "1");
-          var amount = Math.max(track.clientWidth * 0.85, 280);
+          var firstTile = track.querySelector(".course-tile");
+          var tileWidth = firstTile ? firstTile.getBoundingClientRect().width : 280;
+          var gap = 14;
+          var amount = Math.max(tileWidth + gap, track.clientWidth * 0.85);
           track.scrollBy({ left: dir * amount, behavior: "smooth" });
         });
       });
     });
   }
+
+  function bindModalMobileUx() {
+    if (typeof window.jQuery === "undefined") return;
+    var $ = window.jQuery;
+
+    $(document).on("shown.bs.modal", ".summary-modal-root", function () {
+      document.body.classList.add("summary-modal-open");
+      var body = this.querySelector(".summary-modal-body");
+      if (body) body.scrollTop = 0;
+    });
+
+    $(document).on("hidden.bs.modal", ".summary-modal-root", function () {
+      if (!$(".summary-modal-root.show").length) {
+        document.body.classList.remove("summary-modal-open");
+      }
+    });
+  }
+
+  bindModalMobileUx();
 
   fetch(Site.url("/assets/data/courses.json"))
     .then(function (response) {
@@ -408,9 +432,9 @@
         ) +
         renderGroup(
           "Más cursos",
-          "Cursos en preparación (próximamente), con resumen de trabajo en cada uno.",
+          "Cursos en preparación. Deslizá para recorrerlos, igual que los niveles.",
           more,
-          { featured: false }
+          { featured: true, carousel: true }
         );
 
       bindCarousels(container);

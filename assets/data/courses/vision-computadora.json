@@ -42,22 +42,30 @@
       "sections": [
         {
           "heading": "Ver no es lo mismo que mirar",
-          "body": "Una cámara entrega una matriz de intensidades (una imagen). “Ver”, en ingeniería, significa transformar esa matriz en información útil para decidir: ¿hay un obstáculo?, ¿dónde está la pieza?, ¿cuál es el carril?, ¿qué gesto hizo una persona?\n\nEn robótica, la visión por computadora (Computer Vision) es la disciplina que convierte señales visuales en representaciones del mundo que el controlador puede usar.",
+          "body": "Una cámara entrega una matriz de intensidades (una imagen). “Ver”, en ingeniería, significa transformar esa matriz en información útil para decidir: ¿hay un obstáculo?, ¿dónde está la pieza?, ¿cuál es el carril?, ¿qué gesto hizo una persona?\n\nEn robótica, la visión por computadora (Computer Vision) es la disciplina que convierte señales visuales en representaciones del mundo que el controlador puede usar. Sin ese puente, la cámara es solo un adorno que graba video.",
           "image": "/assets/img/lessons/vision/camara.jpg",
           "imageAlt": "Cámara y captura de imagen",
           "imageCaption": "La cámara captura luz; el software convierte esa captura en decisiones."
         },
         {
           "heading": "Por qué importa en robots",
-          "body": "Los sensores de distancia (ultrasonido, LiDAR) son excelentes, pero la visión agrega:\n\n• riqueza semántica (reconocer objetos, textos, personas),\n• gran campo de información por frame,\n• costo relativamente bajo en hardware educativo.\n\nEl precio: es sensible a la iluminación, requiere más cómputo y suele ser más frágil si no se diseña bien el pipeline."
+          "body": "Los sensores de distancia (ultrasonido, LiDAR) son excelentes para geometría local, pero la visión agrega:\n\n• riqueza semántica (reconocer objetos, textos, personas, señales),\n• gran campo de información por frame,\n• costo relativamente bajo en hardware educativo.\n\nEl precio: es sensible a la iluminación, requiere más cómputo y suele ser más frágil si no se diseña bien el pipeline. Un LiDAR “ve” distancias; una cámara “ve” apariencias — y las apariencias mienten con la luz."
+        },
+        {
+          "heading": "Visión vs otros sensores (sin pelea)",
+          "body": "No es visión o LiDAR: es visión y/o LiDAR según la tarea.\n\n• Evitar un muro a 30 cm → ultrasonido/LiDAR suele ganar.\n• Leer un cartel o clasificar piezas por color/forma → visión.\n• Seguir una línea en el piso → visión simple (o IR dedicados).\n• Armar un mapa denso indoor → LiDAR o RGB-D suelen ser más directos.\n\nLa pregunta útil: ¿qué decisión habilita este sensor que otro no habilita al mismo costo?"
         },
         {
           "heading": "El stack mental",
-          "body": "Pensá la visión como capas:\n\n1. Adquisición (cámara, lente, exposición).\n2. Preprocesado (ruido, color, geometría).\n3. Extracción de información (bordes, blobs, keypoints, redes).\n4. Interpretación (detección, tracking, pose).\n5. Acción (evitar, agarrar, seguir).\n\nSi fallás en la capa 1 (mala imagen), ninguna red neuronal te salva del todo."
+          "body": "Pensá la visión como capas:\n\n1. Adquisición (cámara, lente, exposición, foco).\n2. Preprocesado (ruido, color, geometría).\n3. Extracción de información (bordes, blobs, keypoints, redes).\n4. Interpretación (detección, tracking, pose, semántica).\n5. Acción (evitar, agarrar, seguir, alarmar).\n\nSi fallás en la capa 1 (mala imagen), ninguna red neuronal te salva del todo. Basura entra → basura sale."
+        },
+        {
+          "heading": "Ejercicio mental",
+          "body": "Para cada caso, ¿usarías visión, distancia, o ambos?\n\nA) robot que frena si hay una persona cruzando\nB) brazo que clasifica tornillos vs arandelas en una bandeja\nC) móvil que sigue una cinta negra en el piso del taller\n\nAnotá también qué fallaría si cambia la luz del sol. Esa sensibilidad es el “impuesto” de la visión."
         },
         {
           "heading": "Para llevarte",
-          "body": "Computer Vision no es “poner una cámara USB”. Es un pipeline completo desde fotones hasta decisión. En las próximas lecciones vamos a recorrer ese camino con lenguaje claro y ejemplos de robótica."
+          "body": "☐ Computer Vision no es “poner una cámara USB”: es un pipeline de fotones a decisión.\n☐ Semántica rica a cambio de fragilidad ante iluminación y cómputo.\n☐ Elegí visión cuando la decisión lo pide, no por moda."
         }
       ]
     },
@@ -69,22 +77,33 @@
       "sections": [
         {
           "heading": "Qué es una imagen para el computador",
-          "body": "Una imagen en escala de grises es una matriz HxW de valores (por ejemplo 0–255). Una imagen color suele ser HxWx3 (B,G,R o R,G,B según la librería).\n\nResolución, bit depth y formato (JPEG/PNG/RAW) afectan calidad y latencia. En robots en tiempo real, a veces conviene bajar resolución para ganar FPS.",
+          "body": "Una imagen en escala de grises es una matriz H×W de valores (por ejemplo 0–255). Una imagen color suele ser H×W×3 (B,G,R o R,G,B según la librería — OpenCV clásico usa BGR).\n\nResolución, bit depth y formato (JPEG/PNG/RAW) afectan calidad y latencia. JPEG comprime con pérdidas: lindo para fotos, a veces malo para bordes finos. En robots en tiempo real, a menudo conviene bajar resolución para ganar FPS.",
           "image": "/assets/img/lessons/vision/features.jpg",
           "imageAlt": "Representación digital y circuitos",
           "imageCaption": "La imagen es datos: matrices que se filtran, transforman y clasifican."
         },
         {
+          "heading": "Resolución, ROI y presupuesto",
+          "body": "Más píxeles ≠ siempre mejor. Duplicar el ancho y el alto multiplica por ~4 el trabajo de muchos algoritmos.\n\nEstrategias:\n• capturar a menor resolución\n• trabajar sobre un ROI (region of interest): solo la franja del piso, solo la mesa del brazo\n• pirámides / escalas: buscar primero en chico, refinar en grande\n\nEn un Raspberry Pi, esta decisión suele ser la diferencia entre 8 FPS inútiles y 25 FPS usables."
+        },
+        {
           "heading": "Color, iluminación y trampas clásicas",
-          "body": "El mismo objeto puede verse distinto con luz amarilla, contraluz o sombras. Por eso se usan:\n\n• conversión a HSV/Lab para segmentar color de forma más estable,\n• equalización / normalización,\n• máscaras y umbrales adaptativos.\n\nUn detector “perfecto” en laboratorio puede romperse en el taller si cambia la luz."
+          "body": "El mismo objeto puede verse distinto con luz amarilla, contraluz o sombras. Por eso se usan:\n\n• conversión a HSV/Lab para segmentar color de forma más estable,\n• equalización / normalización,\n• máscaras y umbrales adaptativos,\n• control físico de la luz (la solución más barata a veces es una lámpara).\n\nUn detector “perfecto” en laboratorio puede romperse en el taller si cambia la luz. Tratar la iluminación como parte del diseño del robot, no como detalle de último momento."
         },
         {
           "heading": "Preprocesado útil",
-          "body": "Operaciones que vas a ver una y otra vez:\n\n• blur / Gaussian para reducir ruido,\n• threshold / Canny para bordes,\n• morphología (erode/dilate) para limpiar máscaras,\n• ROI (region of interest) para mirar solo donde importa.\n\nEl arte está en hacer lo mínimo necesario: cada filtro suma costo y puede borrar detalle útil."
+          "body": "Operaciones que vas a ver una y otra vez:\n\n• blur / Gaussian para reducir ruido,\n• threshold / Canny para bordes,\n• morphología (erode/dilate) para limpiar máscaras,\n• ROI para mirar solo donde importa,\n• conversión de espacio de color.\n\nEl arte está en hacer lo mínimo necesario: cada filtro suma costo y puede borrar detalle útil. Preprocesar de más es un error tan común como no preprocesar.",
+          "image": "/assets/img/lessons/vision/procesamiento.jpg",
+          "imageAlt": "Procesamiento de imagen",
+          "imageCaption": "Filtros y máscaras preparan la imagen; no reemplazan una buena decisión de diseño."
         },
         {
           "heading": "Ejercicio mental",
-          "body": "Querés detectar una pelota naranja sobre piso gris. ¿Trabajarías en RGB crudo o pasarías a HSV? ¿Qué pasa si alguien prende una lámpara cálida? Anotá tu hipótesis: la vamos a retomar en detección."
+          "body": "Querés detectar una pelota naranja sobre piso gris.\n\n1. ¿Trabajarías en RGB crudo o pasarías a HSV?\n2. ¿Qué pasa si alguien prende una lámpara cálida?\n3. ¿Qué ROI elegirías en un robot móvil vs en una cámara fija sobre la mesa?\n\nAnotá tu hipótesis: la retoman detección y el pipeline."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Imagen = matriz (y a veces canales).\n☐ Iluminación es parte del sistema.\n☐ Preprocesá lo justo; medí FPS después de cada filtro."
         }
       ]
     },
@@ -96,22 +115,30 @@
       "sections": [
         {
           "heading": "De frame a acción",
-          "body": "Un loop típico en un robot móvil o brazo con cámara:\n\n1. Capturar frame.\n2. Preprocesar.\n3. Extraer features / detectar.\n4. Estimar estado (posición, clase, pose).\n5. Enviar comando al controlador.\n6. Repetir a N FPS.\n\nLa cadencia importa: si el brazo es rápido y la visión va a 5 FPS, el control “ve el pasado”.",
+          "body": "Un loop típico en un robot móvil o brazo con cámara:\n\n1. Capturar frame.\n2. Preprocesar.\n3. Extraer features / detectar.\n4. Estimar estado (posición, clase, pose).\n5. Enviar comando al controlador.\n6. Repetir a N FPS.\n\nLa cadencia importa: si el brazo es rápido y la visión va a 5 FPS, el control “ve el pasado”. Un pipeline lindo en un Jupyter notebook puede ser inutilizable en el robot si no cierra el lazo a tiempo.",
           "image": "/assets/img/lessons/vision/pipeline.jpg",
           "imageAlt": "Código y pipeline de procesamiento",
           "imageCaption": "Un pipeline claro es más valioso que un modelo sofisticado mal integrado."
         },
         {
           "heading": "Latencia, throughput y recursos",
-          "body": "En edge (Raspberry Pi, Jetson, PC industrial) compiten:\n\n• FPS deseados,\n• tamaño de modelo,\n• CPU/GPU/NPU disponible,\n• consumo energético.\n\nA veces un método clásico (color + contornos) a 40 FPS supera a una red profunda a 3 FPS para una tarea simple."
+          "body": "En edge (Raspberry Pi, Jetson, PC industrial) compiten:\n\n• FPS deseados,\n• tamaño de modelo,\n• CPU/GPU/NPU disponible,\n• consumo energético,\n• latencia de punta a punta (no solo “inferencia”).\n\nA veces un método clásico (color + contornos) a 40 FPS supera a una red profunda a 3 FPS para una tarea simple. Medí el sistema completo: cámara → resultado → comando motor."
         },
         {
           "heading": "Dónde vive el pipeline",
-          "body": "• Todo en el micro/SBC del robot (más simple, menos flexible).\n• PC de a bordo + cámara.\n• Nodos ROS (camera_driver → vision_node → control_node).\n\nSeparar responsabilidades ayuda a debuggear: ¿falló la cámara, el detector o el control?"
+          "body": "• Todo en el micro/SBC del robot (más simple, menos flexible).\n• PC de a bordo + cámara.\n• Nodos ROS (camera_driver → vision_node → control_node).\n• Offloading a un servidor (potencia alta, latencia de red).\n\nSeparar responsabilidades ayuda a debuggear: ¿falló la cámara, el detector o el control? Si todo está en un solo script monolítico, el bug se esconde."
+        },
+        {
+          "heading": "Contrato con el controlador",
+          "body": "Definí qué entrega la visión al resto del robot:\n\n• ¿un booleano? (hay obstáculo)\n• ¿un punto (u, v) en la imagen?\n• ¿un bounding box + clase?\n• ¿una pose 3D en el marco del robot?\n\nEse “contrato” evita que el detector cambie de formato cada semana y rompa el brazo. También define el fallback: si no hay detección confiable, ¿frenar, buscar, o seguir con otro sensor?"
         },
         {
           "heading": "Checklist de diseño",
-          "body": "Antes de codear:\n\n☐ ¿Qué decisión habilita la visión?\n☐ ¿Qué precisión y FPS necesitás?\n☐ ¿Qué iluminación controlás?\n☐ ¿Qué pasa si la visión falla (fallback)?"
+          "body": "Antes de codear:\n\n☐ ¿Qué decisión habilita la visión?\n☐ ¿Qué precisión y FPS necesitás?\n☐ ¿Qué iluminación controlás?\n☐ ¿Qué pasa si la visión falla (fallback)?\n☐ ¿Quién consume el resultado (nodo/control) y en qué formato?\n☐ ¿Cómo vas a loguear fallas (guardar frames malos)?"
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "El pipeline es el producto. El algoritmo es una pieza. Diseñá interfaces, latencia y fallback con la misma seriedad que el detector."
         }
       ]
     },
@@ -123,22 +150,34 @@
       "sections": [
         {
           "heading": "Detección clásica (aún muy útil)",
-          "body": "Antes del deep learning —y todavía hoy en muchos proyectos— se usan:\n\n• umbrales de color + contornos,\n• template matching,\n• Haar / HOG + SVM,\n• blob detection.\n\nVentajas: interpretables, livianos, debuggeables. Límites: frágiles ante cambios de escena.",
+          "body": "Antes del deep learning —y todavía hoy en muchos proyectos— se usan:\n\n• umbrales de color + contornos,\n• template matching,\n• Haar / HOG + SVM,\n• blob detection.\n\nVentajas: interpretables, livianos, debuggeables con imágenes intermedias. Límites: frágiles ante cambios de escena, escala y oclusión.\n\nPara una línea en el piso o una pelota de color en un entorno controlado, lo clásico sigue siendo excelente pedagogía y a menudo suficiente en producción chica.",
           "image": "/assets/img/lessons/vision/deteccion.jpg",
           "imageAlt": "Robot y escena para detección visual",
           "imageCaption": "Detectar es responder: qué hay y aproximadamente dónde está."
         },
         {
           "heading": "Deep learning en visión",
-          "body": "Detectores modernos (YOLO, SSD, Faster R-CNN, etc.) aprenden features a partir de datos etiquetados.\n\nVentajas: robustez en escenas complejas. Costos: dataset, entrenamiento, cómputo, y a veces “cajas negras” difíciles de certificar.\n\nEn robótica educativa, un buen punto medio es: prototipar clásico, escalar a DL cuando el problema lo exige."
+          "body": "Detectores modernos (YOLO, SSD, Faster R-CNN, etc.) aprenden features a partir de datos etiquetados.\n\nVentajas: robustez en escenas complejas y clases difíciles de “programar a mano”. Costos: dataset, etiquetado, entrenamiento, cómputo, y a veces “cajas negras” difíciles de certificar.\n\nEn robótica educativa, un buen punto medio es: prototipar clásico, escalar a DL cuando el problema lo exige y tu hardware aguanta el FPS."
+        },
+        {
+          "heading": "Detección vs features (no son lo mismo)",
+          "body": "• Detección: “hay un objeto de la clase X en esta región” (caja, máscara, centroide).\n• Features / keypoints: puntos o descriptores distintivos para emparejar, estimar movimiento o anclar geometría.\n\nPodés detectar sin features explícitas (una red). Podés usar features sin “detectar una clase” (seguir textura para VO/SLAM). Mezclar los términos confunde el diseño: aclará si tu salida es semántica (qué es) o geométrica (cómo se relaciona el píxel con el mundo)."
         },
         {
           "heading": "Tracking",
-          "body": "Detectar en cada frame es caro. El tracking sigue un objeto ya detectado entre frames (KCF, CSRT, sort/DeepSORT, etc.).\n\nSirve para suavizar trayectorias y reducir cómputo, pero puede perder el objeto si hay oclusiones: entonces volvés a detectar."
+          "body": "Detectar en cada frame es caro. El tracking sigue un objeto ya detectado entre frames (KCF, CSRT, SORT/DeepSORT, etc.).\n\nSirve para suavizar trayectorias y reducir cómputo, pero puede perder el objeto si hay oclusiones: entonces volvés a detectar. En un gripper, un track inestable duele más que un detector lento pero estable."
         },
         {
           "heading": "Métrica que importa al robot",
-          "body": "No alcanza el mAP del paper. Preguntá:\n\n• ¿falsos positivos hacen chocar el robot?\n• ¿falsos negativos frenan la tarea?\n• ¿el bounding box es lo bastante estable para un gripper?\n\nLa métrica correcta es la del sistema completo."
+          "body": "No alcanza el mAP del paper. Preguntá:\n\n• ¿falsos positivos hacen chocar el robot?\n• ¿falsos negativos frenan la tarea?\n• ¿el bounding box es lo bastante estable para un gripper?\n• ¿cuánto tarda punta a punta?\n\nLa métrica correcta es la del sistema completo. Un detector “peor” en el leaderboard puede ser mejor en la celda si es más predecible."
+        },
+        {
+          "heading": "Ejercicio de decisión",
+          "body": "Elegí método (clásico / DL / híbrido) y justificá en 3 líneas:\n\n1. Seguir una línea negra sobre piso claro en un aula.\n2. Detectar personas en un depósito con ropa variada.\n3. Ubicar una pieza metálica reflectante en una mesa.\n\n¿Dónde la iluminación te obliga a rediseñar el banco antes que el modelo?"
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Clásico para controlado y debugable; DL para complejidad semántica.\n☐ Detección ≠ features.\n☐ Medí el error que le duele al robot, no solo el del paper."
         }
       ]
     },
@@ -150,22 +189,30 @@
       "sections": [
         {
           "heading": "Features: puntos que se pueden seguir",
-          "body": "Keypoints (Harris, ORB, SIFT/SURF históricos) marcan regiones distintivas. Sirven para:\n\n• emparejar imágenes,\n• estimar movimiento,\n• realidad aumentada,\n• SLAM visual (en stacks más avanzados).\n\nLa intuición: en lugar de mirar toda la imagen, mirás puntos confiables.",
+          "body": "Keypoints (Harris, ORB, SIFT/SURF históricos) marcan regiones distintivas. Sirven para:\n\n• emparejar imágenes,\n• estimar movimiento de cámara,\n• realidad aumentada,\n• SLAM visual (en stacks más avanzados).\n\nLa intuición: en lugar de mirar toda la imagen, mirás puntos confiables y sus descriptores. ORB es un caballo de batalla libre y rápido para empezar.",
           "image": "/assets/img/lessons/vision/procesamiento.jpg",
           "imageAlt": "Procesamiento y extracción de información",
           "imageCaption": "Las features comprimen la imagen en pistas geométricas útiles."
         },
         {
           "heading": "Calibración de cámara",
-          "body": "Una cámara deforma la realidad (distorsión de lente). La calibración estima parámetros intrínsecos y permite:\n\n• corregir distorsión,\n• medir ángulos/tamaños con más sentido,\n• combinar con extrínsecos (dónde está la cámara respecto al robot).\n\nSin calibración, “el pixel (u,v)” no se traduce bien a metros."
+          "body": "Una cámara deforma la realidad (distorsión de lente). La calibración estima parámetros intrínsecos (focal, centro óptico, coeficientes de distorsión) y permite:\n\n• corregir distorsión,\n• medir ángulos/tamaños con más sentido,\n• combinar con extrínsecos (dónde está la cámara respecto al robot o a la mesa).\n\nSin calibración, “el pixel (u,v)” no se traduce bien a metros. Con tablero ajedrezado y OpenCV, es un laboratorio clásico y muy recomendable."
         },
         {
           "heading": "Del píxel al mundo (idea)",
-          "body": "Con una sola cámara, la profundidad es ambigua. Se resuelve con:\n\n• estereoscopía (dos cámaras),\n• RGB-D (Kinect/RealSense),\n• supuestos (objeto sobre un plano conocido),\n• movimiento (estructura from motion).\n\nPara un brazo que agarra, casi siempre necesitás alguna forma de profundidad o un truco geométrico sólido."
+          "body": "Con una sola cámara, la profundidad es ambigua: infinitos puntos 3D proyectan al mismo píxel. Se resuelve con:\n\n• estereoscopía (dos cámaras),\n• RGB-D (Kinect/RealSense),\n• supuestos (objeto sobre un plano conocido),\n• movimiento (structure from motion / visual odometry).\n\nPara un brazo que agarra, casi siempre necesitás alguna forma de profundidad o un truco geométrico sólido (homografía a plano de mesa)."
+        },
+        {
+          "heading": "Marcos de referencia (para no perderse)",
+          "body": "Acostumbrate a nombrar marcos:\n\n• marco de la cámara\n• marco del robot / base\n• marco del mundo / mapa\n• marco de la herramienta (TCP)\n\nUna detección en píxeles vive en la imagen. Una acción de motor vive en el robot. La calibración extrínseca y las transformaciones (TF en ROS) son el pegamento. Si el agarre “siempre falla 3 cm a la izquierda”, muchas veces es TF, no el detector."
+        },
+        {
+          "heading": "Puente a la acción",
+          "body": "Cadena típica de manipulación visual:\n\ndetectar objeto → estimar pose → planificar grasp → ejecutar → verificar\n\nCadena típica en móvil:\n\ndetectar marca/carril → error lateral → comando de dirección → (opcional) velocidad\n\nEn ambos casos la visión cierra un lazo: no “mira por mirar”. Si el resultado no cambia un actuador (o una alarma), todavía no terminaste el pipeline."
         },
         {
           "heading": "Para llevarte",
-          "body": "Visión geométrica conecta imagen con mecánica del robot. Aunque no implementes SLAM mañana, sabé que calibración y modelo de cámara son el puente entre CV y control."
+          "body": "☐ Features ayudan a geometría y movimiento; detección ayuda a semántica.\n☐ Calibración y marcos son el puente entre CV y control.\n☐ Una sola cámara no da profundidad sin supuestos o hardware extra."
         }
       ]
     },
@@ -177,29 +224,33 @@
       "sections": [
         {
           "heading": "Patrones de uso en robótica",
-          "body": "• Navegación: lanes, señales, obstáculos visuales.\n• Manipulación: localizar pieza → pose → grasp.\n• Inspección: calidad, defectos, lectura de códigos.\n• Interacción: personas, gestos, seguridad.\n\nCada patrón impone distinto FPS, precisión y tolerancia al error.",
+          "body": "• Navegación: lanes, señales, obstáculos visuales, visual servoing simple.\n• Manipulación: localizar pieza → pose → grasp.\n• Inspección: calidad, defectos, lectura de códigos.\n• Interacción: personas, gestos, zonas de seguridad.\n\nCada patrón impone distinto FPS, precisión y tolerancia al error. Una inspección offline puede permitirse 2 FPS; un gripper en movimiento, no.",
           "image": "/assets/img/lessons/vision/robot-vision.jpg",
           "imageAlt": "Robot que usa percepción para interactuar",
           "imageCaption": "La visión solo vale si cambia una decisión del robot."
         },
         {
           "heading": "Edge computing",
-          "body": "Correr visión en el robot (Raspberry Pi, Jetson, NUC) reduce latencia de red pero limita modelos. Offloading a un PC/servidor da potencia, pero agrega delay y dependencia.\n\nElegí según la tarea: un gripper rápido odia la latencia; un inspector offline puede permitirse más cómputo.",
+          "body": "Correr visión en el robot (Raspberry Pi, Jetson, NUC) reduce latencia de red pero limita modelos. Offloading a un PC/servidor da potencia, pero agrega delay y dependencia.\n\nElegí según la tarea: un gripper rápido odia la latencia; un inspector offline puede permitirse más cómputo. Cuantización, modelos nano y ROI agresivo son tus amigos en edge.",
           "image": "/assets/img/lessons/vision/edge-compute.jpg",
           "imageAlt": "Placa tipo Raspberry para cómputo en el borde",
           "imageCaption": "El hardware de visión define qué algoritmos son realistas."
         },
         {
           "heading": "Fallas típicas (y cómo pensarlas)",
-          "body": "• Iluminación variable → controlá luz o adaptá algoritmos.\n• Motion blur → exposición más corta / más luz.\n• Reflexiones → polarizadores, ángulos, features robustas.\n• Overfitting a un dataset lindo → validá en el entorno real.\n• Visión OK pero control malo → el bug no era el detector."
+          "body": "• Iluminación variable → controlá luz o adaptá algoritmos.\n• Motion blur → exposición más corta / más luz / más FPS de obturación.\n• Reflexiones → polarizadores, ángulos, features robustas.\n• Overfitting a un dataset lindo → validá en el entorno real.\n• Visión OK pero control malo → el bug no era el detector.\n• Extrínsecos mal → agarre sistemáticamente desplazado.\n\nGuardá frames de falla: son el dataset de tu próxima mejora."
+        },
+        {
+          "heading": "Arquitectura mínima de integración",
+          "body": "1. Driver de cámara (USB/CSI) con resolución fija acordada.\n2. Nodo/módulo de visión con salida versionada (mensaje claro).\n3. Control que consume esa salida y tiene timeout.\n4. Logger (imagen + resultado) cuando la confianza es baja.\n5. Sensor de respaldo o parada segura.\n\nAunque arranques en un solo script de Python, nombrar estos bloques te prepara para ROS Perception."
         },
         {
           "heading": "Qué estudiar después",
-          "body": "1. Practicá OpenCV: captura, máscaras, contornos, tracking simple.\n2. Subí a un detector liviano (YOLO nano) si tu hardware aguanta.\n3. Integrá con ROS (image topics + vision node) cuando el sistema crezca.\n4. Si vas a manipulación, sumá profundidad (RGB-D) temprano.\n\nCon Introducción a la Robótica + este curso ya tenés el idioma para conectar percepción visual con el resto del stack."
+          "body": "1. Practicá OpenCV: captura, máscaras, contornos, tracking simple.\n2. Subí a un detector liviano (YOLO nano) si tu hardware aguanta.\n3. Integrá con ROS (image topics + vision node) cuando el sistema crezca.\n4. Si vas a manipulación, sumá profundidad (RGB-D) temprano.\n5. Si vas a móviles, combiná con odometría/LiDAR (curso de Robots Móviles).\n\nCon Introducción a la Robótica + este curso ya tenés el idioma para conectar percepción visual con el resto del stack."
         },
         {
           "heading": "Checklist final",
-          "body": "☐ Puedo explicar captura → pipeline → decisión.\n☐ Sé cuándo preferir método clásico vs deep learning.\n☐ Entiendo latencia/FPS en un robot.\n☐ Sé por qué calibrar la cámara importa.\n☐ Tengo un plan de práctica con OpenCV/ROS."
+          "body": "☐ Puedo explicar captura → pipeline → decisión → acción.\n☐ Sé cuándo preferir método clásico vs deep learning.\n☐ Entiendo latencia/FPS en un robot.\n☐ Sé por qué calibrar la cámara importa.\n☐ Distingo detección, features y profundidad.\n☐ Tengo un plan de práctica con OpenCV/ROS.\n☐ Sé qué hacer cuando la visión falla."
         }
       ]
     }

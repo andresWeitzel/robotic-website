@@ -1,0 +1,288 @@
+{
+  "id": "ros",
+  "title": "Sistema Operativo Robótico (ROS)",
+  "level": "Avanzado",
+  "summary": "El middleware estándar para robots: nodos, tópicos, mensajes, herramientas y el flujo percibir → decidir → actuar, con puente a ROS 2.",
+  "requirements": "Linux básico, robótica introductoria y programación (Python o C++ ayudan). Ideal haber visto robots móviles.",
+  "image": "/assets/img/courses/ros-turtlebot.jpg",
+  "imageAlt": "Robot TurtleBot usado con ROS",
+  "playlistUrl": "https://www.youtube.com/playlist?list=PLCl11UFjHurDjDv-eSKnV6lMlffQJwSuw",
+  "outcomes": [
+    "Explicar qué problema resuelve ROS frente a un programa monolítico",
+    "Describir el entorno típico en Linux y la idea de workspace",
+    "Dibujar un grafo simple de nodos y tópicos",
+    "Distinguir tópicos (async) de servicios (request/response)",
+    "Usar mentalmente rosrun, roslaunch, rqt y rviz",
+    "Seguir el flujo de un robot móvil tipo TurtleBot",
+    "Aplicar buenas prácticas de paquetes y logs",
+    "Ubicar ROS 1 vs el puente a ROS 2 / navegación-SLAM"
+  ],
+  "sources": [
+    {
+      "title": "ROS Wiki — Start Guide",
+      "url": "https://wiki.ros.org/ROS/StartGuide"
+    },
+    {
+      "title": "ROS Wiki — Topics, Nodes, Services",
+      "url": "https://wiki.ros.org/Topics"
+    },
+    {
+      "title": "TurtleBot tutorials (ROS)",
+      "url": "https://wiki.ros.org/turtlebot"
+    },
+    {
+      "title": "ROS 2 Docs — Why ROS 2 (puente)",
+      "url": "https://docs.ros.org/en/rolling/The-ROS2-Project/Contributing/Migration-Guide.html"
+    },
+    {
+      "title": "Playlist del curso (complemento en video)",
+      "url": "https://www.youtube.com/playlist?list=PLCl11UFjHurDjDv-eSKnV6lMlffQJwSuw"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "01-que-es-ros",
+      "number": 1,
+      "title": "Qué es ROS y cuándo usarlo",
+      "goal": "Entender ROS como middleware de comunicación y cuándo justifica su complejidad.",
+      "sections": [
+        {
+          "heading": "No es un sistema operativo de PC",
+          "body": "ROS (Robot Operating System) es un middleware: un conjunto de herramientas, convenciones y librerías para repartir el software del robot en procesos que se hablan por mensajes.\n\nCorre sobre Linux (típicamente Ubuntu). No reemplaza al kernel: organiza tu código de percepción, planificación y control para que no sea un único sketch gigante imposible de mantener.",
+          "image": "/assets/img/courses/ros-turtlebot.jpg",
+          "imageAlt": "TurtleBot con ROS",
+          "imageCaption": "ROS brilla cuando el robot tiene varias “mentes” concurrentes: sensores, mapas, control."
+        },
+        {
+          "heading": "El problema que resuelve",
+          "body": "Sin ROS (o algo parecido), un móvil con LiDAR + cámara + motores termina en un monolito: un solo proceso hace todo, acoplado y difícil de testear.\n\nCon ROS:\n• un nodo publica scans láser,\n• otro estima odometría,\n• otro planifica,\n• otro manda velocidades a las ruedas.\n\nPodés reiniciar o reemplazar una pieza sin reescribir el resto. La comunidad aporta paquetes reutilizables (drivers, SLAM, navegación).",
+          "image": "/assets/img/lessons/moviles/arquitectura.jpg",
+          "imageAlt": "Arquitectura de robot móvil",
+          "imageCaption": "Misma idea que una arquitectura en capas: contratos claros entre módulos."
+        },
+        {
+          "heading": "Cuándo SÍ y cuándo NO",
+          "body": "Sí:\n• varios sensores/actuadores concurrentes,\n• querés rviz, bags, stacks de navegación,\n• el proyecto va a crecer más de un fin de semana.\n\nNo (todavía):\n• un LED con Arduino,\n• un nodo IoT chico con ESP,\n• la primera semana de electrónica.\n\nROS tiene curva de instalación y conceptos. Vale la pena cuando el cuello de botella es software de robot, no el primer Blink."
+        },
+        {
+          "heading": "ROS 1 en este curso",
+          "body": "Trabajamos conceptos clásicos de ROS 1 (roscore, rosrun, roslaunch, tópicos…). Al final conectamos con ROS 2, que es el presente/futuro del ecosistema, pero la intuición de nodos/mensajes se transfiere."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ ROS = middleware + ecosistema, no un Ubuntu especial.\n☐ Sirve para desacoplar y reutilizar.\n☐ Empezalo cuando el robot ya pide arquitectura."
+        }
+      ]
+    },
+    {
+      "id": "02-instalacion-linux",
+      "number": 2,
+      "title": "Instalación y entorno Linux (concepto)",
+      "goal": "Armar el mapa mental de Ubuntu + distro ROS + workspace sin perderse en detalles de una sola versión.",
+      "sections": [
+        {
+          "heading": "La trinidad: SO, distro ROS, workspace",
+          "body": "En la práctica necesitás:\n\n1. Ubuntu (versión alineada a la distro ROS que elijas).\n2. Una distro ROS 1 (p. ej. Noetic en Ubuntu 20.04) o, más adelante, ROS 2 (Humble, Jazzy…).\n3. Un catkin workspace (ROS 1) donde vivan tus paquetes.\n\nComandos típicos de entorno (idea):\n• source /opt/ros/<distro>/setup.bash\n• mkdir -p ~/catkin_ws/src && cd ~/catkin_ws && catkin_make\n• source devel/setup.bash\n\nSin el source, el shell no encuentra rosrun ni tus paquetes.",
+          "image": "/assets/img/lessons/moviles/cover.jpg",
+          "imageAlt": "Entorno de robots móviles",
+          "imageCaption": "El entorno se “activa” en la terminal: setup.bash es parte del flujo diario."
+        },
+        {
+          "heading": "Qué instalar (concepto, no receta única)",
+          "body": "Suele instalarse:\n• ros-<distro>-desktop-full (incluye rviz y herramientas),\n• herramientas de build (catkin),\n• opcional: paquetes de TurtleBot / gazebo según el tutorial.\n\nSeguí siempre la wiki oficial para tu par Ubuntu↔ROS: mezclar versiones es la forma más rápida de sufrir."
+        },
+        {
+          "heading": "Workspace = tu taller de software",
+          "body": "src/ → código fuente de paquetes\nbuild/ y devel/ (o install/) → artefactos generados\n\nCiclo mental:\n1. crear/editar paquete en src\n2. compilar (catkin_make / catkin build)\n3. source del setup del workspace\n4. rosrun / roslaunch\n\nTratá el workspace como el “repo del robot”, no como una carpeta improvisada en Descargas.",
+          "image": "/assets/img/lessons/intro/pcb-control.jpg",
+          "imageAlt": "Control y software",
+          "imageCaption": "El hardware necesita un lugar ordenado para el software: el workspace."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Ubuntu alineado a la distro ROS.\n☐ source del setup en cada terminal nueva (o en .bashrc con cuidado).\n☐ Workspace propio para tus paquetes."
+        }
+      ]
+    },
+    {
+      "id": "03-nodos-grafo",
+      "number": 3,
+      "title": "Nodos y grafo",
+      "goal": "Ver el robot como un grafo de procesos (nodos) coordinados por el master.",
+      "sections": [
+        {
+          "heading": "Nodo = proceso con un rol",
+          "body": "Un nodo es un ejecutable (Python o C++) que hace una cosa con nombre claro: driver de LiDAR, teleop de teclado, visualizador, controlador de base.\n\nEn ROS 1, roscore levanta el master (y rosout). Los nodos se registran ahí para descubrirse.\n\nComandos de idea:\n• rosrun <paquete> <nodo>\n• rosnode list\n• rosnode info <nombre>",
+          "image": "/assets/img/lessons/moviles/arquitectura.jpg",
+          "imageAlt": "Módulos del robot",
+          "imageCaption": "Cada caja del diagrama puede ser un nodo (o un grupo de nodos)."
+        },
+        {
+          "heading": "El grafo de computación",
+          "body": "Cuando varios nodos publican y se suscriben, aparece un grafo: vértices = nodos, aristas = tópicos (más adelante).\n\nrqt_graph te muestra ese mapa en vivo. Si el grafo no coincide con lo que imaginás, el bug suele estar en nombres de tópicos o en nodos que no arrancaron.",
+          "image": "/assets/img/lessons/vision/pipeline.jpg",
+          "imageAlt": "Pipeline y flujo de datos",
+          "imageCaption": "Pensá en datos fluyendo: el grafo es el plano eléctrico del software."
+        },
+        {
+          "heading": "Nombres y namespaces",
+          "body": "Los nombres importan: /scan, /cmd_vel, /odom son convenciones frecuentes en móviles.\n\nNamespaces permiten duplicar robots (robot1/scan, robot2/scan). Mal nombrar es la causa #1 de “el nodo corre pero nadie escucha”."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Nodo = un rol, un proceso.\n☐ roscore (ROS 1) + rosnode list para inspeccionar.\n☐ Dibujá el grafo antes de codear de más."
+        }
+      ]
+    },
+    {
+      "id": "04-topicos-mensajes",
+      "number": 4,
+      "title": "Tópicos y mensajes",
+      "goal": "Dominar el modelo publish/subscribe y el rol de los tipos de mensaje.",
+      "sections": [
+        {
+          "heading": "Publish / subscribe",
+          "body": "Un tópico es un bus con nombre. Un nodo publica mensajes; otros se suscriben. Es comunicación asíncrona: el publicador no “espera respuesta” de cada oyente.\n\nEjemplos típicos en un móvil:\n• /scan → sensor_msgs/LaserScan\n• /odom → nav_msgs/Odometry\n• /cmd_vel → geometry_msgs/Twist\n\nComandos de idea:\n• rostopic list\n• rostopic echo /cmd_vel\n• rostopic hz /scan\n• rostopic info /odom",
+          "image": "/assets/img/lessons/moviles/lidar-nav.jpg",
+          "imageAlt": "LiDAR y navegación",
+          "imageCaption": "El LiDAR no “llama” al planificador: publica /scan; quien necesite, se suscribe."
+        },
+        {
+          "heading": "Mensajes = contratos tipados",
+          "body": "El .msg define campos (floats, headers, arrays…). Publicador y suscriptor deben acordar el tipo.\n\ngeometry_msgs/Twist, por ejemplo, lleva velocidades lineales y angulares: es el “volante” estándar de muchos robots diferenciales vía /cmd_vel.\n\nSi el tipo no coincide, el sistema no “convierte solo”: fallás al conectar o al compilar interfaces."
+        },
+        {
+          "heading": "Frecuencia y latencia",
+          "body": "Un tópico a 100 Hz innecesario satura CPU y red. Un /cmd_vel que llega a 1 Hz hace un robot torpe.\n\nMedí con rostopic hz. En robots reales, el diseño del grafo incluye presupuestos de tiempo — igual que en visión.",
+          "image": "/assets/img/lessons/moviles/odometria.jpg",
+          "imageAlt": "Odometría",
+          "imageCaption": "/odom y /scan suelen alimentar estimación y navegación; su ritmo importa."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Tópico = canal async con tipo de mensaje.\n☐ echo / hz / info son tus multímetros de software.\n☐ /cmd_vel y /scan son vocabulario básico móvil."
+        }
+      ]
+    },
+    {
+      "id": "05-servicios-params-launch",
+      "number": 5,
+      "title": "Servicios, parámetros y launch",
+      "goal": "Completar el kit: request/response, parámetros y cómo levantar un sistema entero.",
+      "sections": [
+        {
+          "heading": "Servicios: cuando necesitás respuesta",
+          "body": "A diferencia del tópico, un servicio es request → response (como una función remota).\n\nÚtil para: “reconfigurá el mapa”, “guardá waypoint”, “dispará una calibración”. No lo uses para streams de LiDAR (para eso está el tópico).\n\nComandos de idea: rosservice list, rosservice call …"
+        },
+        {
+          "heading": "Parámetros",
+          "body": "El parameter server (ROS 1) guarda claves (velocidad máxima, frames, paths de mapas).\n\nSe setean por código, por yaml o desde launch files. Mal parámetro = robot que “casi” anda: revisá rosparam get/list cuando algo se comporta raro.",
+          "image": "/assets/img/lessons/moviles/obstaculos.jpg",
+          "imageAlt": "Robot ante obstáculos",
+          "imageCaption": "Umbrales y velocidades suelen vivir en parámetros, no hardcodeados mágicos."
+        },
+        {
+          "heading": "Launch files",
+          "body": "roslaunch <paquete> <archivo>.launch levanta muchos nodos, parámetros y remapeos de tópicos de una vez.\n\nEs la diferencia entre “abrí 8 terminales” y “levanto el robot”. Aprendé a leer un launch ajeno antes de escribir el tuyo: es el plano de conexión del sistema."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Servicio = RPC; tópico = stream.\n☐ Parámetros configuran sin recompilar siempre.\n☐ launch = sistema reproducible."
+        }
+      ]
+    },
+    {
+      "id": "06-herramientas",
+      "number": 6,
+      "title": "Herramientas (rosrun, roslaunch, rqt, rviz)",
+      "goal": "Conocer el cinturón de herramientas diario para correr y depurar.",
+      "sections": [
+        {
+          "heading": "Correr y orquestar",
+          "body": "• rosrun pkg nodo — un ejecutable.\n• roslaunch pkg file.launch — el sistema.\n• rosbag record / play — grabar tópicos para repetir experimentos sin el robot.\n\nEl bag es oro en el lab: reproducís /scan y /odom en la oficina.",
+          "image": "/assets/img/lessons/moviles/turtlebot.jpg",
+          "imageAlt": "TurtleBot",
+          "imageCaption": "Probá herramientas primero en simulación o con bags si no tenés hardware."
+        },
+        {
+          "heading": "rqt: paneles de depuración",
+          "body": "rqt agrupa plugins: grafo, consolas, plot de series temporales, editores de parámetros, etc.\n\nCuando un tópico “no llega”, rqt_graph + rostopic echo suelen ubicar el corte en minutos."
+        },
+        {
+          "heading": "rviz: ver el mundo del robot",
+          "body": "rviz visualiza TF, scans, mapas, marcadores, poses…\n\nSi el LaserScan aparece girado o flotando, casi siempre es un problema de frames (TF) o de timestamps — no del algoritmo de SLAM todavía.\n\nAprendé a agregar displays y fijar Fixed Frame (p. ej. map u odom).",
+          "image": "/assets/img/courses/slam-navegacion.jpg",
+          "imageAlt": "Visualización de navegación",
+          "imageCaption": "rviz no navega por vos: te muestra lo que el grafo cree del mundo."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ rosrun / roslaunch / rosbag = correr y repetir.\n☐ rqt para inspeccionar; rviz para ver.\n☐ TF mal = visualización “loca”."
+        }
+      ]
+    },
+    {
+      "id": "07-turtlebot-flow",
+      "number": 7,
+      "title": "Ejemplo robot móvil / TurtleBot flow",
+      "goal": "Seguir el flujo percibir → decidir → actuar en un stack tipo TurtleBot.",
+      "sections": [
+        {
+          "heading": "TurtleBot como aula rodante",
+          "body": "TurtleBot (y clones educativos) son la demosfera clásica de ROS: base diferencial, sensores, paquetes listos.\n\nFlujo típico de teleop:\n1. bringup de la base (launch del robot),\n2. nodo de teleop publica /cmd_vel,\n3. driver de base se suscribe y mueve motores,\n4. odometría se publica en /odom,\n5. rviz muestra la pose.\n\nFlujo de percepción: driver LiDAR → /scan → (más adelante) SLAM/navegación.",
+          "image": "/assets/img/lessons/moviles/turtlebot.jpg",
+          "imageAlt": "TurtleBot en laboratorio",
+          "imageCaption": "El valor no es la marca: es el grafo estándar /cmd_vel · /odom · /scan."
+        },
+        {
+          "heading": "Del teclado a la autonomía (mapa mental)",
+          "body": "Teleop → comportamientos reactivos → mapa (SLAM) → localización → planificador → control.\n\nROS te da los cables; los algoritmos viven en nodos del navigation stack (o Nav2 en ROS 2). Este curso te deja listo para el curso de SLAM/navegación cuando esté disponible en el sitio.",
+          "image": "/assets/img/lessons/moviles/robot-movil.jpg",
+          "imageAlt": "Robot móvil",
+          "imageCaption": "Misma mecánica que en el curso de móviles, ahora con middleware profesional."
+        },
+        {
+          "heading": "Ejercicio mental",
+          "body": "Anotá tres nodos y dos tópicos para:\n• teleoperar con teclado,\n• mostrar el scan en rviz,\n• registrar un bag de 30 s.\n\nSi podés nombrarlo, estás listo para seguir tutoriales oficiales sin ahogarte."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ /cmd_vel manda; /odom y /scan informan.\n☐ bringup + teleop + rviz = primer día feliz.\n☐ Autonomía = más nodos sobre el mismo vocabulario."
+        }
+      ]
+    },
+    {
+      "id": "08-buenas-practicas-ros2",
+      "number": 8,
+      "title": "Buenas prácticas y puente a ROS 2 / navegación-SLAM",
+      "goal": "Cerrar con hábitos de ingeniería y el mapa hacia ROS 2 y navegación autónoma.",
+      "sections": [
+        {
+          "heading": "Buenas prácticas ROS 1",
+          "body": "• Un paquete = un propósito claro (driver, teleop, bringup).\n• Nombres de tópicos alineados a convenciones de la comunidad.\n• No hardcodear paths absolutos de tu máquina en launch compartidos.\n• Usar bags para regressión: “antes de tocar el planificador, grabá”.\n• Documentar el grafo (aunque sea un README con rqt_graph).\n• Separar simulación y hardware con launch args.",
+          "image": "/assets/img/lessons/moviles/arquitectura.jpg",
+          "imageAlt": "Arquitectura ordenada",
+          "imageCaption": "El middleware no reemplaza el diseño: lo amplifica."
+        },
+        {
+          "heading": "Puente a ROS 2",
+          "body": "ROS 2 mantiene la intuición nodos / tópicos / servicios, pero cambia el runtime (DDS, sin roscore clásico), el build (ament/colcon), el launch (Python/XML nuevos) y mejora tiempo real, multi-robot y soporte Windows en algunos casos.\n\nSi aprendiste a pensar en mensajes y grafos, el salto es de APIs y tooling, no de filosofía. La documentación oficial tiene guías de migración.\n\nEn proyectos nuevos, ROS 2 suele ser la apuesta correcta; este curso usó ROS 1 porque aún estructura muy bien la cabeza y hay muchísimo material TurtleBot clásico.",
+          "image": "/assets/img/courses/ros-turtlebot.jpg",
+          "imageAlt": "Ecosistema TurtleBot / ROS",
+          "imageCaption": "Los conceptos se transfieren; las herramientas se actualizan."
+        },
+        {
+          "heading": "Hacia SLAM y navegación",
+          "body": "Con odometría, scans y TF en orden, el siguiente arco es:\n• armar mapa (SLAM),\n• localizar en un mapa conocido,\n• navegar a una meta con costmaps y planificadores.\n\nEso vive en el curso “SLAM y navegación autónoma” (próximamente en este sitio). Mientras tanto, reforzá móviles + este ROS y practicá rviz/bags.",
+          "image": "/assets/img/courses/slam-navegacion.jpg",
+          "imageAlt": "SLAM y navegación",
+          "imageCaption": "SLAM/nav son nodos más en el grafo — no magia aparte de ROS."
+        },
+        {
+          "heading": "Para llevarte",
+          "body": "☐ Paquetes claros, tópicos convencionales, bags para depurar.\n☐ ROS 2 = misma idea, nuevo runtime.\n☐ SLAM/nav = siguiente piso cuando el grafo básico ya respira."
+        }
+      ]
+    }
+  ]
+}

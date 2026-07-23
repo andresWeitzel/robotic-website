@@ -336,17 +336,34 @@
       var intermedioFeatured = courses.filter(function (course) {
         return course.level === "Intermedio" && Boolean(course.internalPath);
       });
+      var avanzadoFeatured = courses.filter(function (course) {
+        return course.level === "Avanzado" && Boolean(course.internalPath);
+      });
       var more = courses.filter(function (course) {
-        return course.level !== "Inicial" && !intermedioFeatured.some(function (item) {
-          return item.id === course.id;
-        });
+        if (course.level === "Inicial") return false;
+        if (
+          intermedioFeatured.some(function (item) {
+            return item.id === course.id;
+          })
+        ) {
+          return false;
+        }
+        if (
+          avanzadoFeatured.some(function (item) {
+            return item.id === course.id;
+          })
+        ) {
+          return false;
+        }
+        return true;
       });
 
       inicial.sort(function (a, b) {
         var order = {
           "intro-robotica": 0,
           "electronica-basica": 1,
-          arduino: 2,
+          "sensores-actuadores": 2,
+          arduino: 3,
         };
         var av = Object.prototype.hasOwnProperty.call(order, a.id) ? order[a.id] : 50;
         var bv = Object.prototype.hasOwnProperty.call(order, b.id) ? order[b.id] : 50;
@@ -357,7 +374,14 @@
           "robots-moviles": 0,
           "practicas-arduino": 1,
           "vision-computadora": 2,
+          wemos: 3,
         };
+        var av = Object.prototype.hasOwnProperty.call(order, a.id) ? order[a.id] : 50;
+        var bv = Object.prototype.hasOwnProperty.call(order, b.id) ? order[b.id] : 50;
+        return av - bv;
+      });
+      avanzadoFeatured.sort(function (a, b) {
+        var order = { ros: 0 };
         var av = Object.prototype.hasOwnProperty.call(order, a.id) ? order[a.id] : 50;
         var bv = Object.prototype.hasOwnProperty.call(order, b.id) ? order[b.id] : 50;
         return av - bv;
@@ -366,19 +390,25 @@
       container.innerHTML =
         renderGroup(
           "Nivel inicial",
-          "Ruta sugerida: Intro → Electrónica → Arduino (LED interno). Usá las flechas para ver todos.",
+          "Ruta sugerida: Intro → Electrónica → Sensores → Arduino. Usá las flechas para ver todos.",
           inicial,
           { featured: true, carousel: true }
         ) +
         renderGroup(
           "Nivel intermedio",
-          "Prácticas con hardware, robots móviles y visión. Usá las flechas para recorrerlos.",
+          "Prácticas con hardware, robots móviles, visión e IoT. Usá las flechas para recorrerlos.",
           intermedioFeatured,
           { featured: true, carousel: true }
         ) +
         renderGroup(
-          "Más cursos y playlists",
-          "Material externo (YouTube / repos). Lo iremos pasando al formato del sitio.",
+          "Nivel avanzado",
+          "Software de robots a escala: ROS y el camino hacia autonomía.",
+          avanzadoFeatured,
+          { featured: true, carousel: true }
+        ) +
+        renderGroup(
+          "Más cursos",
+          "Cursos en preparación (próximamente), con resumen de trabajo en cada uno.",
           more,
           { featured: false }
         );

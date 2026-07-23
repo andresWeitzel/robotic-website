@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Dynamic shells (content loaded via query string)
+Disallow: /pages/blog/nota.html
+Disallow: /pages/cursos/*/leccion.html
+
+Sitemap: https://educational-robotics-website.vercel.app/sitemap.xml

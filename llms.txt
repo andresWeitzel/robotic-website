@@ -1,0 +1,41 @@
+# Robótica
+
+> Educational robotics website: free courses by level, editorial blog notes, and a material hub (GitHub, PDF, video, docs).
+
+- Site: https://educational-robotics-website.vercel.app/
+- Repo: https://github.com/andresWeitzel/andresWeitzel.github.io
+- Language: Spanish (es-AR)
+- License: Open source
+
+## Pages
+
+- Home: https://educational-robotics-website.vercel.app/
+- Blog: https://educational-robotics-website.vercel.app/pages/blog.html
+- Material / repositories: https://educational-robotics-website.vercel.app/pages/repositorios.html
+- Courses hub (home anchor): https://educational-robotics-website.vercel.app/#cursos
+
+## Course hubs
+
+- Introducción a la Robótica: /pages/cursos/introduccion-robotica/index.html
+- Electrónica básica: /pages/cursos/electronica-basica/index.html
+- Sensores y actuadores: /pages/cursos/sensores-actuadores/index.html
+- Arduino: /pages/cursos/arduino/index.html
+- Prácticas con Arduino: /pages/cursos/practicas-arduino/index.html
+- Robots móviles: /pages/cursos/robots-moviles/index.html
+- Visión por computadora: /pages/cursos/vision-por-computadora/index.html
+- IoT con Wemos: /pages/cursos/iot-wemos/index.html
+- ROS: /pages/cursos/ros/index.html
+
+## Features
+
+- Courses by level (Inicial, Intermedio, Avanzado)
+- Internal lessons with theory and practice
+- Editorial blog with original notes
+- Material hub grouped by course
+
+## Contact
+
+- Author: Andrés Weitzel
+- Email: andres96energy@hotmail.com
+- GitHub: https://github.com/andresWeitzel
+- YouTube: https://www.youtube.com/channel/UCuSVXmBcMURyTvbmbcgZalQ/featured

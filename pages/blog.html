@@ -17,18 +17,53 @@
 <body data-page="blog">
   <div id="site-nav"></div>
 
-  <header>
-    <div class="alert alert-secondary mt-5 p-3 text-center" role="alert">
-      <h6>
-        "Especialmente en la tecnología, necesitamos cambios revolucionarios, no cambios incrementales."<br>
-        -Larry Page.
-      </h6>
-    </div>
+  <main class="blog-page">
+    <header class="blog-hero">
+      <div class="container blog-hero-inner">
+        <p class="blog-eyebrow">Notas propias</p>
+        <h1>Blog de robótica</h1>
+        <p class="blog-lead">
+          Escribimos sobre robots reales: qué hacen, qué conceptos enseñan y cómo conectan con los cursos del sitio.
+        </p>
+      </div>
+    </header>
 
-    <div id="blog-list">
-      <p class="text-center text-muted m-3">Cargando posts...</p>
+    <div class="container blog-shell">
+      <div class="blog-main">
+        <div class="blog-toolbar" id="blog-toolbar" hidden>
+          <div class="blog-chips" id="blog-chips" role="tablist" aria-label="Filtrar por tema"></div>
+          <p class="blog-count" id="blog-count"></p>
+        </div>
+
+        <div id="blog-featured" class="blog-featured-slot"></div>
+        <div id="blog-list" class="blog-list-slot">
+          <p class="blog-loading">Cargando notas...</p>
+        </div>
+      </div>
+
+      <aside class="blog-aside" aria-label="Cursos relacionados">
+        <div class="blog-aside-panel">
+          <p class="blog-aside-kicker">Del blog al curso</p>
+          <h2>Seguí aprendiendo</h2>
+          <p class="blog-aside-copy">
+            Las notas inspiran. Los cursos te dan el camino para armar y programar.
+          </p>
+          <a class="btn-accent blog-aside-cta" href="../index.html#cursos">Ir a cursos</a>
+
+          <div class="blog-aside-divider"></div>
+
+          <p class="blog-aside-kicker">Rutas útiles</p>
+          <nav class="blog-aside-nav">
+            <a href="cursos/introduccion-robotica/index.html">Introducción a la Robótica</a>
+            <a href="cursos/sensores-actuadores/index.html">Sensores y actuadores</a>
+            <a href="cursos/robots-moviles/index.html">Robots móviles</a>
+            <a href="cursos/vision-por-computadora/index.html">Visión por computadora</a>
+            <a href="cursos/ros/index.html">ROS</a>
+          </nav>
+        </div>
+      </aside>
     </div>
-  </header>
+  </main>
 
   <div id="site-footer"></div>
 

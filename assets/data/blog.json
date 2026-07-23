@@ -1,56 +1,235 @@
 [
   {
     "id": "spot",
-    "title": "Perro Robótico (Spot Can)",
-    "summary": "A lo largo de los últimos años el perro robot de Boston Dynamics ha evolucionado en capacidades y funcionalidades. Pero no significa que no vayamos a ver más mejoras, la compañía ha anunciado la futura llegada de un brazo robótico y una base de carga para Spot.",
+    "title": "Spot: el perro robótico que ya trabaja en plantas reales",
+    "summary": "Qué es Spot, para qué se usa y qué ideas de robótica móvil conviene mirar si estás aprendiendo.",
     "image": "/assets/img/blog/boston-dynamics-2.jpg",
     "imageAlt": "Perro robótico Spot de Boston Dynamics",
     "articleUrl": "https://techcrunch.com/2020/10/21/boston-dynamics-spot-is-getting-an-arm-and-self-charging-dock-next-year/",
-    "videoId": "tf7IEVTDjng"
+    "videoId": "tf7IEVTDjng",
+    "publishedAt": "2024-06-10",
+    "readMinutes": 6,
+    "author": "Equipo Robótica",
+    "tags": ["móviles", "industria"],
+    "relatedCourseIds": ["robots-moviles", "intro-robotica"],
+    "lead": "Spot ya no es solo un video viral: es un robot cuadrúpedo comercial que inspecciona plantas, camina por escaleras y puede acoplar un brazo. Acá lo miramos con ojos de quien está aprendiendo robótica.",
+    "sections": [
+      {
+        "heading": "Qué es Spot, en corto",
+        "paragraphs": [
+          "Spot es un robot móvil con cuatro patas desarrollado por Boston Dynamics. A diferencia de un robot con ruedas, puede subir escaleras, cruzar terreno irregular y mantener el equilibrio cuando lo empujan. Eso lo acerca a entornos reales de industria, obra o minería, donde el piso no es un laboratorio plano.",
+          "Su cuerpo lleva cámaras y sensores para percibir el entorno. Con software de misión, puede recorrer rutas predefinidas, registrar datos y volver a una base. En versiones posteriores se sumaron un brazo manipulador y una estación de carga automática: menos intervención humana entre misiones."
+        ]
+      },
+      {
+        "heading": "Qué ideas de curso aparecen acá",
+        "paragraphs": [
+          "Locomoción: no es solo “ir hacia adelante”. Cada pata es un mecanismo articulado; el control tiene que coordinar equilibrio y contacto con el suelo.",
+          "Percepción: sin sensores de distancia y visión, Spot no sabría dónde hay un escalón o una persona.",
+          "Autonomía operativa: planificar una ronda, ejecutarla y recargar es el mismo tipo de problema que aparece en robots móviles y, más adelante, en navegación y SLAM."
+        ]
+      },
+      {
+        "heading": "Para quién sirve pensarlo",
+        "paragraphs": [
+          "Si estás en Introducción o en Robots móviles, Spot es un buen ejemplo de plataforma comercial: no hace falta construir un cuadrúpedo para entender por qué importan odometría, sensores y control.",
+          "Si más adelante ves ROS, imaginá Spot como un “nodo móvil” que publica sensores y recibe comandos de velocidad o waypoints: la arquitectura conceptual es la misma, aunque el hardware sea otro."
+        ]
+      }
+    ]
   },
   {
     "id": "bionic-wheelbot",
-    "title": "Araña Robot (BionicWheelBot)",
-    "summary": "El modelo biológico del BionicWheelBot es la araña Cebrennus rechenbergi. Vive en el erg Chebbi, en el margen del desierto del Sahara. Esta araña gimnasta puede caminar como el resto de arañas. Sin embargo, también puede avanzar hacia adelante con una secuencia combinada en la que rueda en el aire y en el suelo.",
+    "title": "BionicWheelBot: cuando una araña inspira un robot que camina y rueda",
+    "summary": "Biomímesis aplicada: Festo copia un truco de la naturaleza para cambiar de modo de locomoción.",
     "image": "/assets/img/blog/festo-arana.webp",
     "imageAlt": "Robot araña de Festo",
     "articleUrl": "https://www.festo.com/group/en/cms/13129.htm",
-    "videoId": "jGP5NxcCyjE"
+    "videoId": "jGP5NxcCyjE",
+    "publishedAt": "2024-07-02",
+    "readMinutes": 5,
+    "author": "Equipo Robótica",
+    "tags": ["biomímesis", "móviles"],
+    "relatedCourseIds": ["robots-moviles", "sensores-actuadores"],
+    "lead": "En el desierto, una araña se hace una “rueda” con su propio cuerpo para bajar dunas más rápido. Festo tomó esa idea y construyó un robot que camina… y también rueda.",
+    "sections": [
+      {
+        "heading": "La idea detrás del robot",
+        "paragraphs": [
+          "La biomímesis no es copiar un animal por estética: es robar una solución mecánica que la evolución ya probó. El BionicWheelBot imita a la araña Cebrennus rechenbergi: cuando necesita velocidad en pendiente, enrolla las patas y rueda.",
+          "El robot de Festo combina un modo de marcha (más estable, más controlable) con un modo de rodadura (más eficiente en ciertos terrenos). Pasar de uno a otro es un problema de mecanismo + control: las patas tienen que reconfigurarse sin caerse."
+        ]
+      },
+      {
+        "heading": "Qué mirar si estás aprendiendo",
+        "paragraphs": [
+          "Actuadores y grados de libertad: cada pata necesita movimiento coordinado. Pensá en servos, cinemática y límites de torque.",
+          "Transiciones: el momento más difícil no es caminar ni rodar, sino cambiar de modo. Eso enseña que un robot “completo” es una máquina de estados, no un solo comportamiento.",
+          "Si estás en Sensores y actuadores, este ejemplo muestra por qué el hardware y el software van juntos: sin timing correcto, la rueda no se forma."
+        ]
+      },
+      {
+        "heading": "Por qué importa fuera del laboratorio",
+        "paragraphs": [
+          "En inspección o rescate, a veces conviene un robot compacto que se desplace rápido en un tramo y luego camine con precisión. La naturaleza ya resolvió ese trade-off; la ingeniería lo traduce a plástico, motores y algoritmos."
+        ]
+      }
+    ]
   },
   {
     "id": "atlas",
-    "title": "Robot Humanoide (Atlas)",
-    "summary": "Atlas, el robot humanoide más dinámico del mundo, es una plataforma de investigación diseñada para superar los límites de la movilidad de todo el cuerpo. El sistema de control avanzado de Atlas y el hardware de última generación le dan al robot el poder y el equilibrio para demostrar una agilidad a nivel humano.",
+    "title": "Atlas: por qué un humanoide sigue siendo el banco de prueba más exigente",
+    "summary": "Equilibrio, agilidad y control de cuerpo completo: lo que Atlas enseña aunque no fabriques un humanoide.",
     "image": "/assets/img/blog/boston-dynamics-1.jpg",
-    "imageAlt": "Robot de Boston Dynamics",
+    "imageAlt": "Robot Atlas de Boston Dynamics",
     "articleUrl": "https://www.bostondynamics.com/atlas",
-    "videoId": "_sBBaNYex3E"
+    "videoId": "_sBBaNYex3E",
+    "publishedAt": "2024-08-18",
+    "readMinutes": 6,
+    "author": "Equipo Robótica",
+    "tags": ["humanoides", "control"],
+    "relatedCourseIds": ["intro-robotica", "ros"],
+    "lead": "Atlas no está pensado para venderse en una fábrica mañana. Está pensado para empujar el límite de lo que un robot bípedo puede hacer: saltar, girar, recuperar el equilibrio. Es un laboratorio ambulante de control.",
+    "sections": [
+      {
+        "heading": "Qué problema resuelve (aunque no lo “uses”)",
+        "paragraphs": [
+          "Un humanoide tiene que moverse en un mundo hecho para humanos: escaleras, puertas, herramientas. Eso obliga a resolver equilibrio dinámico, contacto con el suelo y planificación de movimiento de cuerpo completo.",
+          "Cada demostración de parkour o de manipulación es, en el fondo, una demostración de estimación de estado + control en tiempo real. Si el modelo del robot o del suelo falla un poco, el robot cae."
+        ]
+      },
+      {
+        "heading": "Conexión con lo que ves en los cursos",
+        "paragraphs": [
+          "En Introducción a la robótica: sensores, actuadores y lazo cerrado aparecen en versión extrema.",
+          "En ROS (nivel avanzado): un humanoide es un sistema con muchos joints, sensores de inercia y controladores que deben sincronizarse. Aunque no programes Atlas, la arquitectura de nodos, topics y controladores es el mismo lenguaje conceptual.",
+          "No hace falta construir un bípedo para aprender: sí hace falta entender por qué el equilibrio y la latencia importan."
+        ]
+      },
+      {
+        "heading": "Cómo leer los videos sin quedarte solo en el “wow”",
+        "paragraphs": [
+          "Prestá atención a recuperaciones: cuando lo empujan, ¿qué hace primero? Eso es control reactivo.",
+          "Mirás la coordinación de brazos y piernas: no son clips aislados, es un plan de movimiento.",
+          "Preguntate qué pasaría con un sensor ruidoso o un delay de 100 ms. Esa pregunta te acerca más a la ingeniería que el video en sí."
+        ]
+      }
+    ]
   },
   {
     "id": "bionic-bird",
-    "title": "Pájaro Biónico (Bionic Bird)",
-    "summary": "En Bionic Learning Network de Festo, volar de acuerdo con el mundo natural también tiene una larga tradición. Con la construcción de los BionicSwifts, Festo continúa desarrollando constantemente sus objetos voladores biónicos.",
+    "title": "BionicSwift: vuelo inspirado en aves, no en drones típicos",
+    "summary": "Mecanismos ligeros, batido de alas y control: otra cara de la robótica aérea.",
     "image": "/assets/img/blog/festo.jpeg",
-    "imageAlt": "Robot de Festo",
+    "imageAlt": "Pájaro biónico de Festo",
     "articleUrl": "https://www.festo.com/group/en/cms/10238.htm",
-    "videoId": "nnR8fDW3Ilo"
+    "videoId": "nnR8fDW3Ilo",
+    "publishedAt": "2024-09-05",
+    "readMinutes": 5,
+    "author": "Equipo Robótica",
+    "tags": ["biomímesis", "aéreos"],
+    "relatedCourseIds": ["intro-robotica", "sensores-actuadores"],
+    "lead": "La mayoría de los drones usan hélices. Festo insiste con otra pregunta: ¿qué pasa si el robot vuela como un pájaro? El BionicSwift es una respuesta en materiales ultralivianos y mecanismos de ala.",
+    "sections": [
+      {
+        "heading": "Qué lo hace distinto",
+        "paragraphs": [
+          "Un multicóptero es relativamente simple de modelar: empujes verticales y control de actitud. Un pájaro robótico tiene que generar sustentación con batido, plegado de alas y cambios de forma. Eso multiplica la complejidad mecánica.",
+          "Festo trabaja con estructuras muy livianas y actuadores compactos. El objetivo no es solo volar: es demostrar que la biomímesis puede inspirar productos industriales (agarre, movimiento, eficiencia) más allá del show."
+        ]
+      },
+      {
+        "heading": "Qué conceptos practicar mentalmente",
+        "paragraphs": [
+          "Relación peso / potencia: cada gramo cuenta. Eso vale igual para un robot móvil casero con batería chica.",
+          "Control en 3D: orientación, deriva y perturbaciones de aire. Es el mismo espíritu que estabilizar un robot, pero en el aire.",
+          "En Sensores y actuadores: pensá qué sensores necesitarías (IMU, barómetro, visión) para mantener un vuelo estable."
+        ]
+      },
+      {
+        "heading": "Para llevarte a casa",
+        "paragraphs": [
+          "No hace falta construir un pájaro. Sí conviene notar que “robot aéreo” no es sinónimo de drone con cuatro hélices: el espacio de diseño es más amplio, y la naturaleza sigue siendo un catálogo de soluciones."
+        ]
+      }
+    ]
   },
   {
     "id": "handle",
-    "title": "Brazo Robótico (Handle)",
-    "summary": "El robot móvil para mover cajas en el almacén. El tamaño reducido, el largo alcance y el sistema de visión de Handle le permiten descargar camiones, construir tarimas y mover cajas por sus instalaciones.",
+    "title": "Handle: logística con un robot que se mueve y agarra",
+    "summary": "Visión, movilidad y manipulación juntos: el perfil de un robot de almacén moderno.",
     "image": "/assets/img/blog/handle-robot.jpg",
-    "imageAlt": "Robot Handle",
+    "imageAlt": "Robot Handle de Boston Dynamics",
     "articleUrl": "https://www.bostondynamics.com/handle",
-    "videoId": "-7xvqQeoA8c"
+    "videoId": "-7xvqQeoA8c",
+    "publishedAt": "2024-10-12",
+    "readMinutes": 6,
+    "author": "Equipo Robótica",
+    "tags": ["industria", "visión"],
+    "relatedCourseIds": ["vision-computadora", "robots-moviles"],
+    "lead": "Handle combina una base móvil con un brazo para mover cajas: descargar camiones, armar pallets, trabajar en espacios estrechos. Es el tipo de robot donde visión y manipulación dejan de ser cursos separados.",
+    "sections": [
+      {
+        "heading": "El problema de negocio (y de ingeniería)",
+        "paragraphs": [
+          "En un almacén, las cajas cambian de tamaño, posición y orientación. Un brazo fijo en una celda no alcanza: hace falta movilidad. Handle apunta a ese hueco: llegar, ver, agarrar, apilar.",
+          "Eso exige percepción 3D (dónde está la caja), planificación de agarre (cómo tomarla sin aplastarla) y navegación segura cerca de personas o estanterías."
+        ]
+      },
+      {
+        "heading": "Puente con tus cursos",
+        "paragraphs": [
+          "Visión por computadora: detectar cajas, estimar pose, filtrar ruido de cámara. Sin eso, el brazo “adivina”.",
+          "Robots móviles: la base tiene que posicionarse bien; un error de 5 cm puede arruinar el agarre.",
+          "Juntos forman un sistema: percepción → decisión → actuación. Ese pipeline es el mismo que vas a ver en proyectos más chicos con Arduino o Raspberry, a otra escala."
+        ]
+      },
+      {
+        "heading": "Qué observar en el video",
+        "paragraphs": [
+          "Velocidad vs precisión: a veces el robot se mueve rápido en vacío y fino cerca de la carga.",
+          "Reintentos: si falla un agarre, ¿reintenta? Eso es robustez operativa, no solo demo.",
+          "Espacio de trabajo: mirá cómo usa el alcance del brazo y el desplazamiento de la base como un solo sistema."
+        ]
+      }
+    ]
   },
   {
     "id": "bionic-soft-hand",
-    "title": "Mano Biónica (BionicSoftHand)",
-    "summary": "BionicSoftHand utiliza el método de aprendizaje reforzado: aprender fortaleciendo. Intenta lograr esto a través de prueba y error. En función de la retroalimentación positiva y negativa recibida, la mano optimiza gradualmente sus acciones hasta que finalmente resuelve la tarea con éxito.",
+    "title": "BionicSoftHand: una mano blanda que aprende a girar un cubo",
+    "summary": "Actuadores blandos + aprendizaje por refuerzo: otra forma de enseñarle destreza a un robot.",
     "image": "/assets/img/blog/robot-hand.jpg",
-    "imageAlt": "Mano robótica",
+    "imageAlt": "Mano robótica blanda",
     "articleUrl": "https://www.festo.com/group/en/cms/13508.htm",
-    "videoId": "5e0F14IRxVc"
+    "videoId": "5e0F14IRxVc",
+    "publishedAt": "2024-11-20",
+    "readMinutes": 6,
+    "author": "Equipo Robótica",
+    "tags": ["actuadores", "aprendizaje"],
+    "relatedCourseIds": ["sensores-actuadores", "intro-robotica"],
+    "lead": "Las manos rígidas con dedos metálicos son precisas, pero poco tolerantes al contacto. La BionicSoftHand de Festo apuesta a lo contrario: materiales blandos y un algoritmo que mejora a fuerza de prueba y error.",
+    "sections": [
+      {
+        "heading": "Por qué “blando” cambia el problema",
+        "paragraphs": [
+          "Un actuador neumático o blando se deforma al tocar. Eso es más seguro cerca de humanos y más adaptable a objetos irregulares… pero también más difícil de modelar con ecuaciones exactas.",
+          "Cuando el modelo es imperfecto, entra el aprendizaje: el robot prueba acciones, recibe una recompensa (¿giró el cubo?) y ajusta la política. Eso es aprendizaje por refuerzo aplicado a manipulación."
+        ]
+      },
+      {
+        "heading": "Qué te sirve aunque no entrenes redes",
+        "paragraphs": [
+          "En Sensores y actuadores: la mano es un sistema con muchos grados de libertad y realimentación táctil o de presión.",
+          "En Introducción: ves la diferencia entre control clásico (modelo + PID) y enfoques que aprenden de datos.",
+          "La lección práctica: a veces conviene hardware simple y robusto; a veces conviene hardware adaptable y software que explore. Depende de la tarea."
+        ]
+      },
+      {
+        "heading": "Idea para tu próximo proyecto",
+        "paragraphs": [
+          "No hace falta una mano neumática. Podés experimentar la misma lógica a escala chica: un gripper 3D, un sensor de fuerza o un servo, y un loop que pruebe aperturas hasta sostener un objeto. El concepto de “probar → medir → mejorar” es el mismo."
+        ]
+      }
+    ]
   }
 ]

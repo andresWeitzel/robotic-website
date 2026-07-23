@@ -1,27 +1,34 @@
-<div align="center">
-  <img src="../home_readme.png" alt="Robótica — sitio educativo de robótica" width="640">
+﻿<div align="center">
+  <img src="../home_readme.png" alt="Robótica — sitio educativo de robótica" width="820">
 </div>
 
 <div align="right">
-  <img width="16" height="16" src="../icons/frontend/png/html.png" alt="HTML" />
-  <img width="16" height="16" src="../icons/frontend/png/css.png" alt="CSS" />
-  <img width="16" height="16" src="../icons/frontend/png/js.png" alt="JavaScript" />
-  <img width="16" height="16" src="../icons/frontend/png/bootstrap.png" alt="Bootstrap" />
-  <img width="16" height="16" src="../icons/frontend/png/jquery.png" alt="jQuery" />
-  <img width="16" height="16" src="../icons/devops/png/git.png" alt="Git" />
-  <img width="16" height="16" src="../icons/devops/png/github.png" alt="GitHub" />
-  <img width="16" height="16" src="../icons/devops/png/vsc.png" alt="VS Code" />
+  <img width="26" height="26" src="../icons/frontend/png/html.png" alt="HTML" />
+  &nbsp;
+  <img width="26" height="26" src="../icons/frontend/png/css.png" alt="CSS" />
+  &nbsp;
+  <img width="26" height="26" src="../icons/frontend/png/js.png" alt="JavaScript" />
+  &nbsp;
+  <img width="26" height="26" src="../icons/frontend/png/bootstrap.png" alt="Bootstrap" />
+  &nbsp;
+  <img width="26" height="26" src="../icons/frontend/png/jquery.png" alt="jQuery" />
+  &nbsp;
+  <img width="26" height="26" src="../icons/devops/png/git.png" alt="Git" />
+  &nbsp;
+  <img width="26" height="26" src="../icons/devops/svg/github-light.svg" alt="GitHub" />
+  &nbsp;
+  <img width="26" height="26" src="../icons/devops/png/vsc.png" alt="VS Code" />
 </div>
 
 <br>
 
 <div align="right">
   <a href="./README.es.md" target="_blank">
-    <img src="./arg-flag.jpg" width="36" height="24" alt="Español" />
+    <img src="./arg-flag.jpg" width="48" height="30" alt="Español" />
   </a>
   &nbsp;
   <a href="../../../README.md" target="_blank">
-    <img src="./eeuu-flag.jpg" width="36" height="24" alt="English" />
+    <img src="./eeuu-flag.jpg" width="48" height="30" alt="English" />
   </a>
 </div>
 
@@ -69,11 +76,8 @@ Sitio web estático para **aprender robótica** con microcursos gratis por nivel
 * [3.2) Contribuir.](#32-contribuir-)
 * [3.3) Licencia.](#33-licencia-)
 
-<br>
 
 </details>
-
-<br>
 
 ## Sección 1) Descripción, configuración y tecnologías
 
@@ -81,8 +85,6 @@ Sitio web estático para **aprender robótica** con microcursos gratis por nivel
 
 <details>
   <summary>Ver detalle</summary>
-
-<br>
 
 **Robótica** es un sitio educativo multipágina estático (HTML/CSS/JS nativo + Bootstrap 4) para quienes quieren empezar en robótica u ordenar conceptos antes del hardware. Incluye:
 
@@ -98,46 +100,45 @@ Sitio web estático para **aprender robótica** con microcursos gratis por nivel
 
 **Requisitos:**
 
-* Servidor estático local (recomendado): Node.js 18+ con `npx serve`, u otro host estático.
+* [VS Code](https://code.visualstudio.com/) (o compatible) con la extensión **Live Server** — recomendado para correr en local.
+* O cualquier servidor HTTP estático (`npx serve`, Python, etc.).
 * Navegador moderno (Chrome, Firefox, Edge, Safari).
 
-<br>
-
 </details>
-
-<br>
 
 ### 1.1) Ejecución del proyecto [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
 
-<br>
-
-* Abrí el workspace y entrá a la raíz del sitio:
-
-```bash
-cd robotic-website
-```
-
-* Cloná el repositorio (si todavía no lo tenés):
+* Cloná el repositorio (si todavía no lo tenés) y abrí la carpeta del sitio en VS Code:
 
 ```bash
 git clone https://github.com/andresWeitzel/andresWeitzel.github.io.git
 cd andresWeitzel.github.io
 ```
 
-> Si el repo local tiene otro nombre, usá la carpeta que contiene `index.html` y `assets/`.
+> Si el repo local tiene otro nombre, usá la carpeta que contiene `index.html` y `assets/` (por ejemplo `robotic-website/`).
 
-* Serví en local (ejemplo con `serve`):
+* Instalá **Live Server** en VS Code:
+  1. Abrí el panel de extensiones (`Ctrl+Shift+X` / `Cmd+Shift+X`).
+  2. Buscá **Live Server** (Ritwick Dey) e instalala.
+
+* Ejecutá el sitio con Live Server:
+  1. En el Explorador, ubicá `index.html` en la raíz del proyecto.
+  2. **Clic derecho** sobre `index.html` → **Open with Live Server**.
+  3. Se abre el navegador (suele ser `http://127.0.0.1:5500`). Los cambios se recargan solos.
+
+* Alternativa — Node.js `serve`:
 
 ```bash
+cd robotic-website
 npx serve .
 ```
 
 Abrí la URL que muestre la terminal (suele ser `http://localhost:3000`).
 
-* Alternativa (Python):
+* Alternativa — Python:
 
 ```bash
 python -m http.server 5500
@@ -145,20 +146,14 @@ python -m http.server 5500
 
 Luego abrí `http://localhost:5500`.
 
-* `Importante:` abrir `index.html` con `file://` puede romper el `fetch` de JSON/parciales. Usá siempre un servidor HTTP local.
-
-<br>
+* `Importante:` abrir `index.html` con `file://` puede romper el `fetch` de JSON/parciales. Usá siempre Live Server u otro servidor HTTP local.
 
 </details>
-
-<br>
 
 ### 1.2) Estructura del proyecto [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
-
-<br>
 
 ```
 robotic-website/
@@ -199,18 +194,13 @@ robotic-website/
 └── README.md
 ```
 
-<br>
 
 </details>
-
-<br>
 
 ### 1.3) Tecnologías [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
-
-<br>
 
 | **Tecnología** | **Versión** | **Uso** |
 | ------------- | ------------- | ------------- |
@@ -232,11 +222,8 @@ robotic-website/
 * Vercel: https://vercel.com/docs
 * GitHub Pages (opcional): https://docs.github.com/pages
 
-<br>
 
 </details>
-
-<br>
 
 ## Sección 2) Flujo de uso y funcionamiento
 
@@ -244,8 +231,6 @@ robotic-website/
 
 <details>
   <summary>Ver detalle</summary>
-
-<br>
 
 1. **Inicio:** el usuario ve el hero, explora Cursos / Blog / Repos y baja a los carruseles por nivel.
 
@@ -257,18 +242,13 @@ robotic-website/
 
 5. **Material:** accordion por curso; abrir GitHub, PDF, playlist o docs; saltar al curso del sitio.
 
-<br>
 
 </details>
-
-<br>
 
 ### 2.1) Cursos y niveles [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
-
-<br>
 
 Fuente del catálogo: `assets/data/courses.json`.
 
@@ -285,18 +265,13 @@ Cada curso publicado puede exponer:
 * `overview` → modal de resumen en el home
 * JSON de lecciones en `assets/data/courses/{id}.json`
 
-<br>
 
 </details>
-
-<br>
 
 ### 2.2) Blog y material [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
-
-<br>
 
 **Blog** (`assets/data/blog.json`):
 
@@ -309,28 +284,20 @@ Cada curso publicado puede exponer:
 * Agrupado por **curso** (y bandas de nivel).
 * Filtros: nivel + tipo + búsqueda.
 
-<br>
 
 </details>
-
-<br>
 
 ### 2.3) Datos y parciales [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
 
-<br>
-
 * `assets/js/site.js` → `Site.getBase()` / `Site.url()` para rutas correctas bajo `/pages/...`.
 * `assets/js/include.js` → inyecta navbar/footer, marca nav activo y mejora el menú mobile.
 * El JSON se carga con `fetch`; en local siempre usá un servidor estático.
 
-<br>
 
 </details>
-
-<br>
 
 ## Sección 3) Pruebas, deploy y referencias
 
@@ -339,9 +306,11 @@ Cada curso publicado puede exponer:
 <details>
   <summary>Ver detalle</summary>
 
-<br>
-
 #### 3.0.1) Servidor local
+
+Recomendado: clic derecho en `index.html` → **Open with Live Server**.
+
+O:
 
 ```bash
 npx serve .
@@ -375,18 +344,13 @@ Verificá:
 
 Desde `pages/cursos/.../leccion.html`, confirmá que navbar/footer e imágenes/JSON resuelven bien (sin errores de `fetch`).
 
-<br>
 
 </details>
-
-<br>
 
 ### 3.1) Deploy en Vercel [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
-
-<br>
 
 El proyecto es un **sitio estático**. Publicación típica en Vercel:
 
@@ -402,18 +366,13 @@ El proyecto es un **sitio estático**. Publicación típica en Vercel:
 
 **Sitio publicado:** [educational-robotics-website.vercel.app](https://educational-robotics-website.vercel.app/)
 
-<br>
 
 </details>
-
-<br>
 
 ### 3.2) Contribuir [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
-
-<br>
 
 1. Hacé fork del proyecto.
 
@@ -431,18 +390,13 @@ Para sumar contenido sin grandes cambios de código:
 * Nuevo material → entrada en `assets/data/resources.json` con `courseId`.
 * Ajustes de catálogo → `assets/data/courses.json` + JSON de lecciones si hace falta.
 
-<br>
 
 </details>
-
-<br>
 
 ### 3.3) Licencia [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
-
-<br>
 
 Proyecto educativo open source. Desarrollado por [Andrés Weitzel](https://github.com/andresWeitzel).
 
@@ -452,6 +406,5 @@ Proyecto educativo open source. Desarrollado por [Andrés Weitzel](https://githu
 * **Material de estudio (repo):** [github.com/andresWeitzel/Material_de_Estudio](https://github.com/andresWeitzel/Material_de_Estudio)
 * **Canal de YouTube:** [youtube.com/@andresWeitzel](https://www.youtube.com/channel/UCuSVXmBcMURyTvbmbcgZalQ/featured)
 
-<br>
 
 </details>

@@ -1,27 +1,34 @@
-<div align="center">
-  <img src="./doc/assets/home_readme.png" alt="Robótica — educational robotics website" width="640">
+﻿<div align="center">
+  <img src="./doc/assets/home_readme.png" alt="Robótica — educational robotics website" width="820">
 </div>
 
 <div align="right">
-  <img width="16" height="16" src="./doc/assets/icons/frontend/png/html.png" alt="HTML" />
-  <img width="16" height="16" src="./doc/assets/icons/frontend/png/css.png" alt="CSS" />
-  <img width="16" height="16" src="./doc/assets/icons/frontend/png/js.png" alt="JavaScript" />
-  <img width="16" height="16" src="./doc/assets/icons/frontend/png/bootstrap.png" alt="Bootstrap" />
-  <img width="16" height="16" src="./doc/assets/icons/frontend/png/jquery.png" alt="jQuery" />
-  <img width="16" height="16" src="./doc/assets/icons/devops/png/git.png" alt="Git" />
-  <img width="16" height="16" src="./doc/assets/icons/devops/png/github.png" alt="GitHub" />
-  <img width="16" height="16" src="./doc/assets/icons/devops/png/vsc.png" alt="VS Code" />
+  <img width="26" height="26" src="./doc/assets/icons/frontend/png/html.png" alt="HTML" />
+  &nbsp;
+  <img width="26" height="26" src="./doc/assets/icons/frontend/png/css.png" alt="CSS" />
+  &nbsp;
+  <img width="26" height="26" src="./doc/assets/icons/frontend/png/js.png" alt="JavaScript" />
+  &nbsp;
+  <img width="26" height="26" src="./doc/assets/icons/frontend/png/bootstrap.png" alt="Bootstrap" />
+  &nbsp;
+  <img width="26" height="26" src="./doc/assets/icons/frontend/png/jquery.png" alt="jQuery" />
+  &nbsp;
+  <img width="26" height="26" src="./doc/assets/icons/devops/png/git.png" alt="Git" />
+  &nbsp;
+  <img width="26" height="26" src="./doc/assets/icons/devops/svg/github-light.svg" alt="GitHub" />
+  &nbsp;
+  <img width="26" height="26" src="./doc/assets/icons/devops/png/vsc.png" alt="VS Code" />
 </div>
 
 <br>
 
 <div align="right">
   <a href="./doc/assets/translation/README.es.md" target="_blank">
-    <img src="./doc/assets/translation/arg-flag.jpg" width="36" height="24" alt="Español" />
+    <img src="./doc/assets/translation/arg-flag.jpg" width="48" height="30" alt="Español" />
   </a>
   &nbsp;
   <a href="./README.md" target="_blank">
-    <img src="./doc/assets/translation/eeuu-flag.jpg" width="36" height="24" alt="English" />
+    <img src="./doc/assets/translation/eeuu-flag.jpg" width="48" height="30" alt="English" />
   </a>
 </div>
 
@@ -69,11 +76,8 @@ Static educational website for **learning robotics** with free microcourses by l
 * [3.2) Contributing.](#32-contributing-)
 * [3.3) License.](#33-license-)
 
-<br>
 
 </details>
-
-<br>
 
 ## Section 1) Description, configuration and technologies
 
@@ -81,8 +85,6 @@ Static educational website for **learning robotics** with free microcourses by l
 
 <details>
   <summary>View details</summary>
-
-<br>
 
 **Robótica** is a static multi-page educational site (HTML/CSS/vanilla JS + Bootstrap 4) for people who want to start in robotics or order concepts before hardware. The project includes:
 
@@ -98,46 +100,45 @@ Static educational website for **learning robotics** with free microcourses by l
 
 **Requirements:**
 
-* A local static server (recommended): Node.js 18+ with `npx serve`, or any static host.
+* [VS Code](https://code.visualstudio.com/) (or compatible) with the **Live Server** extension — recommended for local runs.
+* Or any static HTTP server (Node.js `npx serve`, Python, etc.).
 * Modern browser (Chrome, Firefox, Edge, Safari).
 
-<br>
-
 </details>
-
-<br>
 
 ### 1.1) Project execution [🔝](#index-)
 
 <details>
   <summary>View details</summary>
 
-<br>
-
-* Open your workspace and go to the site root:
-
-```bash
-cd robotic-website
-```
-
-* Clone the repository (if you have not yet):
+* Clone the repository (if you have not yet) and open the site folder in VS Code:
 
 ```bash
 git clone https://github.com/andresWeitzel/andresWeitzel.github.io.git
 cd andresWeitzel.github.io
 ```
 
-> If this repo lives under another name locally, use the folder that contains `index.html` and `assets/`.
+> If this repo lives under another name locally, use the folder that contains `index.html` and `assets/` (for example `robotic-website/`).
 
-* Serve locally (example with `serve`):
+* Install **Live Server** in VS Code:
+  1. Open the Extensions panel (`Ctrl+Shift+X` / `Cmd+Shift+X`).
+  2. Search for **Live Server** (Ritwick Dey) and install it.
+
+* Run the site with Live Server:
+  1. In the Explorer, locate `index.html` at the project root.
+  2. **Right-click** `index.html` → **Open with Live Server**.
+  3. The browser opens (usually `http://127.0.0.1:5500`). Edits reload automatically.
+
+* Alternative — Node.js `serve`:
 
 ```bash
+cd robotic-website
 npx serve .
 ```
 
 Open the URL shown in the terminal (often `http://localhost:3000`).
 
-* Alternative (Python):
+* Alternative — Python:
 
 ```bash
 python -m http.server 5500
@@ -145,20 +146,14 @@ python -m http.server 5500
 
 Then open `http://localhost:5500`.
 
-* `Important:` opening `index.html` via `file://` may break `fetch` for JSON/partials. Always use a local HTTP server.
-
-<br>
+* `Important:` opening `index.html` via `file://` may break `fetch` for JSON/partials. Always use Live Server or another local HTTP server.
 
 </details>
-
-<br>
 
 ### 1.2) Project structure [🔝](#index-)
 
 <details>
   <summary>View details</summary>
-
-<br>
 
 ```
 robotic-website/
@@ -199,18 +194,13 @@ robotic-website/
 └── README.md
 ```
 
-<br>
 
 </details>
-
-<br>
 
 ### 1.3) Technologies [🔝](#index-)
 
 <details>
   <summary>View details</summary>
-
-<br>
 
 | **Technology** | **Version** | **Purpose** |
 | ------------- | ------------- | ------------- |
@@ -232,11 +222,8 @@ robotic-website/
 * Vercel: https://vercel.com/docs
 * GitHub Pages (optional mirror): https://docs.github.com/pages
 
-<br>
 
 </details>
-
-<br>
 
 ## Section 2) Usage flow and behavior
 
@@ -244,8 +231,6 @@ robotic-website/
 
 <details>
   <summary>View details</summary>
-
-<br>
 
 1. **Home:** user lands on the hero, explores Courses / Blog / Repos, then scrolls to course carousels by level.
 
@@ -257,18 +242,13 @@ robotic-website/
 
 5. **Material:** browse by level/course accordion; open GitHub, PDF, playlist, or docs; jump to the matching course.
 
-<br>
 
 </details>
-
-<br>
 
 ### 2.1) Courses and levels [🔝](#index-)
 
 <details>
   <summary>View details</summary>
-
-<br>
 
 Catalog source: `assets/data/courses.json`.
 
@@ -285,18 +265,13 @@ Each published course can expose:
 * `overview` → summary modal on home
 * Lesson JSON under `assets/data/courses/{id}.json`
 
-<br>
 
 </details>
-
-<br>
 
 ### 2.2) Blog and resources [🔝](#index-)
 
 <details>
   <summary>View details</summary>
-
-<br>
 
 **Blog** (`assets/data/blog.json`):
 
@@ -309,28 +284,20 @@ Each published course can expose:
 * Grouped on the page by **course** (and level bands), not as one infinite flat list.
 * Filters: level + type + search.
 
-<br>
 
 </details>
-
-<br>
 
 ### 2.3) Data and partials [🔝](#index-)
 
 <details>
   <summary>View details</summary>
 
-<br>
-
 * `assets/js/site.js` → `Site.getBase()` / `Site.url()` for correct paths under `/pages/...`.
 * `assets/js/include.js` → injects `components/navbar.html` and `footer.html`, marks active nav, improves mobile menu behavior.
 * JSON is loaded with `fetch`; keep a static server in local development.
 
-<br>
 
 </details>
-
-<br>
 
 ## Section 3) Testing, deploy and references
 
@@ -339,9 +306,11 @@ Each published course can expose:
 <details>
   <summary>View details</summary>
 
-<br>
-
 #### 3.0.1) Local server
+
+Recommended: right-click `index.html` → **Open with Live Server**.
+
+Or:
 
 ```bash
 npx serve .
@@ -375,18 +344,13 @@ Check:
 
 From `pages/cursos/.../leccion.html`, confirm navbar/footer links and image/JSON URLs resolve (no broken `fetch`).
 
-<br>
 
 </details>
-
-<br>
 
 ### 3.1) Vercel deploy [🔝](#index-)
 
 <details>
   <summary>View details</summary>
-
-<br>
 
 This project is a **static site**. Typical publish path on Vercel:
 
@@ -402,18 +366,13 @@ This project is a **static site**. Typical publish path on Vercel:
 
 **Published site:** [educational-robotics-website.vercel.app](https://educational-robotics-website.vercel.app/)
 
-<br>
 
 </details>
-
-<br>
 
 ### 3.2) Contributing [🔝](#index-)
 
 <details>
   <summary>View details</summary>
-
-<br>
 
 1. Fork the project.
 
@@ -431,18 +390,13 @@ To add content without large code changes:
 * New material item → entry in `assets/data/resources.json` with `courseId`.
 * Course catalog tweaks → `assets/data/courses.json` + matching lesson JSON if needed.
 
-<br>
 
 </details>
-
-<br>
 
 ### 3.3) License [🔝](#index-)
 
 <details>
   <summary>View details</summary>
-
-<br>
 
 Open source educational project. Developed by [Andrés Weitzel](https://github.com/andresWeitzel).
 
@@ -452,6 +406,5 @@ Open source educational project. Developed by [Andrés Weitzel](https://github.c
 * **Study material (repo):** [github.com/andresWeitzel/Material_de_Estudio](https://github.com/andresWeitzel/Material_de_Estudio)
 * **YouTube channel:** [youtube.com/@andresWeitzel](https://www.youtube.com/channel/UCuSVXmBcMURyTvbmbcgZalQ/featured)
 
-<br>
 
 </details>

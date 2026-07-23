@@ -1,23 +1,748 @@
-header {
-  position: relative;
-  padding-top: 4.5rem;
+/* Material / repositorios — hub filtrable */
+
+.repos-page {
+  padding-bottom: 4rem;
 }
 
-.card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+.repos-hero {
+  padding: 6.5rem 0 2.75rem;
+  border-bottom: 1px solid rgba(49, 64, 76, 0.65);
+  background:
+    radial-gradient(ellipse 70% 55% at 18% 0%, rgba(61, 214, 195, 0.12), transparent 52%),
+    radial-gradient(ellipse 45% 40% at 90% 10%, rgba(126, 208, 255, 0.07), transparent 50%),
+    linear-gradient(180deg, #141b21 0%, var(--bg) 100%);
 }
 
-.card .btn-secondary {
-  background: var(--accent);
-  border-color: var(--accent-strong);
-  color: var(--accent-ink);
+.repos-hero-inner {
+  max-width: 40rem;
+}
+
+.repos-eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.repos-hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.repos-lead {
+  margin: 0 0 1.25rem;
+  color: var(--text-muted);
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+.repos-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.55rem;
+  margin: 0 0 1.35rem;
+  color: #8fa0ad;
+  font-size: 0.9rem;
+}
+
+.repos-stats strong {
+  color: var(--text);
   font-weight: 600;
 }
 
-.card .btn-secondary:hover {
+.repos-stats-dot {
+  color: #5f7382;
+}
+
+.repos-search-wrap {
+  display: block;
+  margin: 0;
+}
+
+.repos-search {
+  width: 100%;
+  max-width: 28rem;
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(18, 24, 30, 0.85);
+  color: var(--text);
+  padding: 0.8rem 1rem;
+  font-size: 0.98rem;
+  line-height: 1.3;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.repos-search::placeholder {
+  color: #7a8b99;
+}
+
+.repos-search:focus {
+  outline: none;
+  border-color: rgba(61, 214, 195, 0.55);
+  box-shadow: 0 0 0 3px rgba(61, 214, 195, 0.12);
+}
+
+.repos-shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.75rem;
+  padding-top: 2.25rem;
+  padding-bottom: 1rem;
+}
+
+.repos-main {
+  min-width: 0;
+}
+
+.repos-toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.repos-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.repos-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.repos-chip {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.86rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.repos-chip:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.repos-chip.is-active {
+  border-color: rgba(61, 214, 195, 0.55);
+  background: rgba(61, 214, 195, 0.12);
+  color: var(--accent);
+}
+
+.repos-count {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+.repos-filter-label {
+  margin: 0.35rem 0 0;
+  color: #8fa0ad;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.repos-filters .repos-filter-label:first-child {
+  margin-top: 0;
+}
+
+.repos-jump {
+  margin: 0 0 2.25rem;
+  padding: 1.15rem 1.2rem;
+  border: 1px solid rgba(49, 64, 76, 0.8);
+  border-radius: 14px;
+  background: rgba(18, 24, 30, 0.55);
+}
+
+.repos-jump-label {
+  margin: 0 0 0.75rem;
+  color: #8fa0ad;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.repos-jump-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.85rem;
+}
+
+.repos-jump-links a {
+  color: var(--text) !important;
+  text-decoration: none !important;
+  font-size: 0.92rem;
+  border-bottom: 1px solid rgba(61, 214, 195, 0.3);
+}
+
+.repos-jump-links a span {
+  color: #8fa0ad;
+  font-size: 0.84rem;
+}
+
+.repos-jump-links a:hover {
+  color: var(--accent) !important;
+  border-bottom-color: var(--accent);
+}
+
+.repos-section {
+  margin-bottom: 3rem;
+  scroll-margin-top: 5.5rem;
+}
+
+.repos-section:last-child {
+  margin-bottom: 0.5rem;
+}
+
+.repos-section-head {
+  max-width: 38rem;
+  margin-bottom: 0.35rem;
+  padding-bottom: 1rem;
+}
+
+.repos-section-kicker {
+  margin: 0 0 0.4rem;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.repos-section-head h2 {
+  margin: 0 0 0.55rem;
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.repos-section-head > p {
+  margin: 0 0 0.45rem;
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.repos-section-count {
+  margin: 0 !important;
+  color: #8fa0ad !important;
+  font-size: 0.84rem !important;
+}
+
+.repos-band {
+  margin-bottom: 3.25rem;
+  scroll-margin-top: 5.5rem;
+}
+
+.repos-band:last-child {
+  margin-bottom: 0.75rem;
+}
+
+.repos-band-head {
+  margin-bottom: 1.35rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(49, 64, 76, 0.75);
+}
+
+.repos-band-head h2 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.45rem, 3.2vw, 1.85rem);
+  letter-spacing: -0.02em;
+}
+
+.repos-course-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.repos-course {
+  border: 1px solid rgba(49, 64, 76, 0.85);
+  border-radius: 18px;
+  background:
+    linear-gradient(165deg, rgba(28, 38, 46, 0.92), rgba(16, 22, 28, 0.96));
+  overflow: hidden;
+  scroll-margin-top: 5.75rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+
+.repos-course-head {
+  display: block;
+  padding: 1.1rem 1.15rem;
+  border-bottom: 1px solid transparent;
+  background: rgba(20, 28, 34, 0.65);
+  list-style: none;
+  cursor: pointer;
+}
+
+.repos-course-head::-webkit-details-marker {
+  display: none;
+}
+
+.repos-course[open] .repos-course-head {
+  border-bottom-color: rgba(49, 64, 76, 0.75);
+}
+
+.repos-course-head-main {
+  position: relative;
+  padding-right: 1.85rem;
+}
+
+.repos-course-toggle {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.repos-course[open] .repos-course-toggle {
+  top: 0.5rem;
+  transform: rotate(-135deg);
+}
+
+.repos-course-head h3 {
+  margin: 0 0 0.45rem;
+  font-size: clamp(1.08rem, 2.6vw, 1.28rem);
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.repos-course-mix {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.65rem;
+  margin: 0;
+  color: #8fa0ad;
+  font-size: 0.82rem;
+}
+
+.repos-course-count {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.repos-course-types {
+  opacity: 0.9;
+}
+
+.repos-course-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.95rem 1.15rem 0.85rem;
+  border-bottom: 1px solid rgba(49, 64, 76, 0.55);
+}
+
+.repos-course-summary {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.repos-course-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 2.4rem;
+  color: var(--accent-ink) !important;
+  background: var(--accent);
+  border: 1px solid var(--accent-strong);
+  border-radius: 10px;
+  text-decoration: none !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.45rem 0.95rem;
+}
+
+.repos-course-open:hover {
   background: var(--accent-strong);
-  border-color: var(--accent-strong);
-  color: var(--accent-ink);
+  color: var(--accent-ink) !important;
+}
+
+.repos-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.75rem;
+}
+
+.repos-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.9rem 0.9rem;
+  border: 1px solid rgba(49, 64, 76, 0.7);
+  border-radius: 12px;
+  background: rgba(12, 17, 22, 0.55);
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.repos-row:hover,
+.repos-row:focus {
+  border-color: rgba(61, 214, 195, 0.45);
+  background: rgba(61, 214, 195, 0.07);
+  outline: none;
+}
+
+.repos-row-go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 1rem;
+  line-height: 1;
+  background: rgba(61, 214, 195, 0.12);
+  flex: 0 0 auto;
+}
+
+@keyframes repos-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .repos-row {
+    transition: none;
+  }
+}
+
+.repos-row-topline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+  margin-bottom: 0.4rem;
+}
+
+.repos-source {
+  color: #8fa0ad;
+  font-size: 0.8rem;
+}
+
+.repos-type {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(61, 214, 195, 0.12);
+  color: var(--accent);
+}
+
+.repos-type--pdf {
+  background: rgba(240, 180, 41, 0.14);
+  color: #f0b429;
+}
+
+.repos-type--video {
+  background: rgba(240, 120, 120, 0.14);
+  color: #f09090;
+}
+
+.repos-type--docs {
+  background: rgba(126, 208, 255, 0.12);
+  color: #7ed0ff;
+}
+
+.repos-type--link {
+  background: rgba(169, 182, 192, 0.14);
+  color: #c5d0d8;
+}
+
+.repos-row-copy {
+  min-width: 0;
+}
+
+.repos-row-copy h3 {
+  margin: 0 0 0.3rem;
+  font-size: clamp(0.95rem, 2.4vw, 1.08rem);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.repos-row-copy > p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.repos-loading,
+.repos-empty {
+  margin: 2rem 0;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.repos-empty.is-error {
+  color: #f0a8a8;
+}
+
+.repos-aside-panel {
+  padding: 1.75rem 1.5rem;
+  border: 1px solid rgba(49, 64, 76, 0.8);
+  border-radius: 18px;
+  background:
+    linear-gradient(165deg, rgba(24, 33, 40, 0.95), rgba(18, 24, 30, 0.98));
+}
+
+.repos-aside-kicker {
+  margin: 0 0 0.45rem;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.repos-aside-panel h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.repos-aside-copy {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.repos-aside-list {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.repos-aside-list li {
+  padding: 0.45rem 0;
+  border-top: 1px solid rgba(49, 64, 76, 0.7);
+}
+
+.repos-aside-list li:last-child {
+  border-bottom: 1px solid rgba(49, 64, 76, 0.7);
+}
+
+.repos-aside-list strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.repos-aside-cta {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .repos-toolbar {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .repos-course-meta {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem 0.95rem;
+  }
+
+  .repos-course-summary {
+    max-width: 36rem;
+  }
+
+  .repos-feed {
+    padding: 0.85rem 1rem 1rem;
+    gap: 0.65rem;
+  }
+
+  .repos-row {
+    padding: 1rem 1.05rem;
+  }
+
+  .repos-row-copy > p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .repos-shell {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 3.25rem;
+    padding-top: 3rem;
+    align-items: start;
+  }
+
+  .repos-aside {
+    position: sticky;
+    top: 5.5rem;
+  }
+
+  .repos-hero {
+    padding: 7.25rem 0 3.25rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .repos-hero {
+    padding: 5.35rem 0 1.85rem;
+  }
+
+  .repos-hero h1 {
+    font-size: clamp(1.7rem, 8vw, 2.1rem);
+  }
+
+  .repos-lead {
+    font-size: 0.98rem;
+  }
+
+  .repos-shell {
+    gap: 1.75rem;
+    padding-top: 1.35rem;
+  }
+
+  .repos-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.2rem;
+    margin-right: -0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .repos-chip {
+    flex: 0 0 auto;
+  }
+
+  .repos-jump {
+    padding: 0.95rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .repos-jump-links {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.65rem;
+    padding-bottom: 0.15rem;
+  }
+
+  .repos-jump-links a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .repos-band {
+    margin-bottom: 2.25rem;
+  }
+
+  .repos-course-stack {
+    gap: 0.85rem;
+  }
+
+  .repos-course-summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .repos-course-head {
+    padding: 1rem 1rem 0.9rem;
+  }
+
+  .repos-course-meta {
+    padding: 0.85rem 1rem 0.8rem;
+  }
+
+  .repos-feed {
+    padding: 0.65rem;
+    gap: 0.5rem;
+  }
+
+  .repos-row {
+    gap: 0.65rem;
+    padding: 0.85rem 0.8rem;
+  }
+
+  .repos-row-copy > p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .repos-course-open {
+    width: 100%;
+  }
+
+  .repos-aside {
+    order: -1;
+  }
+
+  .repos-aside-panel {
+    padding: 1.15rem 1.05rem;
+  }
+
+  .repos-aside-list {
+    display: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .repos-stats {
+    font-size: 0.84rem;
+  }
+
+  .repos-search {
+    max-width: none;
+    font-size: 1rem;
+  }
 }

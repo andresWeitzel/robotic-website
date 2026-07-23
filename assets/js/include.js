@@ -9,10 +9,8 @@
         return response.text();
       })
       .then(function (html) {
-        // Keep the mount node; inject HTML inside so parallel loads stay stable.
         mount.innerHTML = Site.rewriteRootPaths(html);
 
-        // Bootstrap modals work more reliably at document.body level.
         var modal = mount.querySelector(".modal");
         if (modal && modal.parentElement !== document.body) {
           document.body.appendChild(modal);
@@ -22,7 +20,7 @@
 
   function markActiveNav() {
     var active = document.body.dataset.page;
-    if (!active) return;
+    if (!active || active === "inicio") return;
 
     document.querySelectorAll("[data-nav]").forEach(function (link) {
       var item = link.closest(".nav-item");
@@ -48,15 +46,81 @@
     nav.outerHTML = Site.rewriteRootPaths(nav.outerHTML);
   }
 
-  // If the page already has an inline navbar fallback, fix its paths first.
+  function setNavOpen(open) {
+    document.body.classList.toggle("nav-open", !!open);
+    var toggler = document.querySelector(".navbar.site-nav .navbar-toggler");
+    if (toggler) {
+      toggler.setAttribute("aria-expanded", open ? "true" : "false");
+      toggler.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    }
+  }
+
+  function closeNav() {
+    var collapse = document.querySelector("#navbarResponsive");
+    if (!collapse || !collapse.classList.contains("show")) {
+      setNavOpen(false);
+      return;
+    }
+    if (typeof window.jQuery !== "undefined") {
+      window.jQuery(collapse).collapse("hide");
+    } else {
+      collapse.classList.remove("show");
+      setNavOpen(false);
+    }
+  }
+
+  function enhanceMobileNav() {
+    var nav = document.querySelector(".navbar.site-nav");
+    if (!nav || nav.dataset.navEnhanced === "1") return;
+    nav.dataset.navEnhanced = "1";
+
+    var collapse = nav.querySelector("#navbarResponsive");
+    if (!collapse) return;
+
+    if (typeof window.jQuery !== "undefined") {
+      var $collapse = window.jQuery(collapse);
+      $collapse.on("show.bs.collapse", function () {
+        setNavOpen(true);
+      });
+      $collapse.on("hide.bs.collapse", function () {
+        setNavOpen(false);
+      });
+      $collapse.on("hidden.bs.collapse", function () {
+        setNavOpen(false);
+      });
+    }
+
+    nav.addEventListener("click", function (event) {
+      var link = event.target.closest(".nav-link");
+      if (!link) return;
+      if (window.matchMedia("(max-width: 991.98px)").matches) {
+        closeNav();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closeNav();
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!document.body.classList.contains("nav-open")) return;
+      if (nav.contains(event.target)) return;
+      closeNav();
+    });
+  }
+
+  function afterNavReady() {
+    markActiveNav();
+    enhanceMobileNav();
+  }
+
   rewriteExistingNav();
 
-  // Load independently so one failure does not block the other.
   loadPartial("#site-nav", "/components/navbar.html")
-    .then(markActiveNav)
+    .then(afterNavReady)
     .catch(function (error) {
       console.error(error);
-      markActiveNav();
+      afterNavReady();
     });
 
   loadPartial("#site-footer", "/components/footer.html").catch(function (error) {
@@ -78,6 +142,9 @@
       '<li><a href="' +
       Site.url("/pages/blog.html") +
       '">Blog</a></li>' +
+      '<li><a href="' +
+      Site.url("/pages/repositorios.html") +
+      '">Repositorios</a></li>' +
       "</ul></nav></div>" +
       '<div class="site-footer-bottom"><div class="container site-footer-bottom-inner">' +
       "<p class=\"mb-0\">Diseñado por <strong>Andrés Weitzel</strong></p>" +

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -15,7 +15,26 @@
   <link rel="stylesheet" href="../../assets/css/blog.css">
 </head>
 <body data-page="blog">
-  <div id="site-nav"></div>
+  <div id="site-nav">
+    <nav class="navbar navbar-expand-lg navbar-dark site-nav fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">
+          <img src="../../assets/img/brand/logo.svg" width="30" height="30" alt="Logo Robótica" class="d-inline-block align-top" loading="lazy">
+          Robótica
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" data-nav="cursos" href="../../index.html#cursos">Cursos</a></li>
+            <li class="nav-item active"><a class="nav-link" data-nav="blog" href="../blog.html">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" data-nav="repositorios" href="../repositorios.html">Repositorios</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
 
   <main class="blog-post-page" id="blog-post-root">
     <p class="blog-loading">Cargando nota...</p>

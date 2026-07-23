@@ -1,26 +1,27 @@
 <div align="center">
-  <img src="../home_readme.png" alt="Robótica — sitio educativo de robótica" width="720">
+  <img src="../home_readme.png" alt="Robótica — sitio educativo de robótica" width="640">
 </div>
 
 <div align="right">
-  <img width="20" height="20" src="../icons/frontend/png/html.png" alt="HTML" />
-  <img width="20" height="20" src="../icons/frontend/png/css.png" alt="CSS" />
-  <img width="22" height="22" src="../icons/frontend/png/js.png" alt="JavaScript" />
-  <img width="22" height="22" src="../icons/frontend/png/bootstrap.png" alt="Bootstrap" />
-  <img width="20" height="20" src="../icons/frontend/png/jquery.png" alt="jQuery" />
-  <img width="22" height="22" src="../icons/devops/png/git.png" alt="Git" />
-  <img width="22" height="22" src="../icons/devops/png/github.png" alt="GitHub" />
-  <img width="22" height="22" src="../icons/devops/png/vsc.png" alt="VS Code" />
+  <img width="16" height="16" src="../icons/frontend/png/html.png" alt="HTML" />
+  <img width="16" height="16" src="../icons/frontend/png/css.png" alt="CSS" />
+  <img width="16" height="16" src="../icons/frontend/png/js.png" alt="JavaScript" />
+  <img width="16" height="16" src="../icons/frontend/png/bootstrap.png" alt="Bootstrap" />
+  <img width="16" height="16" src="../icons/frontend/png/jquery.png" alt="jQuery" />
+  <img width="16" height="16" src="../icons/devops/png/git.png" alt="Git" />
+  <img width="16" height="16" src="../icons/devops/png/github.png" alt="GitHub" />
+  <img width="16" height="16" src="../icons/devops/png/vsc.png" alt="VS Code" />
 </div>
 
 <br>
 
 <div align="right">
   <a href="./README.es.md" target="_blank">
-    <img src="./arg-flag.jpg" width="65" height="40" alt="Español" />
+    <img src="./arg-flag.jpg" width="36" height="24" alt="Español" />
   </a>
+  &nbsp;
   <a href="../../../README.md" target="_blank">
-    <img src="./eeuu-flag.jpg" width="65" height="40" alt="English" />
+    <img src="./eeuu-flag.jpg" width="36" height="24" alt="English" />
   </a>
 </div>
 
@@ -32,7 +33,7 @@
 
 Sitio web estático para **aprender robótica** con microcursos gratis por nivel, blog con notas propias, hub de material (GitHub, PDF, video, docs) e interfaz responsive — sin backend.
 
-**Sitio en producción:** [andresweitzel.github.io](https://andresweitzel.github.io/)
+**Sitio en producción:** [educational-robotics-website.vercel.app](https://educational-robotics-website.vercel.app/)
 
 <br>
 
@@ -64,7 +65,7 @@ Sitio web estático para **aprender robótica** con microcursos gratis por nivel
 ### Sección 3) Pruebas, deploy y referencias
 
 * [3.0) Prueba funcional.](#30-prueba-funcional-)
-* [3.1) Deploy en GitHub Pages.](#31-deploy-en-github-pages-)
+* [3.1) Deploy en Vercel.](#31-deploy-en-vercel-)
 * [3.2) Contribuir.](#32-contribuir-)
 * [3.3) Licencia.](#33-licencia-)
 
@@ -219,7 +220,7 @@ robotic-website/
 | [Bootstrap](https://getbootstrap.com/) | 4.5.x | Grid, navbar, modales |
 | [jQuery](https://jquery.com/) | 3.5.x (slim) | Dependencia de Bootstrap 4 JS |
 | [Git](https://git-scm.com/) | 2.x | Control de versiones |
-| [GitHub Pages](https://pages.github.com/) | — | Hosting estático |
+| [Vercel](https://vercel.com/) | — | Hosting estático |
 | [VS Code](https://code.visualstudio.com/) | — | Editor |
 
 **Documentación oficial (stack):**
@@ -228,7 +229,8 @@ robotic-website/
 * MDN HTML: https://developer.mozilla.org/docs/Web/HTML
 * MDN CSS: https://developer.mozilla.org/docs/Web/CSS
 * MDN JS: https://developer.mozilla.org/docs/Web/JavaScript
-* GitHub Pages: https://docs.github.com/pages
+* Vercel: https://vercel.com/docs
+* GitHub Pages (opcional): https://docs.github.com/pages
 
 <br>
 
@@ -379,25 +381,26 @@ Desde `pages/cursos/.../leccion.html`, confirmá que navbar/footer e imágenes/J
 
 <br>
 
-### 3.1) Deploy en GitHub Pages [🔝](#índice-)
+### 3.1) Deploy en Vercel [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
 
 <br>
 
-El proyecto es un **sitio estático**. Publicación típica:
+El proyecto es un **sitio estático**. Publicación típica en Vercel:
 
-1. Pusheá la raíz del sitio (carpeta con `index.html`) a la rama/configuración de GitHub Pages.
-2. Asegurate de que Pages apunte a la rama/carpeta correcta.
-3. Después del deploy, verificá:
+1. Importá el repositorio en [Vercel](https://vercel.com/).
+2. Framework preset: **Other** (sin build si publicás la raíz del sitio tal cual).
+3. Root / output: la carpeta que contiene `index.html` (p. ej. `robotic-website` o la raíz del repo).
+4. Deploy y verificá:
 
-* https://andresweitzel.github.io/
+* https://educational-robotics-website.vercel.app/
 * `/pages/blog.html`
 * `/pages/repositorios.html`
 * al menos un hub en `/pages/cursos/`
 
-**Sitio publicado:** [andresweitzel.github.io](https://andresweitzel.github.io/)
+**Sitio publicado:** [educational-robotics-website.vercel.app](https://educational-robotics-website.vercel.app/)
 
 <br>
 
@@ -445,7 +448,7 @@ Proyecto educativo open source. Desarrollado por [Andrés Weitzel](https://githu
 
 **Enlaces relacionados:**
 
-* **Sitio en vivo:** [andresweitzel.github.io](https://andresweitzel.github.io/)
+* **Sitio en vivo:** [educational-robotics-website.vercel.app](https://educational-robotics-website.vercel.app/)
 * **Material de estudio (repo):** [github.com/andresWeitzel/Material_de_Estudio](https://github.com/andresWeitzel/Material_de_Estudio)
 * **Canal de YouTube:** [youtube.com/@andresWeitzel](https://www.youtube.com/channel/UCuSVXmBcMURyTvbmbcgZalQ/featured)
 

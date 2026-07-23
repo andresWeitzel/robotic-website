@@ -1,10 +1,119 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="assets/img/brand/favicon.ico">
-  <title>Robótica</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Robótica — Cursos y material para aprender robótica</title>
+<meta name="description" content="Aprendé robótica paso a paso con cursos gratis por nivel, blog con notas propias y un hub de material (GitHub, PDF, video y docs). Ideal para empezar o ordenar conceptos antes del hardware.">
+<meta name="keywords" content="robótica, cursos de robótica, Arduino, ROS, IoT, sensores, visión por computadora, aprender robótica, material robótica">
+<meta name="author" content="Andrés Weitzel">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#0f1418">
+<link rel="canonical" href="https://educational-robotics-website.vercel.app/">
+<link rel="alternate" hreflang="es" href="https://educational-robotics-website.vercel.app/" />
+<link rel="alternate" hreflang="x-default" href="https://educational-robotics-website.vercel.app/" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="icon" href="/assets/img/brand/logo.svg" type="image/svg+xml">
+<link rel="shortcut icon" href="/assets/img/brand/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/img/brand/logo.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Robótica">
+<meta property="og:title" content="Robótica — Cursos y material para aprender robótica">
+<meta property="og:description" content="Aprendé robótica paso a paso con cursos gratis por nivel, blog con notas propias y un hub de material (GitHub, PDF, video y docs). Ideal para empezar o ordenar conceptos antes del hardware.">
+<meta property="og:url" content="https://educational-robotics-website.vercel.app/">
+<meta property="og:image" content="https://educational-robotics-website.vercel.app/assets/img/og/robotica.jpg">
+<meta property="og:image:alt" content="Robótica — cursos y material para aprender robótica">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Robótica — Cursos y material para aprender robótica">
+<meta name="twitter:description" content="Cursos gratis de robótica por nivel, blog y material de estudio.">
+<meta name="twitter:image" content="https://educational-robotics-website.vercel.app/assets/img/og/robotica.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://educational-robotics-website.vercel.app/#website",
+      "url": "https://educational-robotics-website.vercel.app/",
+      "name": "Robótica",
+      "description": "Sitio educativo para aprender robótica con cursos por nivel, blog y material de estudio.",
+      "inLanguage": "es-AR",
+      "publisher": { "@id": "https://educational-robotics-website.vercel.app/#organization" },
+      "author": { "@id": "https://educational-robotics-website.vercel.app/#person" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://educational-robotics-website.vercel.app/#organization",
+      "name": "Robótica",
+      "url": "https://educational-robotics-website.vercel.app/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://educational-robotics-website.vercel.app/assets/img/brand/logo.svg"
+      },
+      "sameAs": [
+        "https://github.com/andresWeitzel",
+        "https://www.youtube.com/channel/UCuSVXmBcMURyTvbmbcgZalQ/featured"
+      ],
+      "founder": { "@id": "https://educational-robotics-website.vercel.app/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://educational-robotics-website.vercel.app/#person",
+      "name": "Andrés Weitzel",
+      "url": "https://github.com/andresWeitzel",
+      "sameAs": [
+        "https://github.com/andresWeitzel",
+        "https://www.youtube.com/channel/UCuSVXmBcMURyTvbmbcgZalQ/featured"
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://educational-robotics-website.vercel.app/#app",
+      "name": "Robótica",
+      "url": "https://educational-robotics-website.vercel.app/",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "inLanguage": "es-AR",
+      "description": "Cursos de robótica por nivel, blog editorial y hub de material (GitHub, PDF, video y docs).",
+      "author": { "@id": "https://educational-robotics-website.vercel.app/#person" }
+    },
+    {
+      "@type": "ItemList",
+      "name": "Secciones principales",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Cursos",
+          "url": "https://educational-robotics-website.vercel.app/#cursos"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "url": "https://educational-robotics-website.vercel.app/pages/blog.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Material y repositorios",
+          "url": "https://educational-robotics-website.vercel.app/pages/repositorios.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"

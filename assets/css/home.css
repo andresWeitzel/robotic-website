@@ -91,23 +91,27 @@ body[data-page="inicio"] .navbar.site-nav {
 
 .explore-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.65rem;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
   align-items: stretch;
 }
 
 .explore-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+  align-items: center;
+  height: auto;
   min-width: 0;
-  padding: 0.85rem 0.7rem;
+  padding: 1rem 1.05rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   background: linear-gradient(160deg, var(--bg-panel), var(--bg-elevated));
   color: var(--text);
   text-decoration: none;
-  text-align: center;
+  text-align: left;
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -119,40 +123,63 @@ body[data-page="inicio"] .navbar.site-nav {
 }
 
 .explore-card h3 {
-  font-size: clamp(0.82rem, 3.2vw, 1.15rem);
-  margin: 0 0 0.35rem;
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 1.05rem;
+  margin: 0;
   line-height: 1.2;
 }
 
 .explore-card p {
+  grid-column: 1;
+  grid-row: 2;
   margin: 0;
   color: var(--text-muted);
-  font-size: clamp(0.68rem, 2.5vw, 0.95rem);
-  line-height: 1.35;
-  flex: 1 1 auto;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  flex: unset;
 }
 
 .explore-card .explore-label {
-  display: inline-block;
-  margin-top: 0.65rem;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  margin-top: 0;
   color: var(--accent);
   font-weight: 600;
-  font-size: clamp(0.72rem, 2.6vw, 0.9rem);
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 @media (min-width: 576px) {
   .explore-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.85rem;
   }
 
   .explore-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     padding: 1.15rem 1rem;
     text-align: left;
     border-radius: var(--radius);
   }
 
+  .explore-card h3 {
+    font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+    margin: 0 0 0.35rem;
+  }
+
+  .explore-card p {
+    flex: 1 1 auto;
+    font-size: 0.92rem;
+  }
+
   .explore-card .explore-label {
+    display: inline-block;
     margin-top: 0.85rem;
+    align-self: flex-start;
   }
 }
 
@@ -182,22 +209,6 @@ body[data-page="inicio"] .navbar.site-nav {
   .explore-card .explore-label {
     font-size: 0.9rem;
     margin-top: 0.9rem;
-  }
-}
-
-/* On very narrow phones keep 3 cols but shorten label further via CSS content optional */
-@media (max-width: 380px) {
-  .explore-card p {
-    display: none;
-  }
-
-  .explore-card {
-    padding: 0.75rem 0.45rem;
-    justify-content: center;
-  }
-
-  .explore-card .explore-label {
-    margin-top: 0.4rem;
   }
 }
 
@@ -659,20 +670,42 @@ section.cards {
   }
 
   .course-carousel-track .course-tile {
-    flex: 0 0 calc(100vw - 2.5rem);
-    width: calc(100vw - 2.5rem);
-    max-width: 22.5rem;
+    flex: 0 0 min(100%, 20.5rem);
+    width: min(100%, 20.5rem);
+    max-width: 100%;
   }
 
   .course-tile-media {
     aspect-ratio: 16 / 9;
   }
 
+  .course-tile-body {
+    padding: 0.95rem 0.95rem 1.05rem;
+  }
+
+  .course-tile-body h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .course-tile-body > p {
+    -webkit-line-clamp: 2;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .course-actions {
+    gap: 0.5rem;
+  }
+
   .course-actions .btn-accent,
   .course-actions .btn-ghost {
-    min-height: 2.55rem;
-    font-size: 0.84rem;
-    padding: 0.55rem 0.45rem;
+    flex: 1 1 calc(50% - 0.25rem);
+    min-height: 2.6rem;
+    font-size: 0.86rem;
+    padding: 0.55rem 0.55rem;
+    justify-content: center;
+    text-align: center;
   }
 }
 

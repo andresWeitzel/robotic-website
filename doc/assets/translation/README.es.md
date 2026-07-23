@@ -38,7 +38,7 @@
 
 </div>
 
-Sitio web estático para **aprender robótica** con microcursos gratis por nivel, blog con notas propias, hub de material (GitHub, PDF, video, docs) e interfaz responsive — sin backend.
+Sitio educativo para **aprender robótica** paso a paso: cursos gratis por nivel (Inicial, Intermedio, Avanzado), blog con notas propias y un hub de material con repos de GitHub, PDFs, videos y docs — todo en una interfaz responsive lista para desktop y mobile.
 
 **Sitio en producción:** [educational-robotics-website.vercel.app](https://educational-robotics-website.vercel.app/)
 
@@ -48,6 +48,8 @@ Sitio web estático para **aprender robótica** con microcursos gratis por nivel
 
 <details>
   <summary> Ver detalle </summary>
+
+<br>
 
 <div align="right">
 
@@ -79,6 +81,8 @@ Sitio web estático para **aprender robótica** con microcursos gratis por nivel
 
 </details>
 
+<br>
+
 ## Sección 1) Descripción, configuración y tecnologías
 
 ### 1.0) Descripción [🔝](#índice-)
@@ -86,11 +90,17 @@ Sitio web estático para **aprender robótica** con microcursos gratis por nivel
 <details>
   <summary>Ver detalle</summary>
 
-**Robótica** es un sitio educativo multipágina estático (HTML/CSS/JS nativo + Bootstrap 4) para quienes quieren empezar en robótica u ordenar conceptos antes del hardware. Incluye:
+<br>
+
+**Robótica** es un sitio educativo multipágina hecho con HTML, CSS, JavaScript y Bootstrap 4. Sirve tanto para quienes quieren empezar en robótica como para quienes ya tienen alguna base y necesitan ordenar conceptos antes de pasar al hardware, Arduino, IoT, visión o ROS.
+
+La idea es concentrar el aprendizaje en un solo lugar: elegir un nivel, seguir un curso con teoría y práctica, leer notas del blog que amplían los temas y abrir material relacionado (repos, PDFs, videos, docs) sin saltar entre sitios sueltos.
+
+Incluye:
 
 * **Inicio:** carrusel hero, cards de exploración (Cursos / Blog / Repos) y carruseles de cursos por nivel (Inicial, Intermedio, Avanzado, Próximamente).
 
-* **Microcursos:** hubs internos con contenido en JSON (`assets/data/courses/`), teoría, prácticas y enlaces relacionados.
+* **Cursos:** hubs internos con lecciones en JSON (`assets/data/courses/`), teoría, prácticas y enlaces relacionados para avanzar a tu ritmo.
 
 * **Blog:** notas editoriales propias (no solo links externos), filtros por tag y páginas de lectura con video + cursos relacionados.
 
@@ -110,6 +120,8 @@ Sitio web estático para **aprender robótica** con microcursos gratis por nivel
 
 <details>
   <summary>Ver detalle</summary>
+
+<br>
 
 * Cloná el repositorio (si todavía no lo tenés) y abrí la carpeta del sitio en VS Code:
 
@@ -155,6 +167,8 @@ Luego abrí `http://localhost:5500`.
 <details>
   <summary>Ver detalle</summary>
 
+<br>
+
 ```
 robotic-website/
 ├── index.html                     # Inicio
@@ -177,8 +191,8 @@ robotic-website/
 │   ├── navbar.html
 │   └── footer.html
 ├── assets/
-│   ├── css/                       # base, home, blog, repositorios, microcourse…
-│   ├── js/                        # site, include, courses, blog, microcourse…
+│   ├── css/                       # base, home, blog, repositorios, courses…
+│   ├── js/                        # site, include, courses, blog, lessons…
 │   ├── data/
 │   │   ├── courses.json           # Catálogo del home
 │   │   ├── blog.json              # Notas del blog
@@ -202,11 +216,13 @@ robotic-website/
 <details>
   <summary>Ver detalle</summary>
 
+<br>
+
 | **Tecnología** | **Versión** | **Uso** |
 | ------------- | ------------- | ------------- |
 | [HTML5](https://developer.mozilla.org/docs/Web/HTML) | 5 | Estructura de páginas (MPA) |
 | [CSS3](https://developer.mozilla.org/docs/Web/CSS) | 3 | Sistema visual (tokens, layout, páginas) |
-| [JavaScript](https://developer.mozilla.org/docs/Web/JavaScript) | ES5+/vanilla | Catálogo, blog, material, microcursos |
+| [JavaScript](https://developer.mozilla.org/docs/Web/JavaScript) | ES5+/vanilla | Catálogo, blog, material, cursos |
 | [Bootstrap](https://getbootstrap.com/) | 4.5.x | Grid, navbar, modales |
 | [jQuery](https://jquery.com/) | 3.5.x (slim) | Dependencia de Bootstrap 4 JS |
 | [Git](https://git-scm.com/) | 2.x | Control de versiones |
@@ -225,6 +241,8 @@ robotic-website/
 
 </details>
 
+<br>
+
 ## Sección 2) Flujo de uso y funcionamiento
 
 ### 2.0) Flujo del sitio [🔝](#índice-)
@@ -232,11 +250,13 @@ robotic-website/
 <details>
   <summary>Ver detalle</summary>
 
+<br>
+
 1. **Inicio:** el usuario ve el hero, explora Cursos / Blog / Repos y baja a los carruseles por nivel.
 
 2. **Hub del curso:** entra a un curso interno (`pages/cursos/...`), lee el overview y abre lecciones.
 
-3. **Lección:** `microcourse.js` carga el JSON (secciones, ejercicios, links).
+3. **Lección:** los scripts del curso cargan el JSON (secciones, ejercicios, links).
 
 4. **Blog:** listado → filtro por tag → nota (`nota.html?id=`) con texto propio, video opcional y cursos relacionados.
 
@@ -249,6 +269,8 @@ robotic-website/
 
 <details>
   <summary>Ver detalle</summary>
+
+<br>
 
 Fuente del catálogo: `assets/data/courses.json`.
 
@@ -273,6 +295,8 @@ Cada curso publicado puede exponer:
 <details>
   <summary>Ver detalle</summary>
 
+<br>
+
 **Blog** (`assets/data/blog.json`):
 
 * Campos: `title`, `summary`, `lead`, `sections[]`, `tags`, `relatedCourseIds`, `videoId`, `articleUrl` (fuente externa).
@@ -292,6 +316,8 @@ Cada curso publicado puede exponer:
 <details>
   <summary>Ver detalle</summary>
 
+<br>
+
 * `assets/js/site.js` → `Site.getBase()` / `Site.url()` para rutas correctas bajo `/pages/...`.
 * `assets/js/include.js` → inyecta navbar/footer, marca nav activo y mejora el menú mobile.
 * El JSON se carga con `fetch`; en local siempre usá un servidor estático.
@@ -299,12 +325,16 @@ Cada curso publicado puede exponer:
 
 </details>
 
+<br>
+
 ## Sección 3) Pruebas, deploy y referencias
 
 ### 3.0) Prueba funcional [🔝](#índice-)
 
 <details>
   <summary>Ver detalle</summary>
+
+<br>
 
 #### 3.0.1) Servidor local
 
@@ -352,7 +382,9 @@ Desde `pages/cursos/.../leccion.html`, confirmá que navbar/footer e imágenes/J
 <details>
   <summary>Ver detalle</summary>
 
-El proyecto es un **sitio estático**. Publicación típica en Vercel:
+<br>
+
+Publicación típica en Vercel:
 
 1. Importá el repositorio en [Vercel](https://vercel.com/).
 2. Framework preset: **Other** (sin build si publicás la raíz del sitio tal cual).
@@ -373,6 +405,8 @@ El proyecto es un **sitio estático**. Publicación típica en Vercel:
 
 <details>
   <summary>Ver detalle</summary>
+
+<br>
 
 1. Hacé fork del proyecto.
 
@@ -397,6 +431,8 @@ Para sumar contenido sin grandes cambios de código:
 
 <details>
   <summary>Ver detalle</summary>
+
+<br>
 
 Proyecto educativo open source. Desarrollado por [Andrés Weitzel](https://github.com/andresWeitzel).
 

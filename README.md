@@ -38,7 +38,7 @@
 
 </div>
 
-Static educational website for **learning robotics** with free microcourses by level, editorial blog notes, GitHub/PDF/video/docs material hub, and responsive UI — no backend required.
+Educational website to **learn robotics** step by step: free courses by level (Inicial, Intermedio, Avanzado), an editorial blog with original notes, and a material hub with GitHub repos, PDFs, videos, and docs — all in a responsive UI ready for desktop and mobile.
 
 **Live site:** [educational-robotics-website.vercel.app](https://educational-robotics-website.vercel.app/)
 
@@ -48,6 +48,8 @@ Static educational website for **learning robotics** with free microcourses by l
 
 <details>
   <summary> View details </summary>
+
+<br>
 
 <div align="right">
 
@@ -79,6 +81,8 @@ Static educational website for **learning robotics** with free microcourses by l
 
 </details>
 
+<br>
+
 ## Section 1) Description, configuration and technologies
 
 ### 1.0) Description [🔝](#index-)
@@ -86,11 +90,17 @@ Static educational website for **learning robotics** with free microcourses by l
 <details>
   <summary>View details</summary>
 
-**Robótica** is a static multi-page educational site (HTML/CSS/vanilla JS + Bootstrap 4) for people who want to start in robotics or order concepts before hardware. The project includes:
+<br>
+
+**Robótica** is an educational multi-page website built with HTML, CSS, JavaScript, and Bootstrap 4. It helps beginners get started in robotics and also supports people who already know some basics and want to organize concepts before moving into hardware, Arduino, IoT, vision, or ROS.
+
+The idea is a single place to study: pick a level, follow a course with theory and practice, read blog notes that expand on the topics, and open related material (repos, PDFs, videos, docs) without jumping between unrelated sites.
+
+The project includes:
 
 * **Home:** hero carousel, explore cards (Courses / Blog / Repos), and course carousels by level (Inicial, Intermedio, Avanzado, Próximamente).
 
-* **Microcourses:** internal lesson hubs with JSON content (`assets/data/courses/`), theory sections, practices, and related links.
+* **Courses:** internal hubs with lesson content from JSON (`assets/data/courses/`), theory sections, practices, and related links so each path can be completed at your own pace.
 
 * **Blog:** first-party editorial notes (not only outbound links), filters by tag, and post pages with video + related courses.
 
@@ -110,6 +120,8 @@ Static educational website for **learning robotics** with free microcourses by l
 
 <details>
   <summary>View details</summary>
+
+<br>
 
 * Clone the repository (if you have not yet) and open the site folder in VS Code:
 
@@ -155,6 +167,8 @@ Then open `http://localhost:5500`.
 <details>
   <summary>View details</summary>
 
+<br>
+
 ```
 robotic-website/
 ├── index.html                     # Home
@@ -163,7 +177,7 @@ robotic-website/
 │   ├── blog/
 │   │   └── nota.html              # Single post (?id=)
 │   ├── repositorios.html          # Material hub
-│   └── cursos/                    # Microcourse hubs + lessons
+│   └── cursos/                    # Course hubs + lessons
 │       ├── introduccion-robotica/
 │       ├── electronica-basica/
 │       ├── sensores-actuadores/
@@ -177,8 +191,8 @@ robotic-website/
 │   ├── navbar.html
 │   └── footer.html
 ├── assets/
-│   ├── css/                       # base, home, blog, repositorios, microcourse…
-│   ├── js/                        # site, include, courses, blog, microcourse…
+│   ├── css/                       # base, home, blog, repositorios, courses…
+│   ├── js/                        # site, include, courses, blog, lessons…
 │   ├── data/
 │   │   ├── courses.json           # Catalog for home carousels
 │   │   ├── blog.json              # Blog posts (body sections)
@@ -202,11 +216,13 @@ robotic-website/
 <details>
   <summary>View details</summary>
 
+<br>
+
 | **Technology** | **Version** | **Purpose** |
 | ------------- | ------------- | ------------- |
 | [HTML5](https://developer.mozilla.org/docs/Web/HTML) | 5 | Page structure (MPA) |
 | [CSS3](https://developer.mozilla.org/docs/Web/CSS) | 3 | Design system (tokens, layout, pages) |
-| [JavaScript](https://developer.mozilla.org/docs/Web/JavaScript) | ES5+/vanilla | Catalog, blog, resources, microcourses |
+| [JavaScript](https://developer.mozilla.org/docs/Web/JavaScript) | ES5+/vanilla | Catalog, blog, resources, courses |
 | [Bootstrap](https://getbootstrap.com/) | 4.5.x | Grid, navbar collapse, modals |
 | [jQuery](https://jquery.com/) | 3.5.x (slim) | Bootstrap 4 JS dependency |
 | [Git](https://git-scm.com/) | 2.x | Version control |
@@ -225,6 +241,8 @@ robotic-website/
 
 </details>
 
+<br>
+
 ## Section 2) Usage flow and behavior
 
 ### 2.0) Site flow [🔝](#index-)
@@ -232,11 +250,13 @@ robotic-website/
 <details>
   <summary>View details</summary>
 
+<br>
+
 1. **Home:** user lands on the hero, explores Courses / Blog / Repos, then scrolls to course carousels by level.
 
 2. **Course hub:** opens an internal course (`pages/cursos/...`), reads the overview, and enters lessons.
 
-3. **Lesson:** `microcourse.js` loads JSON lessons (sections, exercises, related links).
+3. **Lesson:** course lesson scripts load JSON content (sections, exercises, related links).
 
 4. **Blog:** list → filter by tag → open note (`nota.html?id=`) with original text, optional video, and course links.
 
@@ -249,6 +269,8 @@ robotic-website/
 
 <details>
   <summary>View details</summary>
+
+<br>
 
 Catalog source: `assets/data/courses.json`.
 
@@ -273,6 +295,8 @@ Each published course can expose:
 <details>
   <summary>View details</summary>
 
+<br>
+
 **Blog** (`assets/data/blog.json`):
 
 * Fields: `title`, `summary`, `lead`, `sections[]`, `tags`, `relatedCourseIds`, `videoId`, `articleUrl` (external source).
@@ -292,6 +316,8 @@ Each published course can expose:
 <details>
   <summary>View details</summary>
 
+<br>
+
 * `assets/js/site.js` → `Site.getBase()` / `Site.url()` for correct paths under `/pages/...`.
 * `assets/js/include.js` → injects `components/navbar.html` and `footer.html`, marks active nav, improves mobile menu behavior.
 * JSON is loaded with `fetch`; keep a static server in local development.
@@ -299,12 +325,16 @@ Each published course can expose:
 
 </details>
 
+<br>
+
 ## Section 3) Testing, deploy and references
 
 ### 3.0) Functional test [🔝](#index-)
 
 <details>
   <summary>View details</summary>
+
+<br>
 
 #### 3.0.1) Local server
 
@@ -352,7 +382,9 @@ From `pages/cursos/.../leccion.html`, confirm navbar/footer links and image/JSON
 <details>
   <summary>View details</summary>
 
-This project is a **static site**. Typical publish path on Vercel:
+<br>
+
+Typical publish path on Vercel:
 
 1. Import the repository in [Vercel](https://vercel.com/).
 2. Framework preset: **Other** (no build step required if you publish the site root as-is).
@@ -373,6 +405,8 @@ This project is a **static site**. Typical publish path on Vercel:
 
 <details>
   <summary>View details</summary>
+
+<br>
 
 1. Fork the project.
 
@@ -397,6 +431,8 @@ To add content without large code changes:
 
 <details>
   <summary>View details</summary>
+
+<br>
 
 Open source educational project. Developed by [Andrés Weitzel](https://github.com/andresWeitzel).
 

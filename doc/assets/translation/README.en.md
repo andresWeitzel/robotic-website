@@ -1,5 +1,5 @@
 <div align="center">
-<img src="../repository/01-cover-inicio.png" alt="Robótica" />
+<img src="../repository/02-inicio-cursos.png" alt="Robótica" />
 <div align="right">
 <img width="16" height="16" src="../icons/frontend/png/html.png" alt="HTML" />
 <img width="16" height="16" src="../icons/frontend/png/css.png" alt="CSS" />
@@ -194,8 +194,8 @@ robotic-website/
 │   └── assets/                    # Icons, translation and README screenshots
 │       ├── icons/
 │       ├── repository/            # README screenshots (see 1.4)
-│       │   ├── 01-cover-inicio.png    # Repository cover (home hero)
-│       │   ├── 02-inicio-cursos.png
+│       │   ├── 01-cover-inicio.png    # Home hero
+│       │   ├── 02-inicio-cursos.png   # README cover (Nivel inicial courses)
 │       │   ├── 03-curso-hub.png
 │       │   ├── 04-blog.png
 │       │   ├── 05-repositorios.png
@@ -243,7 +243,7 @@ robotic-website/
 
 <br>
 
-Desktop captures at **100%** zoom. They live in `doc/assets/repository/`. **`01-cover-inicio.png`** is also this README's banner. Use them as the visual source for later repository annexes.
+Desktop captures at **100%** zoom. They live in `doc/assets/repository/`. **`02-inicio-cursos.png`** is also this README's banner. Use them as the visual source for later repository annexes.
 
 | File | What it shows |
 |------|----------------|

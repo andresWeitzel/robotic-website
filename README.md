@@ -1,5 +1,5 @@
 ﻿<div align="center">
-<img src="./doc/assets/repository/01-cover-inicio.png" alt="Robótica" />
+<img src="./doc/assets/repository/02-inicio-cursos.png" alt="Robótica" />
 <div align="right">
 <img width="16" height="16" src="./doc/assets/icons/frontend/png/html.png" alt="HTML" />
 <img width="16" height="16" src="./doc/assets/icons/frontend/png/css.png" alt="CSS" />
@@ -194,8 +194,8 @@ robotic-website/
 │   └── assets/                    # Íconos, traducción y capturas del README
 │       ├── icons/
 │       ├── repository/            # Capturas del README (ver 1.4)
-│       │   ├── 01-cover-inicio.png    # Portada del repositorio (hero de Inicio)
-│       │   ├── 02-inicio-cursos.png
+│       │   ├── 01-cover-inicio.png    # Hero de Inicio
+│       │   ├── 02-inicio-cursos.png   # Portada del README (cursos Nivel inicial)
 │       │   ├── 03-curso-hub.png
 │       │   ├── 04-blog.png
 │       │   ├── 05-repositorios.png
@@ -243,7 +243,7 @@ robotic-website/
 
 <br>
 
-Capturas del sitio en desktop, zoom **100%**. Están en `doc/assets/repository/`. **`01-cover-inicio.png`** es también el banner de este README. Sirven de base documental para anexos posteriores del repositorio.
+Capturas del sitio en desktop, zoom **100%**. Están en `doc/assets/repository/`. **`02-inicio-cursos.png`** es también el banner de este README. Sirven de base documental para anexos posteriores del repositorio.
 
 | Archivo | Qué es |
 |---------|--------|
